@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LevelController">
+   <children>
+      <ImageView fitHeight="648.0" fitWidth="1152.0" pickOnBounds="true">
+         <image>
+            <Image url="@Images/level.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="391.0" layoutY="35.0" text="Select  Level" textFill="#321f1f">
+         <font>
+            <Font name="Rockwell Bold" size="60.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/back.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" opacity="0.0" prefHeight="64.0" prefWidth="64.0" />
+      <Label fx:id="blue1" alignment="CENTER" layoutX="136.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="1" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue2" alignment="CENTER" layoutX="288.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="2" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue3" alignment="CENTER" layoutX="440.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="3" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue4" alignment="CENTER" layoutX="592.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="4" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue5" alignment="CENTER" layoutX="744.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="5" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue6" alignment="CENTER" layoutX="896.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="6" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue7" alignment="CENTER" layoutX="136.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="7" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue8" alignment="CENTER" layoutX="288.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="8" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue9" alignment="CENTER" layoutX="440.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="9" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue10" alignment="CENTER" layoutX="592.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="10" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue11" alignment="CENTER" layoutX="744.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="11" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue12" alignment="CENTER" layoutX="896.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="12" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue13" alignment="CENTER" layoutX="136.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="13" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue14" alignment="CENTER" layoutX="288.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="14" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue15" alignment="CENTER" layoutX="440.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="15" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue16" alignment="CENTER" layoutX="592.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="16" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue17" alignment="CENTER" layoutX="744.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="17" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue18" alignment="CENTER" layoutX="896.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="18" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue19" alignment="CENTER" layoutX="136.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="19" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue20" alignment="CENTER" layoutX="288.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="20" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue21" alignment="CENTER" layoutX="440.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="21" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue22" alignment="CENTER" layoutX="592.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="22" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue23" alignment="CENTER" layoutX="744.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="23" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="blue24" alignment="CENTER" layoutX="896.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);" text="24" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Button layoutX="136.0" layoutY="150.0" mnemonicParsing="false" onAction="#button1" opacity="0.0" prefHeight="80.0" prefWidth="120.0" />
+      <Button layoutX="136.0" layoutY="510.0" mnemonicParsing="false" onAction="#button2" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="136.0" layoutY="390.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="136.0" layoutY="270.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="288.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="288.0" layoutY="510.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="288.0" layoutY="390.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="288.0" layoutY="270.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="440.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="440.0" layoutY="510.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="440.0" layoutY="390.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="440.0" layoutY="270.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="592.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="592.0" layoutY="510.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="592.0" layoutY="390.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="592.0" layoutY="270.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="744.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="744.0" layoutY="510.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="744.0" layoutY="390.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="744.0" layoutY="270.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="896.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="896.0" layoutY="510.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="896.0" layoutY="390.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Button layoutX="896.0" layoutY="270.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Button>
+      <Label fx:id="red1" alignment="CENTER" layoutX="136.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="1" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red2" alignment="CENTER" layoutX="288.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="2" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red3" alignment="CENTER" layoutX="440.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="3" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red4" alignment="CENTER" layoutX="592.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="4" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red5" alignment="CENTER" layoutX="744.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="5" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red6" alignment="CENTER" layoutX="896.0" layoutY="150.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="6" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red7" alignment="CENTER" layoutX="136.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="7" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red8" alignment="CENTER" layoutX="288.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="8" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red9" alignment="CENTER" layoutX="440.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="9" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red10" alignment="CENTER" layoutX="592.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="10" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red11" alignment="CENTER" layoutX="744.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="11" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red12" alignment="CENTER" layoutX="896.0" layoutY="270.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="12" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red13" alignment="CENTER" layoutX="136.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="13" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red14" alignment="CENTER" layoutX="288.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="14" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red15" alignment="CENTER" layoutX="440.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="15" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red16" alignment="CENTER" layoutX="592.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="16" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red17" alignment="CENTER" layoutX="744.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="17" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red18" alignment="CENTER" layoutX="896.0" layoutY="390.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="18" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red19" alignment="CENTER" layoutX="136.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="19" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red20" alignment="CENTER" layoutX="288.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="20" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red21" alignment="CENTER" layoutX="440.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="21" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red22" alignment="CENTER" layoutX="592.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="22" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red23" alignment="CENTER" layoutX="744.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="23" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label fx:id="red24" alignment="CENTER" layoutX="896.0" layoutY="510.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum2.png&quot;);" text="24" visible="false">
+         <font>
+            <Font name="Rockwell Extra Bold" size="40.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
