@@ -1,3 +1,5 @@
+import java.util.*;
+
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -8,7 +10,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
 public class GameLevel1 extends Map {
-
     private Group root;
     public Scene scene;
 
@@ -16,7 +17,9 @@ public class GameLevel1 extends Map {
     private static final int HEIGHT = 6;
     private ImageView[][] pic;
 
-    boolean north, south, west, east;
+    Timer pauseTimer;
+    boolean isPressed = false;
+    static boolean north, south, west, east;
     Character potato;
 
     // private static int[][] m = new int[][] {
@@ -44,8 +47,8 @@ public class GameLevel1 extends Map {
 
         potato = new Character(new ImageView(Dungeon.zeldaSpriteImage));
         potato.animation.play();
-        potato.setLayoutX(30);
-        potato.setLayoutY(30);
+        potato.setLayoutX(384);
+        potato.setLayoutY(380);
 
         for(int i=0 ; i<HEIGHT ; i++) {
             for(int j=0 ; j<WIDTH ; j++) {
@@ -60,15 +63,36 @@ public class GameLevel1 extends Map {
         root.getChildren().add(potato);        
 
         scene = new Scene(root, 1152, 648, Color.BLACK);
+
+
         scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
             @Override
             public void handle(KeyEvent e) {
-                KeyCode in = e.getCode();
+                if(isPressed == false) {
+                    pauseTimer = new Timer();
+                    KeyCode in = e.getCode();
 
-                if(in == KeyCode.W) north = true;
-                else if(in == KeyCode.A) west = true;
-                else if(in == KeyCode.S) south = true;
-                else if(in == KeyCode.D) east = true;
+                    if(in == KeyCode.W) {
+                        isPressed = true;
+                        north = true;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                    else if(in == KeyCode.A) {
+                        isPressed = true;
+                        west = true;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                    else if(in == KeyCode.S) {
+                        isPressed = true;
+                        south = true;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                    else if(in == KeyCode.D) {
+                        isPressed = true;
+                        east = true;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                }
             }
         });
             
@@ -102,5 +126,17 @@ public class GameLevel1 extends Map {
             }
         };
         timer.start();
+    }
+
+    class pause extends TimerTask {
+        @Override
+        public void run() {
+            isPressed = false;
+            north = false;  
+            east = false;
+            south = false;
+            west = false;
+            pauseTimer.cancel();
+        }
     }
 }

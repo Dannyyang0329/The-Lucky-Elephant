@@ -4,7 +4,6 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class Character extends Pane {
-
     ImageView imageView;
     int count = 9;
     int column = 9;
@@ -20,7 +19,7 @@ public class Character extends Pane {
     public Character(ImageView imageView) {
         this.imageView = imageView;
         this.imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
-        animation = new SpriteAnimation(imageView, Duration.millis(1200), count, column, offsetX, offsetY, width, height);
+        animation = new SpriteAnimation(imageView, Duration.millis(800), count, column, offsetX, offsetY, width, height);
         getChildren().addAll(imageView);
     }
 
@@ -34,13 +33,13 @@ public class Character extends Pane {
                 direction = 'D';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(485);
-                this.setTranslateX(this.getTranslateX() + 2);
+                this.setTranslateX(this.getTranslateX() + 2.1334);
             }
             else{
                 direction = 'A';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(346);
-                this.setTranslateX(this.getTranslateX() - 2);
+                this.setTranslateX(this.getTranslateX() - 2.1334);
             }
         }
     }
@@ -56,14 +55,14 @@ public class Character extends Pane {
                 direction = 'S';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(277);
-                this.setTranslateY(this.getTranslateY() + 2);
+                this.setTranslateY(this.getTranslateY() + 2.1334);
             }
             else
             {
                 direction = 'W';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(416); 
-                this.setTranslateY(this.getTranslateY() - 2);
+                this.setTranslateY(this.getTranslateY() - 2.1334);
             }
         }
     }
