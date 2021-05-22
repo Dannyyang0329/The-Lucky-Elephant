@@ -32,7 +32,9 @@ public class LevelController {
     }
 
     public void button1(ActionEvent e) throws IOException {
-        System.out.println("aaaa");
+        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        GameLevel1 game1 = new GameLevel1();
+        stage.setScene(game1.scene);
     }
     public void button2(ActionEvent e) throws IOException {
         System.out.println("bbb");

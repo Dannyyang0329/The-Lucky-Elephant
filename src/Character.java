@@ -10,8 +10,8 @@ public class Character extends Pane {
     int column = 9;
     int offsetX = 0;
     int offsetY = 416;
-    int width = 96;
-    int height = 104;
+    int width = 64;
+    int height = 69;
     int physicalStrength = 100;
     char direction = 'S';
     
@@ -33,13 +33,13 @@ public class Character extends Pane {
             if(isGoingRight) {
                 direction = 'D';
                 this.animation.setCount(9);
-                this.animation.setOffsetY(728);
+                this.animation.setOffsetY(485);
                 this.setTranslateX(this.getTranslateX() + 2);
             }
             else{
                 direction = 'A';
                 this.animation.setCount(9);
-                this.animation.setOffsetY(520);
+                this.animation.setOffsetY(346);
                 this.setTranslateX(this.getTranslateX() - 2);
             }
         }
@@ -55,14 +55,14 @@ public class Character extends Pane {
             {
                 direction = 'S';
                 this.animation.setCount(9);
-                this.animation.setOffsetY(416);
+                this.animation.setOffsetY(277);
                 this.setTranslateY(this.getTranslateY() + 2);
             }
             else
             {
                 direction = 'W';
                 this.animation.setCount(9);
-                this.animation.setOffsetY(624); 
+                this.animation.setOffsetY(416); 
                 this.setTranslateY(this.getTranslateY() - 2);
             }
         }
@@ -71,11 +71,11 @@ public class Character extends Pane {
     public void wink() {
         if(direction == 'W') {
             this.animation.setCount(1);
-            this.animation.setOffsetY(208);
+            this.animation.setOffsetY(138);
         }
         else if(direction == 'A') {
             this.animation.setCount(2);
-            this.animation.setOffsetY(104);
+            this.animation.setOffsetY(69);
         }
         else if(direction == 'S') {
             this.animation.setCount(2);
@@ -83,7 +83,7 @@ public class Character extends Pane {
         }
         else if(direction == 'D') {
             this.animation.setCount(2);
-            this.animation.setOffsetY(312);
+            this.animation.setOffsetY(208);
         }
     }
 
