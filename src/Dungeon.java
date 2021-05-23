@@ -23,6 +23,7 @@ public class Dungeon extends Application
     public static Image zeldaImage;
     public static Image backgroundImage;
     public static Image zeldaSpriteImage;
+    public static Image[] mapImage;
 
     public static MediaPlayer beginPlayer;
 
@@ -49,31 +50,8 @@ public class Dungeon extends Application
         initializeStage();
         initializeScene();
 
-        // Character potato = new Character(new ImageView(zeldaSpriteImage));
-        // potato.animation.play();
-        // root.getChildren().add(potato);        
-
         stage.setScene(scene);
         stage.show();
-
-        // AnimationTimer timer = new AnimationTimer() {
-        //     @Override
-        //     public void handle(long now) {
-        //         int dx = 0, dy = 0;
- 
-        //         if (north) dy -= 1;
-        //         if (south) dy += 1;
-        //         if (east)  dx += 1;
-        //         if (west)  dx -= 1;
- 
-        //         if(dx == 0 && dy == 0) potato.wink();
-        //         else {
-        //             potato.moveX(dx);
-        //             potato.moveY(dy);
-        //         }
-        //     }
-        // };
-        // timer.start();
     }
 
     public static void loadImages() {
@@ -81,6 +59,12 @@ public class Dungeon extends Application
         zeldaImage= new Image("Images\\zeldaImage.jpg");
         backgroundImage = new Image("Images\\game.jpg");
         zeldaSpriteImage = new Image("Images\\zeldaSprite.png");
+
+        mapImage = new Image[4];
+        for(int i=0 ; i<=3 ; i++) {
+            String num = Integer.toString(i);
+            mapImage[i] = new Image("Images\\"+num+".png");
+        }
     }
 
     public static void loadMusics() {
@@ -105,30 +89,6 @@ public class Dungeon extends Application
     private void initializeScene() {
 
         scene = new Scene(root, 1152, 648);
-
-        // scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-        //     @Override
-        //     public void handle(KeyEvent e) {
-        //         KeyCode in = e.getCode();
-
-        //         if(in == KeyCode.W) north = true;
-        //         else if(in == KeyCode.A) west = true;
-        //         else if(in == KeyCode.S) south = true;
-        //         else if(in == KeyCode.D) east = true;
-        //     }
-        // });
-            
-        // scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
-        //     @Override
-        //     public void handle(KeyEvent e) {
-        //         KeyCode in = e.getCode();
-
-        //         if(in == KeyCode.W) north = false;
-        //         else if(in == KeyCode.A) west = false;
-        //         else if(in == KeyCode.S) south = false;
-        //         else if(in == KeyCode.D) east = false;
-        //     }
-        // });
     }
 
     public static void readLevelInfo() throws Exception {

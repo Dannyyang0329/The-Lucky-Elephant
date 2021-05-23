@@ -9,27 +9,21 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 
-public class GameLevel1 extends Map {
-    private Group root;
+public class GameLevel1 {
+    protected Group root;
     public Scene scene;
 
-    private static final int WIDTH = 8;
-    private static final int HEIGHT = 6;
-    private ImageView[][] pic;
+    protected static int WIDTH;
+    protected static int HEIGHT;
+
+    protected ImageView mapImageView[][];
 
     Timer pauseTimer;
-    boolean isPressed = false;
-    static boolean north, south, west, east;
     Character potato;
+    Chunk[][] map;
 
-    // private static int[][] m = new int[][] {
-    //     {1, 2, 3, 4, 5, 2, 3, 6},
-    //     {7, 8, 9, 10, 2, 10, 11, 12},
-    //     {13, 14, 15, 16, 28, 16, 17, 18},
-    //     {7, 8, 2, 9, 10, 10, 11, 12},
-    //     {13, 14, 2, 15, 16,  16, 17, 18},
-    //     {25, 26, 27, 28, 27, 26, 29, 30}
-    // };
+    protected boolean isPressed = false;
+    protected static boolean north, south, west, east;
 
     private static int[][] m = new int[][] {
         {1, 1, 2 ,1, 1, 3, 3, 1},
@@ -40,73 +34,20 @@ public class GameLevel1 extends Map {
         {1, 1, 1 ,2, 1, 3, 3, 3}
     };
     
-    public GameLevel1() {
-        super(WIDTH, HEIGHT, m);
+    public GameLevel1(int w, int h) {
+        WIDTH = w;
+        HEIGHT = h;
+
         root = new Group();
-        pic = new ImageView[HEIGHT][WIDTH];
 
-        potato = new Character(new ImageView(Dungeon.zeldaSpriteImage));
-        potato.animation.play();
-        potato.setLayoutX(384);
-        potato.setLayoutY(380);
-
-        for(int i=0 ; i<HEIGHT ; i++) {
-            for(int j=0 ; j<WIDTH ; j++) {
-                pic[i][j] = new ImageView(image[m[i][j]]);
-                pic[i][j].setFitWidth(64);
-                pic[i][j].setFitHeight(64);
-                pic[i][j].setX(320+64*j);
-                pic[i][j].setY(132+64*i);
-                root.getChildren().add(pic[i][j]);
-            }
-        }
+        transformMap();
+        setMapProperties();
+        setHero();
         root.getChildren().add(potato);        
-
+        
         scene = new Scene(root, 1152, 648, Color.BLACK);
+        addKeyPressListener();
 
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
-            @Override
-            public void handle(KeyEvent e) {
-                if(isPressed == false) {
-                    pauseTimer = new Timer();
-                    KeyCode in = e.getCode();
-
-                    if(in == KeyCode.W) {
-                        isPressed = true;
-                        north = true;
-                        pauseTimer.schedule(new pause(), 500);
-                    }
-                    else if(in == KeyCode.A) {
-                        isPressed = true;
-                        west = true;
-                        pauseTimer.schedule(new pause(), 500);
-                    }
-                    else if(in == KeyCode.S) {
-                        isPressed = true;
-                        south = true;
-                        pauseTimer.schedule(new pause(), 500);
-                    }
-                    else if(in == KeyCode.D) {
-                        isPressed = true;
-                        east = true;
-                        pauseTimer.schedule(new pause(), 500);
-                    }
-                }
-            }
-        });
-            
-        // scene.setOnKeyReleased(new EventHandler<KeyEvent>(){
-        //     @Override
-        //     public void handle(KeyEvent e) {
-        //         KeyCode in = e.getCode();
-
-        //         if(in == KeyCode.W) north = false;
-        //         else if(in == KeyCode.A) west = false;
-        //         else if(in == KeyCode.S) south = false;
-        //         else if(in == KeyCode.D) east = false;
-        //     }
-        // });
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -126,6 +67,99 @@ public class GameLevel1 extends Map {
             }
         };
         timer.start();
+    }
+
+    public void transformMap() {
+        mapImageView = new ImageView[HEIGHT][WIDTH];
+
+        for(int i=0 ; i<HEIGHT ; i++) {
+            for(int j=0 ; j<WIDTH ; j++) {
+                mapImageView[i][j] = new ImageView(Dungeon.mapImage[m[i][j]]);
+                mapImageView[i][j].setFitWidth(64);
+                mapImageView[i][j].setFitHeight(64);
+                mapImageView[i][j].setX(320+64*j);
+                mapImageView[i][j].setY(132+64*i);
+                root.getChildren().add(mapImageView[i][j]);
+            }
+        }
+    }
+
+    public void setMapProperties() {
+        map = new Chunk[HEIGHT][WIDTH];
+
+        for(int i=0 ; i<HEIGHT ; i++) {
+            for(int j=0 ; j<WIDTH ; j++) {
+                map[i][j] = new Chunk();
+
+                if(m[i][j] != 0) map[i][j].setBlocked(true);
+                else map[i][j].setBlocked(false);
+            }
+        }
+    }
+
+    private void addKeyPressListener() {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
+            @Override
+            public void handle(KeyEvent e) {
+                if(isPressed == false) {
+                    pauseTimer = new Timer();
+                    KeyCode in = e.getCode();
+
+                    if(in == KeyCode.W) {
+                        if(map[potato.chunkY-1][potato.chunkX].isBlocked) {
+                            potato.direction = 'W';
+                            return;
+                        }
+
+                        isPressed = true;
+                        north = true;
+                        potato.chunkY--;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                    else if(in == KeyCode.A) {
+                        if(map[potato.chunkY][potato.chunkX-1].isBlocked) {
+                            potato.direction = 'A';
+                            return;
+                        }
+
+                        isPressed = true;
+                        west = true;
+                        potato.chunkX--;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                    else if(in == KeyCode.S) {
+                        if(map[potato.chunkY+1][potato.chunkX].isBlocked) {
+                            potato.direction = 'S';
+                            return;
+                        }
+
+                        isPressed = true;
+                        south = true;
+                        potato.chunkY++;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                    else if(in == KeyCode.D) {
+                        if(map[potato.chunkY][potato.chunkX+1].isBlocked) {
+                            potato.direction = 'D';
+                            return;
+                        }
+
+                        isPressed = true;
+                        east = true;
+                        potato.chunkX++;
+                        pauseTimer.schedule(new pause(), 500);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setHero() {
+        potato = new Character(new ImageView(Dungeon.zeldaSpriteImage));
+        potato.animation.play();
+        potato.setLayoutX(384);
+        potato.setLayoutY(380);
+        potato.setChunk(1, 4);
     }
 
     class pause extends TimerTask {

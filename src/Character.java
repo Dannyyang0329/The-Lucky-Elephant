@@ -1,3 +1,4 @@
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -11,8 +12,10 @@ public class Character extends Pane {
     int offsetY = 416;
     int width = 64;
     int height = 69;
-    int physicalStrength = 100;
+
     char direction = 'S';
+    int chunkX=0;
+    int chunkY=0;
     
     SpriteAnimation animation;
 
@@ -24,8 +27,6 @@ public class Character extends Pane {
     }
 
     public void moveX(int dx) {
-        // if(dx == 0) return;
-
         boolean isGoingRight = (dx >= 0) ? true : false;
 
         for(int i=0 ; i<Math.abs(dx) ; i++) {
@@ -45,8 +46,6 @@ public class Character extends Pane {
     }
 
     public void moveY(int dy) {
-        // if(dy == 0) return;
-
         boolean isGoingDown = (dy >= 0) ? true : false;
 
         for(int i=0 ; i<Math.abs(dy) ; i++) {
@@ -86,11 +85,9 @@ public class Character extends Pane {
         }
     }
 
-    public static boolean isDigit(int i) {
-        return false;
+    public void setChunk(int x, int y) {
+        this.chunkX = x;
+        this.chunkY = y;
     }
 
-    public static int getNumericValue(char c) {
-        return 0;
-    }
 }
