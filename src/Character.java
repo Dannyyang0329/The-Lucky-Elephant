@@ -13,6 +13,8 @@ public class Character extends Pane {
     int width = 64;
     int height = 69;
 
+    final int DISTANCE = 64;
+    int deltaDistance = 0;
     char direction = 'S';
     int chunkX=0;
     int chunkY=0;
@@ -29,18 +31,20 @@ public class Character extends Pane {
     public void moveX(int dx) {
         boolean isGoingRight = (dx >= 0) ? true : false;
 
-        for(int i=0 ; i<Math.abs(dx) ; i++) {
+        for(int i=0 ; i<Math.abs(dx) && deltaDistance<DISTANCE; i++) {
             if(isGoingRight) {
                 direction = 'D';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(485);
-                this.setTranslateX(this.getTranslateX() + 2.1334);
+                this.setTranslateX(this.getTranslateX() + 2);
+                deltaDistance += 2;
             }
             else{
                 direction = 'A';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(346);
-                this.setTranslateX(this.getTranslateX() - 2.1334);
+                this.setTranslateX(this.getTranslateX() - 2);
+                deltaDistance += 2;
             }
         }
     }
@@ -48,20 +52,22 @@ public class Character extends Pane {
     public void moveY(int dy) {
         boolean isGoingDown = (dy >= 0) ? true : false;
 
-        for(int i=0 ; i<Math.abs(dy) ; i++) {
+        for(int i=0 ; i<Math.abs(dy) && deltaDistance<DISTANCE; i++) {
             if(isGoingDown) 
             {
                 direction = 'S';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(277);
-                this.setTranslateY(this.getTranslateY() + 2.1334);
+                this.setTranslateY(this.getTranslateY() + 2);
+                deltaDistance += 2;
             }
             else
             {
                 direction = 'W';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(416); 
-                this.setTranslateY(this.getTranslateY() - 2.1334);
+                this.setTranslateY(this.getTranslateY() - 2);
+                deltaDistance += 2;
             }
         }
     }

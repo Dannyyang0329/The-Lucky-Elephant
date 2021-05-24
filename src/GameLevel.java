@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.*;
 
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
@@ -9,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -19,24 +19,56 @@ public class GameLevel {
     private Group root;
     public Scene scene;
 
+    private Label completeLabel, failLabel;
+    private ImageView mapImageView[][];
+    private Button backButton;
+
+    private int level;
     private int WIDTH;
     private int HEIGHT;
-    private int level;
 
-    private ImageView mapImageView[][];
-
-    Timer pauseTimer;
     Character potato;
     Chunk[][] map;
 
+    private boolean isNewGame = false;
     private boolean isPressed = false;
     private static boolean north, south, west, east;
 
     private int[][][] m; 
 
-    private Button backButton;
-    
-    AnimationTimer timer;
+    private long previousTime = 0;
+    private AnimationTimer timer;
+    private AnimationTimer pauseTimer = new AnimationTimer() {
+
+        public void handle(long now) {
+            if(previousTime == 0) previousTime = now;
+            if(now-previousTime > 515000000) {
+                isPressed = false;
+                north = false;  
+                east = false;
+                south = false;
+                west = false;
+                previousTime = 0;
+                pauseTimer.stop();
+            }
+        }
+    };
+    private AnimationTimer labelTimer = new AnimationTimer() {
+
+        @Override
+        public void handle(long now) {
+            isPressed = true;
+
+            if(previousTime == 0) previousTime=now;
+            if(now-previousTime >= 3.0e9) {
+                completeLabel.setVisible(false);
+                GameLevel game = new GameLevel(level+1,8,6, Dungeon.mapInfo);
+                Dungeon.stage.setScene(game.scene);
+                labelTimer.stop();
+            }
+        }
+    };
+
     public GameLevel(int level, int w, int h, int[][][] m) {
         this.level = level;
         WIDTH = w;
@@ -50,15 +82,15 @@ public class GameLevel {
         setMapProperties();
         setHero();
         root.getChildren().add(potato);        
+        setEndGameLabel();
         
         scene = new Scene(root, 1152, 648, Color.BLACK);
         addKeyPressListener();
 
-
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if(map[potato.chunkY][potato.chunkX].isEnd) {
+                if(map[potato.chunkY][potato.chunkX].isEnd && isNewGame==false) {
                     try {
                         newGame();
                     } catch (Exception e) {
@@ -119,7 +151,6 @@ public class GameLevel {
             @Override
             public void handle(KeyEvent e) {
                 if(isPressed == false) {
-                    pauseTimer = new Timer();
                     KeyCode in = e.getCode();
 
                     if(in == KeyCode.W) {
@@ -131,7 +162,8 @@ public class GameLevel {
                         isPressed = true;
                         north = true;
                         potato.chunkY--;
-                        pauseTimer.schedule(new pause(), 500);
+                        potato.deltaDistance = 0;
+                        pauseTimer.start();
                     }
                     else if(in == KeyCode.A) {
                         if(map[potato.chunkY][potato.chunkX-1].isBlocked) {
@@ -142,7 +174,9 @@ public class GameLevel {
                         isPressed = true;
                         west = true;
                         potato.chunkX--;
-                        pauseTimer.schedule(new pause(), 500);
+                        potato.deltaDistance = 0;
+                        pauseTimer.start();
+                        // pauseTimer.schedule(new pause(), 500);
                     }
                     else if(in == KeyCode.S) {
                         if(map[potato.chunkY+1][potato.chunkX].isBlocked) {
@@ -153,7 +187,9 @@ public class GameLevel {
                         isPressed = true;
                         south = true;
                         potato.chunkY++;
-                        pauseTimer.schedule(new pause(), 500);
+                        potato.deltaDistance = 0;
+                        pauseTimer.start();
+                        // pauseTimer.schedule(new pause(), 500);
                     }
                     else if(in == KeyCode.D) {
                         if(map[potato.chunkY][potato.chunkX+1].isBlocked) {
@@ -164,7 +200,8 @@ public class GameLevel {
                         isPressed = true;
                         east = true;
                         potato.chunkX++;
-                        pauseTimer.schedule(new pause(), 500);
+                        potato.deltaDistance = 0;
+                        pauseTimer.start();
                     }
                 }
             }
@@ -184,13 +221,17 @@ public class GameLevel {
     }
 
     private void newGame() throws Exception {
-        Dungeon.levelStatus[level] = 1;
-        Dungeon.writeLevelInfo(false);
-        Dungeon.readLevelInfo();
+        if(isNewGame == false) {
+            isNewGame = true;
 
-        // GameLevel game = new GameLevel(level+1,8,6, Dungeon.mapInfo);
-        // game.setEnd(1,5);
-        // Dungeon.stage.setScene(game.scene);
+            Dungeon.levelStatus[level] = 1;
+            Dungeon.writeLevelInfo(false);
+            Dungeon.readLevelInfo();
+
+            completeLabel.setVisible(true);
+
+            labelTimer.start();
+        }
     }
 
     private void setBackButton() {
@@ -231,15 +272,32 @@ public class GameLevel {
         root.getChildren().add(backButton);
     }
 
-    class pause extends TimerTask {
-        @Override
-        public void run() {
-            isPressed = false;
-            north = false;  
-            east = false;
-            south = false;
-            west = false;
-            pauseTimer.cancel();
-        }
+    private void setEndGameLabel() {
+        completeLabel = new Label();
+        completeLabel.setPrefSize(550, 280);
+        completeLabel.setLayoutX(301);
+        completeLabel.setLayoutY(184);
+        completeLabel.setStyle("-fx-background-image:url(\"Images/levelComplete.png\")");
+        completeLabel.setVisible(false);
+        root.getChildren().add(completeLabel);
+
+        failLabel = new Label();
+        failLabel.setPrefSize(550, 280);
+        failLabel.setLayoutX(301);
+        failLabel.setLayoutY(184);
+        failLabel.setStyle("-fx-background-image:url(\"Images/levelFail.png\")");
+        failLabel.setVisible(false);
+        root.getChildren().add(failLabel);
     }
+
+    // class pause extends TimerTask {
+    //     @Override
+    //     public void run() {
+    //         isPressed = false;
+    //         north = false;  
+    //         east = false;
+    //         south = false;
+    //         west = false;
+    //     }
+    // }
 }

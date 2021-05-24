@@ -29,6 +29,7 @@ public class Dungeon extends Application
     public static Image backgroundImage;
     public static Image zeldaSpriteImage;
     public static Image coin;
+    public static Image levelComplete;
     public static Image[] mapImage;
 
     public static MediaPlayer beginPlayer;
@@ -62,6 +63,7 @@ public class Dungeon extends Application
     }
 
     public  void loadImages() {
+        levelComplete = new Image("Images\\levelComplete.png");
         coin = new Image(this.getClass().getResource("Images\\coin.gif").toExternalForm());
         back = new Image("Images\\back.png");
         iconImage = new Image("Images\\iconImage.png");
