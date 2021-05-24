@@ -161,7 +161,7 @@
             <Font name="Rockwell Extra Bold" size="40.0" />
          </font>
       </Button>
-      <Button layoutX="288.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+      <Button layoutX="288.0" layoutY="150.0" mnemonicParsing="false" onAction="#button2" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
          <font>
             <Font name="Rockwell Extra Bold" size="40.0" />
          </font>

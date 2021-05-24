@@ -1,6 +1,8 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,14 +17,18 @@ import java.lang.Character;
 
 public class Dungeon extends Application
 {
-    public Stage stage;
-    public Scene scene;
+    public static Stage stage;
+    public static Scene scene;
     public Parent root;
 
+    public static int[][][] mapInfo;
+
+    public static Image back;
     public static Image iconImage;
     public static Image zeldaImage;
     public static Image backgroundImage;
     public static Image zeldaSpriteImage;
+    public static Image coin;
     public static Image[] mapImage;
 
     public static MediaPlayer beginPlayer;
@@ -35,14 +41,15 @@ public class Dungeon extends Application
     };
 
     public static void main(String[] args) throws Exception {
-        loadImages();
-        loadMusics();
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception 
     {
+        loadImages();
+        loadMusics();
+        loadMap();
         readLevelInfo();
         
         root = FXMLLoader.load(getClass().getResource("begin.fxml"));
@@ -54,20 +61,22 @@ public class Dungeon extends Application
         stage.show();
     }
 
-    public static void loadImages() {
+    public  void loadImages() {
+        coin = new Image(this.getClass().getResource("Images\\coin.gif").toExternalForm());
+        back = new Image("Images\\back.png");
         iconImage = new Image("Images\\iconImage.png");
         zeldaImage= new Image("Images\\zeldaImage.jpg");
         backgroundImage = new Image("Images\\game.jpg");
         zeldaSpriteImage = new Image("Images\\zeldaSprite.png");
 
-        mapImage = new Image[4];
-        for(int i=0 ; i<=3 ; i++) {
+        mapImage = new Image[30];
+        for(int i=0 ; i<=4 ; i++) {
             String num = Integer.toString(i);
             mapImage[i] = new Image("Images\\"+num+".png");
         }
     }
 
-    public static void loadMusics() {
+    public void loadMusics() {
         Media beginMusic = new Media(new File("src\\Songs\\beginMusic.mp3").toURI().toString());
         beginPlayer = new MediaPlayer(beginMusic);
         beginPlayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -106,6 +115,7 @@ public class Dungeon extends Application
             else if(info[i] == '<') break;
         }
 
+
         fr.close();
     }
 
@@ -130,4 +140,55 @@ public class Dungeon extends Application
 
         fw.close();
     } 
+
+    public void loadMap() throws IOException {
+        mapInfo = new int[25][15][15];
+
+        FileReader fr = new FileReader("src\\mapInfomation.txt");
+        BufferedReader br = new BufferedReader(fr);
+
+        int level = 0;
+        int width = 0;
+        int height = 0;
+
+        boolean start = false;
+        boolean canReadInfo = false;
+
+        String str = null;
+        while( (str = br.readLine()) != null) {
+            if(str.equals("Level")) {
+                start = true;
+                continue;
+            }
+            
+            if(start==true && !canReadInfo) {
+                String[] tmp = str.split(" ");
+                level = Integer.parseInt(tmp[0]);
+                width = Integer.parseInt(tmp[1]);
+                height = Integer.parseInt(tmp[2]);
+
+                canReadInfo = true;
+                continue;
+            }
+
+            if(start==true && canReadInfo) {
+                for(int i=0 ; i<height ; i++) {
+                    str = br.readLine().trim();
+                    String[] tmp = str.split(",");
+                    
+                    for(int j=0 ; j<width ; j++) {
+                        mapInfo[level][i][j] = Integer.parseInt(tmp[j]);
+                    }
+                }
+
+                str = br.readLine();        //read }
+
+                start = false;
+                canReadInfo = false;
+            }
+        }
+
+        br.close();
+        fr.close();
+    }
 }
