@@ -17,23 +17,35 @@ import java.lang.Character;
 
 public class Dungeon extends Application
 {
+    
     public static Stage stage;
-    public static Scene scene;
-    public Parent root;
+    private Scene scene;
+    private Parent root;
 
-    public static int[][][] mapInfo;
-
+    // Images in the game.
     public static Image back;
     public static Image iconImage;
     public static Image zeldaImage;
     public static Image backgroundImage;
     public static Image zeldaSpriteImage;
-    public static Image coin;
     public static Image levelComplete;
+    public static Image button;
+    public static Image box;
     public static Image[] mapImage;
 
+    public static Image coin;
+    public static Image thronOut;
+    public static Image thronIn;
+
+    // Musics in the game.
     public static MediaPlayer beginPlayer;
 
+    //  Map's Infomation 
+    public static int[][][] mapInfo;
+    public static int[] levelWidth;
+    public static int[] levelHeight;
+
+    // Level's information (Completed or not)
     public static int levelStatus[] = new int[]{
         1, 0, 0, 0, 0, 0, 
         0, 0, 0, 0, 0, 0, 
@@ -63,16 +75,21 @@ public class Dungeon extends Application
     }
 
     public  void loadImages() {
+
         levelComplete = new Image("Images\\levelComplete.png");
-        coin = new Image(this.getClass().getResource("Images\\coin.gif").toExternalForm());
         back = new Image("Images\\back.png");
         iconImage = new Image("Images\\iconImage.png");
         zeldaImage= new Image("Images\\zeldaImage.jpg");
         backgroundImage = new Image("Images\\game.jpg");
         zeldaSpriteImage = new Image("Images\\zeldaSprite.png");
+        box = new Image("Images\\box.png");
+
+        coin = new Image(this.getClass().getResource("Images\\coin.gif").toExternalForm());
+        thronIn = new Image(this.getClass().getResource("Images\\thronIn.gif").toExternalForm());
+        thronOut = new Image(this.getClass().getResource("Images\\thronOut.gif").toExternalForm());
 
         mapImage = new Image[30];
-        for(int i=0 ; i<=4 ; i++) {
+        for(int i=0 ; i<=5 ; i++) {
             String num = Integer.toString(i);
             mapImage[i] = new Image("Images\\"+num+".png");
         }
@@ -97,6 +114,7 @@ public class Dungeon extends Application
         stage.setHeight(648);
     }
 
+
     private void initializeScene() {
 
         scene = new Scene(root, 1152, 648);
@@ -108,7 +126,6 @@ public class Dungeon extends Application
         char[] info = new char[150];
         int tmp = fr.read(info);
         
-        // System.out.println(info);
         for(int i=0, level=0; i<tmp ; i++) {
 
             if(Character.isDigit(info[i])) {
@@ -144,7 +161,10 @@ public class Dungeon extends Application
     } 
 
     public void loadMap() throws IOException {
+
         mapInfo = new int[25][15][15];
+        levelWidth = new int[20];
+        levelHeight = new int[20];
 
         FileReader fr = new FileReader("src\\mapInfomation.txt");
         BufferedReader br = new BufferedReader(fr);
@@ -168,6 +188,9 @@ public class Dungeon extends Application
                 level = Integer.parseInt(tmp[0]);
                 width = Integer.parseInt(tmp[1]);
                 height = Integer.parseInt(tmp[2]);
+
+                levelWidth[level] = width;               
+                levelHeight[level] = height;
 
                 canReadInfo = true;
                 continue;

@@ -181,7 +181,7 @@
             <Font name="Rockwell Extra Bold" size="40.0" />
          </font>
       </Button>
-      <Button layoutX="440.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+      <Button layoutX="440.0" layoutY="150.0" mnemonicParsing="false" onAction="#button3" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
          <font>
             <Font name="Rockwell Extra Bold" size="40.0" />
          </font>
@@ -201,7 +201,7 @@
             <Font name="Rockwell Extra Bold" size="40.0" />
          </font>
       </Button>
-      <Button layoutX="592.0" layoutY="150.0" mnemonicParsing="false" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
+      <Button layoutX="592.0" layoutY="150.0" mnemonicParsing="false" onAction="#button4" opacity="0.0" prefHeight="80.0" prefWidth="120.0" style="-fx-background-image: url(&quot;Images/levelNum.png&quot;);">
          <font>
             <Font name="Rockwell Extra Bold" size="40.0" />
          </font>

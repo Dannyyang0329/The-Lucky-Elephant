@@ -14,7 +14,7 @@ public class Character extends Pane {
     int height = 69;
 
     final int DISTANCE = 64;
-    int deltaDistance = 0;
+    double deltaDistance = 0;
     char direction = 'S';
     int chunkX=0;
     int chunkY=0;

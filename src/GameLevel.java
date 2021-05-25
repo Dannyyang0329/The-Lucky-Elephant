@@ -20,7 +20,7 @@ public class GameLevel {
     public Scene scene;
 
     private Label completeLabel, failLabel;
-    private ImageView mapImageView[][];
+    // private ImageView mapImageView[][];
     private Button backButton;
 
     private int level;
@@ -32,6 +32,7 @@ public class GameLevel {
 
     private boolean isNewGame = false;
     private boolean isPressed = false;
+    private boolean pushBox = false;
     private static boolean north, south, west, east;
 
     private int[][][] m; 
@@ -62,7 +63,7 @@ public class GameLevel {
             if(previousTime == 0) previousTime=now;
             if(now-previousTime >= 3.0e9) {
                 completeLabel.setVisible(false);
-                GameLevel game = new GameLevel(level+1,8,6, Dungeon.mapInfo);
+                GameLevel game = new GameLevel(level+1 ,Dungeon.levelWidth[level+1], Dungeon.levelHeight[level+1], Dungeon.mapInfo);
                 Dungeon.stage.setScene(game.scene);
                 labelTimer.stop();
             }
@@ -107,8 +108,52 @@ public class GameLevel {
  
                 if(dx == 0 && dy == 0) potato.wink();
                 else {
-                    potato.moveX(dx);
-                    potato.moveY(dy);
+                    if(!pushBox) {
+                        potato.moveX(dx);
+                        potato.moveY(dy);
+                    }
+                    else {
+                        if(dx<0 && map[potato.chunkY][potato.chunkX].box!=null && map[potato.chunkY][potato.chunkX].box.moveWest(map, dx)) {
+                            potato.moveX(dx);
+                            potato.moveY(dy);
+
+                            if(map[potato.chunkY][potato.chunkX].box.deltaDistance == 64) {
+                                map[potato.chunkY][potato.chunkX-1].box = map[potato.chunkY][potato.chunkX].box;
+                                map[potato.chunkY][potato.chunkX].box = null;
+                                map[potato.chunkY][potato.chunkX-1].box.setChunk(potato.chunkX-1, potato.chunkY);
+                            }
+                        }
+                        if(dx>0 && map[potato.chunkY][potato.chunkX].box!=null && map[potato.chunkY][potato.chunkX].box.moveEast(map, dx)) {
+                            potato.moveX(dx);
+                            potato.moveY(dy);
+
+                            if(map[potato.chunkY][potato.chunkX].box.deltaDistance == 64) {
+                                map[potato.chunkY][potato.chunkX+1].box = map[potato.chunkY][potato.chunkX].box;
+                                map[potato.chunkY][potato.chunkX].box = null;
+                                map[potato.chunkY][potato.chunkX+1].box.setChunk(potato.chunkX+1, potato.chunkY);
+                            }
+                        }
+                        if(dy<0 && map[potato.chunkY][potato.chunkX].box!=null && map[potato.chunkY][potato.chunkX].box.moveNorth(map, dy)) {
+                            potato.moveX(dx);
+                            potato.moveY(dy);
+
+                            if(map[potato.chunkY][potato.chunkX].box.deltaDistance == 64) {
+                                map[potato.chunkY-1][potato.chunkX].box = map[potato.chunkY][potato.chunkX].box;
+                                map[potato.chunkY][potato.chunkX].box = null;
+                                map[potato.chunkY-1][potato.chunkX].box.setChunk(potato.chunkX, potato.chunkY-1);
+                            }
+                        }
+                        if(dy>0 && map[potato.chunkY][potato.chunkX].box!=null && map[potato.chunkY][potato.chunkX].box.moveSouth(map, dy)) {
+                            potato.moveX(dx);
+                            potato.moveY(dy);
+
+                            if(map[potato.chunkY][potato.chunkX].box.deltaDistance == 64) {
+                                map[potato.chunkY+1][potato.chunkX].box = map[potato.chunkY][potato.chunkX].box;
+                                map[potato.chunkY][potato.chunkX].box = null;
+                                map[potato.chunkY+1][potato.chunkX].box.setChunk(potato.chunkX, potato.chunkY+1);
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -116,32 +161,50 @@ public class GameLevel {
     }
 
     public void transformMap() {
-        mapImageView = new ImageView[HEIGHT][WIDTH];
 
-        for(int i=0 ; i<HEIGHT ; i++) {
-            for(int j=0 ; j<WIDTH ; j++) {
-                if(m[level][i][j] == -1) mapImageView[i][j] = new ImageView(Dungeon.coin);
-                else mapImageView[i][j] = new ImageView(Dungeon.mapImage[m[level][i][j]]);
-                mapImageView[i][j].setFitWidth(64);
-                mapImageView[i][j].setFitHeight(64);
-                mapImageView[i][j].setX(320+64*j);
-                mapImageView[i][j].setY(132+64*i);
-                root.getChildren().add(mapImageView[i][j]);
-            }
-        }
-    }
-
-    public void setMapProperties() {
         map = new Chunk[HEIGHT][WIDTH];
 
         for(int i=0 ; i<HEIGHT ; i++) {
             for(int j=0 ; j<WIDTH ; j++) {
                 map[i][j] = new Chunk();
 
-                if(m[level][i][j] == -1) map[i][j].setEnd(true);
+                if(m[level][i][j] == 9) map[i][j].setImageView(Dungeon.coin);
+                else if(m[level][i][j] == 7) map[i][j].setImageView(Dungeon.thronOut);
+                else map[i][j].setImageView(Dungeon.mapImage[m[level][i][j]]);
 
-                if(m[level][i][j] != 0 && m[level][i][j] != -1) map[i][j].setBlocked(true);
-                else map[i][j].setBlocked(false);
+                map[i][j].imageView.setFitWidth(64);
+                map[i][j].imageView.setFitHeight(64);
+                map[i][j].imageView.setX(320+64*j);
+                map[i][j].imageView.setY(132+64*i);
+
+                root.getChildren().add(map[i][j].imageView);
+            }
+        }
+    }
+
+    public void setMapProperties() {
+
+        for(int i=0 ; i<HEIGHT ; i++) {
+            for(int j=0 ; j<WIDTH ; j++) {
+
+                if(m[level][i][j]==1 || m[level][i][j]==2 || m[level][i][j]==3) {
+                    map[i][j].setBlocked(true);
+                }
+
+                if(m[level][i][j] == 4) {
+                    // map[i][j].setMoveable(true);
+                    map[i][j].setBlocked(true);
+                    map[i][j].makeBox(j, i);
+                    root.getChildren().add(map[i][j].box.boxView);
+                }
+
+                if(m[level][i][j] == 5) {
+                    map[i][j].setBlocked(true);
+                }
+
+                if(m[level][i][j] == 9) {
+                    map[i][j].setEnd(true);
+                }
             }
         }
     }
@@ -154,53 +217,77 @@ public class GameLevel {
                     KeyCode in = e.getCode();
 
                     if(in == KeyCode.W) {
-                        if(map[potato.chunkY-1][potato.chunkX].isBlocked) {
+
+                        if(map[potato.chunkY-1][potato.chunkX].isBlocked && map[potato.chunkY-1][potato.chunkX].box==null) {
                             potato.direction = 'W';
                             return;
+                        }
+
+                        if(map[potato.chunkY-1][potato.chunkX].box != null) {
+                            pushBox = true;
+                            map[potato.chunkY-1][potato.chunkX].box.deltaDistance = 0;
                         }
 
                         isPressed = true;
                         north = true;
                         potato.chunkY--;
                         potato.deltaDistance = 0;
+
                         pauseTimer.start();
                     }
                     else if(in == KeyCode.A) {
-                        if(map[potato.chunkY][potato.chunkX-1].isBlocked) {
+                        if(map[potato.chunkY][potato.chunkX-1].isBlocked && map[potato.chunkY][potato.chunkX-1].box==null) {
                             potato.direction = 'A';
                             return;
+                        }
+
+
+                        if(map[potato.chunkY][potato.chunkX-1].box != null) {
+                            pushBox = true;
+                            map[potato.chunkY][potato.chunkX-1].box.deltaDistance = 0;
                         }
 
                         isPressed = true;
                         west = true;
                         potato.chunkX--;
                         potato.deltaDistance = 0;
+
                         pauseTimer.start();
-                        // pauseTimer.schedule(new pause(), 500);
                     }
                     else if(in == KeyCode.S) {
-                        if(map[potato.chunkY+1][potato.chunkX].isBlocked) {
+                        if(map[potato.chunkY+1][potato.chunkX].isBlocked && map[potato.chunkY+1][potato.chunkX].box==null) {
                             potato.direction = 'S';
                             return;
+                        }
+
+                        if(map[potato.chunkY+1][potato.chunkX].box != null) {
+                            pushBox = true;
+                            map[potato.chunkY+1][potato.chunkX].box.deltaDistance = 0;
                         }
 
                         isPressed = true;
                         south = true;
                         potato.chunkY++;
                         potato.deltaDistance = 0;
+
                         pauseTimer.start();
-                        // pauseTimer.schedule(new pause(), 500);
                     }
                     else if(in == KeyCode.D) {
-                        if(map[potato.chunkY][potato.chunkX+1].isBlocked) {
+                        if(map[potato.chunkY][potato.chunkX+1].isBlocked && map[potato.chunkY][potato.chunkX+1].box==null) {
                             potato.direction = 'D';
                             return;
+                        }
+
+                        if(map[potato.chunkY][potato.chunkX+1].box != null) {
+                            pushBox = true;
+                            map[potato.chunkY][potato.chunkX+1].box.deltaDistance = 0;
                         }
 
                         isPressed = true;
                         east = true;
                         potato.chunkX++;
                         potato.deltaDistance = 0;
+
                         pauseTimer.start();
                     }
                 }
@@ -290,14 +377,4 @@ public class GameLevel {
         root.getChildren().add(failLabel);
     }
 
-    // class pause extends TimerTask {
-    //     @Override
-    //     public void run() {
-    //         isPressed = false;
-    //         north = false;  
-    //         east = false;
-    //         south = false;
-    //         west = false;
-    //     }
-    // }
 }
