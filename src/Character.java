@@ -16,15 +16,15 @@ public class Character extends Pane {
     final int DISTANCE = 64;
     double deltaDistance = 0;
     char direction = 'S';
-    int chunkX=0;
-    int chunkY=0;
+    int X=0;
+    int Y=0;
     
     SpriteAnimation animation;
 
     public Character(ImageView imageView) {
         this.imageView = imageView;
         this.imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
-        animation = new SpriteAnimation(imageView, Duration.millis(800), count, column, offsetX, offsetY, width, height);
+        animation = new SpriteAnimation(imageView, Duration.millis(600), count, column, offsetX, offsetY, width, height);
         getChildren().addAll(imageView);
     }
 
@@ -36,15 +36,15 @@ public class Character extends Pane {
                 direction = 'D';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(485);
-                this.setTranslateX(this.getTranslateX() + 2);
-                deltaDistance += 2;
+                this.setTranslateX(this.getTranslateX() + 4);
+                deltaDistance += 4;
             }
             else{
                 direction = 'A';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(346);
-                this.setTranslateX(this.getTranslateX() - 2);
-                deltaDistance += 2;
+                this.setTranslateX(this.getTranslateX() - 4);
+                deltaDistance += 4;
             }
         }
     }
@@ -58,16 +58,16 @@ public class Character extends Pane {
                 direction = 'S';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(277);
-                this.setTranslateY(this.getTranslateY() + 2);
-                deltaDistance += 2;
+                this.setTranslateY(this.getTranslateY() + 4);
+                deltaDistance += 4;
             }
             else
             {
                 direction = 'W';
                 this.animation.setCount(9);
                 this.animation.setOffsetY(416); 
-                this.setTranslateY(this.getTranslateY() - 2);
-                deltaDistance += 2;
+                this.setTranslateY(this.getTranslateY() - 4);
+                deltaDistance += 4;
             }
         }
     }
@@ -91,9 +91,9 @@ public class Character extends Pane {
         }
     }
 
-    public void setChunk(int x, int y) {
-        this.chunkX = x;
-        this.chunkY = y;
+    public void setChunk(int y, int x) {
+        this.X = x;
+        this.Y = y;
     }
 
 }

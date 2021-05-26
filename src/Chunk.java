@@ -4,14 +4,14 @@ import javafx.scene.layout.Pane;
 
 public class Chunk extends Pane {
     
-    ImageView imageView = new ImageView(Dungeon.coin);
+    ImageView imageView = new ImageView();
+    MyBox box = null;
 
     boolean isBlocked = false;
     boolean isDangered = false;
     boolean isEnd = false;
-    boolean isMoveable = false;
+    boolean isStart = false;
 
-    MyBox box;
 
     public void setImageView(Image image) {
         imageView.setImage(image);
@@ -32,13 +32,13 @@ public class Chunk extends Pane {
         else isEnd = false;
     }
 
-    public void setMoveable(boolean b) {
-        if(b == true) isMoveable = true;
-        else isMoveable = false;
+    public void setStart(boolean b) {
+        if(b == true) isStart = true;
+        else isStart = false;
     }
 
-    public void makeBox(int x, int y) {
-        box = new MyBox(x, y);
+    public void makeBox(int y, int x) {
+        box = new MyBox(y, x);
     }
 
 }

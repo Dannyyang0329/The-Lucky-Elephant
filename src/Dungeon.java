@@ -33,6 +33,7 @@ public class Dungeon extends Application
     public static Image box;
     public static Image[] mapImage;
 
+    // Images (.gif)
     public static Image coin;
     public static Image thronOut;
     public static Image thronIn;
@@ -46,35 +47,37 @@ public class Dungeon extends Application
     public static int[] levelHeight;
 
     // Level's information (Completed or not)
-    public static int levelStatus[] = new int[]{
+    public static int levelStatus[] = new int[]{ 
+       -1,
         1, 0, 0, 0, 0, 0, 
         0, 0, 0, 0, 0, 0, 
         0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0 
     };
 
+    // Main function
     public static void main(String[] args) throws Exception {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception 
-    {
+    public void start(Stage primaryStage) throws Exception  {
+
+        root = FXMLLoader.load(getClass().getResource("begin.fxml"));
+
         loadImages();
         loadMusics();
         loadMap();
         readLevelInfo();
         
-        root = FXMLLoader.load(getClass().getResource("begin.fxml"));
-
         initializeStage();
-        initializeScene();
 
+        scene = new Scene(root, 1152, 648);
         stage.setScene(scene);
         stage.show();
     }
 
-    public  void loadImages() {
+    private void loadImages() {
 
         levelComplete = new Image("Images\\levelComplete.png");
         back = new Image("Images\\back.png");
@@ -89,19 +92,80 @@ public class Dungeon extends Application
         thronOut = new Image(this.getClass().getResource("Images\\thronOut.gif").toExternalForm());
 
         mapImage = new Image[30];
-        for(int i=0 ; i<=5 ; i++) {
+
+        for(int i=0 ; i<=10 ; i++) {
             String num = Integer.toString(i);
             mapImage[i] = new Image("Images\\"+num+".png");
         }
     }
 
-    public void loadMusics() {
+    private void loadMusics() {
         Media beginMusic = new Media(new File("src\\Songs\\beginMusic.mp3").toURI().toString());
         beginPlayer = new MediaPlayer(beginMusic);
         beginPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         beginPlayer.play();
     }
 
+    private void loadMap() throws IOException {
+
+        // mapInfo[level][height][width]
+        FileReader fr = new FileReader("src\\mapInfomation.txt");
+        BufferedReader br = new BufferedReader(fr);
+
+        mapInfo = new int[25][15][15];
+        levelWidth = new int[25];
+        levelHeight = new int[25];
+
+        int level = 0;
+        int width = 0;
+        int height = 0;
+
+        boolean start = false;
+        boolean canReadInfo = false;
+
+        String str = null;
+        while( (str = br.readLine()) != null) {
+
+            // When read the text "Level", it means that I can start reading the infomation.
+            if(str.equals("Level")) {
+                start = true;
+                continue;
+            }
+            
+            // Read the level, height and width
+            if(start && !canReadInfo) {
+                String[] tmp = str.split(" ");
+                level = Integer.parseInt(tmp[0]);
+                height =  Integer.parseInt(tmp[1]);
+                width = Integer.parseInt(tmp[2]);
+
+                levelHeight[level] = height;
+                levelWidth[level] = width;               
+
+                canReadInfo = true;
+                continue;
+            }
+
+            // Read the map
+            if(start && canReadInfo) {
+                for(int i=0 ; i<height ; i++) {
+                    str = br.readLine().trim();
+                    String[] tmp = str.split(",");
+                    
+                    for(int j=0 ; j<width ; j++) {
+                        mapInfo[level][i][j] = Integer.parseInt(tmp[j]);
+                    }
+                }
+                // str = br.readLine();        //read }
+
+                start = false;
+                canReadInfo = false;
+            }
+        }
+
+        br.close();
+        fr.close();
+    }
 
     private void initializeStage() {
 
@@ -115,10 +179,6 @@ public class Dungeon extends Application
     }
 
 
-    private void initializeScene() {
-
-        scene = new Scene(root, 1152, 648);
-    }
 
     public static void readLevelInfo() throws Exception {
         FileReader fr = new FileReader("src\\LevelInfo.txt");
@@ -126,14 +186,13 @@ public class Dungeon extends Application
         char[] info = new char[150];
         int tmp = fr.read(info);
         
-        for(int i=0, level=0; i<tmp ; i++) {
+        for(int i=0, level=1; i<tmp ; i++) {
 
             if(Character.isDigit(info[i])) {
                 levelStatus[level++] = Character.getNumericValue(info[i]);
             }
             else if(info[i] == '<') break;
         }
-
 
         fr.close();
     }
@@ -143,77 +202,20 @@ public class Dungeon extends Application
         FileWriter fw = new FileWriter("src\\LevelInfo.txt", false);
 
         if(isNewGame == true) {
-            for(int i=0 ; i<24 ; i++) {
-                if(i == 0) fw.write(">>> 1, ");
-                else if(i == 23) fw.write("0<<<");
+            for(int i=1 ; i<=24 ; i++) {
+                if(i == 1) fw.write(">>> 1, ");
+                else if(i == 24) fw.write("0<<<");
                 else fw.write("0, ");
             }
         }
         else {
-            for(int i=0 ; i<24 ; i++) {
-                if(i == 0) fw.write((levelStatus[i] == 1) ? ">>> 1, " : ">>> 0, ");
-                else if(i == 23) fw.write((levelStatus[i] == 1) ? "1<<<" : "0<<<");
+            for(int i=1 ; i<=24 ; i++) {
+                if(i == 1) fw.write((levelStatus[i] == 1) ? ">>> 1, " : ">>> 0, ");
+                else if(i == 24) fw.write((levelStatus[i] == 1) ? "1<<<" : "0<<<");
                 else fw.write((levelStatus[i] == 1) ? "1, " : "0, ");
             }
         }
 
         fw.close();
     } 
-
-    public void loadMap() throws IOException {
-
-        mapInfo = new int[25][15][15];
-        levelWidth = new int[20];
-        levelHeight = new int[20];
-
-        FileReader fr = new FileReader("src\\mapInfomation.txt");
-        BufferedReader br = new BufferedReader(fr);
-
-        int level = 0;
-        int width = 0;
-        int height = 0;
-
-        boolean start = false;
-        boolean canReadInfo = false;
-
-        String str = null;
-        while( (str = br.readLine()) != null) {
-            if(str.equals("Level")) {
-                start = true;
-                continue;
-            }
-            
-            if(start==true && !canReadInfo) {
-                String[] tmp = str.split(" ");
-                level = Integer.parseInt(tmp[0]);
-                width = Integer.parseInt(tmp[1]);
-                height = Integer.parseInt(tmp[2]);
-
-                levelWidth[level] = width;               
-                levelHeight[level] = height;
-
-                canReadInfo = true;
-                continue;
-            }
-
-            if(start==true && canReadInfo) {
-                for(int i=0 ; i<height ; i++) {
-                    str = br.readLine().trim();
-                    String[] tmp = str.split(",");
-                    
-                    for(int j=0 ; j<width ; j++) {
-                        mapInfo[level][i][j] = Integer.parseInt(tmp[j]);
-                    }
-                }
-
-                str = br.readLine();        //read }
-
-                start = false;
-                canReadInfo = false;
-            }
-        }
-
-        br.close();
-        fr.close();
-    }
 }
