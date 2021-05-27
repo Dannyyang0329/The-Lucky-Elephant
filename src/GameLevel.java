@@ -34,7 +34,6 @@ public class GameLevel {
     private int startPointX=0, startPointY=0;
     private boolean isNewGame = false;
     private boolean isKeyPressed = false;
-    private boolean boxIsPushed = false;
     private static boolean north, south, west, east;
 
     private int[][][] numberMap; 
@@ -42,12 +41,14 @@ public class GameLevel {
 
     private long previousTime = 0;
 
-    private AnimationTimer timer;
+    private AnimationTimer gameLoop;
+    private AnimationTimer labelTimer;
     private AnimationTimer pauseTimer = new AnimationTimer() {
 
+        @Override
         public void handle(long now) {
             if(previousTime == 0) previousTime = now;
-            if(now-previousTime > 270000000) {
+            if(now-previousTime > 250000000) {
                 isKeyPressed = false;
                 north = false;  
                 east = false;
@@ -58,29 +59,14 @@ public class GameLevel {
             }
         }
     };
-    private AnimationTimer labelTimer = new AnimationTimer() {
 
-        @Override
-        public void handle(long now) {
-            isKeyPressed = true;
-
-            if(previousTime == 0) previousTime=now;
-            if(now-previousTime >= 2.0e9) {
-                completeLabel.setVisible(false);
-                GameLevel game = new GameLevel(level+1 ,Dungeon.levelHeight[level+1], Dungeon.levelWidth[level+1], Dungeon.levelStrength[level+1], Dungeon.mapInfo);
-                Dungeon.stage.setScene(game.scene);
-                labelTimer.stop();
-            }
-        }
-    };
-
-    public GameLevel(int level, int h, int w, int strength, int[][][] m) {
+    public GameLevel(int level, int height, int width, int streng, int[][][] m) {
 
         this.level = level;
-        height = h;
-        width = w;
-        numberMap = m;
-        this.strength = strength;
+        this.height = height;
+        this.width = width;
+        this.numberMap = m;
+        this.strength = streng;
 
         scene = new Scene(root, 1152, 648, Color.BLACK);
 
@@ -92,123 +78,33 @@ public class GameLevel {
         
         addKeyPressListener();
 
-        timer = new AnimationTimer() {
+        // game loop setting
+        gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
+
+                System.out.println(strength);
+                // potato walk or wink
+                potatoWalk();
+
+                // if potato is on the end point -> switch to next level
                 if(map[potato.Y][potato.X].isEnd && isNewGame==false) {
-                    try {
-                        newGame();
-                    } catch (Exception e) {
-                        System.out.println("New Game Failed.");
-                    }
+                    isNewGame = true;
+                    completeLabel.setVisible(true);
+                    showLabel(true);
                 }
 
-                int dx = 0, dy = 0;
- 
-                if (north) dy -= 1;
-                if (south) dy += 1;
-                if (east)  dx += 1;
-                if (west)  dx -= 1;
- 
-                if(dx == 0 && dy == 0) potato.wink();
-                else {
-                    if(!boxIsPushed) {
-                        potato.moveX(dx);
-                        potato.moveY(dy);
-                    }
-                    else {
-                        // push the box to north
-                        if(dy<0 && map[potato.Y][potato.X].box!=null && map[potato.Y][potato.X].box.moveNorth(map, dy)) {
-
-                            potato.moveX(dx);
-                            potato.moveY(dy);
-
-                            if(map[potato.Y][potato.X].box.deltaDistance == 64) {
-                                map[potato.Y-1][potato.X].box = map[potato.Y][potato.X].box;
-                                map[potato.Y][potato.X].box = null;
-                                map[potato.Y-1][potato.X].box.setChunk(potato.Y-1, potato.X);
-
-                                map[potato.Y][potato.X].setBlocked(false);
-                                map[potato.Y-1][potato.X].setBlocked(true);
-
-                                strengthDecrease(2);
-                                return;
-                            }
-                        }
-                        if(dy<0 && map[potato.Y][potato.X].box!=null && !map[potato.Y][potato.X].box.moveNorth(map, dy)) {
-                            potato.Y++;
-                        }
-
-                        // push the box to south
-                        if(dy>0 && map[potato.Y][potato.X].box!=null && map[potato.Y][potato.X].box.moveSouth(map, dy)) {
-
-                            potato.moveX(dx);
-                            potato.moveY(dy);
-
-                            if(map[potato.Y][potato.X].box.deltaDistance == 64) {
-                                map[potato.Y+1][potato.X].box = map[potato.Y][potato.X].box;
-                                map[potato.Y][potato.X].box = null;
-                                map[potato.Y+1][potato.X].box.setChunk(potato.Y+1, potato.X);
-
-                                map[potato.Y][potato.X].setBlocked(false);
-                                map[potato.Y+1][potato.X].setBlocked(true);
-
-                                strengthDecrease(2);
-                                return;
-                            }
-                        }
-                        if(dy>0 && map[potato.Y][potato.X].box!=null && !map[potato.Y][potato.X].box.moveSouth(map, dy)) {
-                            potato.Y--;
-                        }
-
-                        // push the box to west
-                        if(dx<0 && map[potato.Y][potato.X].box!=null && map[potato.Y][potato.X].box.moveWest(map, dx)) {
-
-                            potato.moveX(dx);
-                            potato.moveY(dy);
-
-                            if(map[potato.Y][potato.X].box.deltaDistance == 64) {
-                                map[potato.Y][potato.X-1].box = map[potato.Y][potato.X].box;
-                                map[potato.Y][potato.X].box = null;
-                                map[potato.Y][potato.X-1].box.setChunk(potato.Y, potato.X-1);
-
-                                map[potato.Y][potato.X].setBlocked(false);
-                                map[potato.Y][potato.X-1].setBlocked(true);
-
-                                strengthDecrease(2);
-                                return;
-                            }
-                        }
-                        if(dx<0 && map[potato.Y][potato.X].box!=null && !map[potato.Y][potato.X].box.moveWest(map, dx)) {
-                            potato.X++;
-                        }
-
-                        // push the box to east
-                        if(dx>0 && map[potato.Y][potato.X].box!=null && map[potato.Y][potato.X].box.moveEast(map, dx)) {
-
-                            potato.moveX(dx);
-                            potato.moveY(dy);
-
-                            if(map[potato.Y][potato.X].box.deltaDistance == 64) {
-                                map[potato.Y][potato.X+1].box = map[potato.Y][potato.X].box;
-                                map[potato.Y][potato.X].box = null;
-                                map[potato.Y][potato.X+1].box.setChunk(potato.Y, potato.X+1);
-
-                                map[potato.Y][potato.X].setBlocked(false);
-                                map[potato.Y][potato.X+1].setBlocked(true);
-
-                                strengthDecrease(2);
-                                return;
-                            }
-                        }
-                        if(dx>0 && map[potato.Y][potato.X].box!=null && !map[potato.Y][potato.X].box.moveEast(map, dx)) {
-                            potato.X--;
-                        }
-                    }
+                // if potato's strength is zero -> restart
+                if(strength < 0 && isNewGame==false) {
+                    isNewGame = true;
+                    failLabel.setVisible(true);
+                    showLabel(false);
                 }
             }
         };
-        timer.start();
+
+        // game loop start
+        gameLoop.start();
     }
 
 
@@ -228,7 +124,7 @@ public class GameLevel {
         backButton.setPrefSize(80, 55);
         backButton.setOpacity(0);
         backButton.setOnAction( (event) -> {
-            timer.stop();
+            gameLoop.stop();
 
             try {
                 Dungeon.readLevelInfo();
@@ -344,101 +240,97 @@ public class GameLevel {
                     KeyCode in = e.getCode();
 
                     if(in == KeyCode.R) {
+                        gameLoop.stop();
                         GameLevel game = new GameLevel(level ,Dungeon.levelHeight[level], Dungeon.levelWidth[level], Dungeon.levelStrength[level], Dungeon.mapInfo);
                         Dungeon.stage.setScene(game.scene);
                     }
 
                     if(in == KeyCode.W) {
 
-                        boxIsPushed = false;
-
                         if(map[potato.Y-1][potato.X].isBlocked && map[potato.Y-1][potato.X].box==null) {
                             potato.direction = 'W';
                             return;
                         }
 
-                        if(map[potato.Y-1][potato.X].box != null) {
-                            boxIsPushed = true;
-                            map[potato.Y-1][potato.X].box.deltaDistance = 0;
+                        boolean isBoxMoved = (map[potato.Y-1][potato.X].box!=null && map[potato.Y-1][potato.X].box.moveNorth(map));
+                        if((!map[potato.Y-1][potato.X].isBlocked) || isBoxMoved) {
+
+                            if(isBoxMoved) strengthDecrease(2);
+                            else strengthDecrease(1);
+
+                            isKeyPressed = true;
+                            north = true;
+                            potato.Y--;
+                            potato.deltaDistance = 0;
+
+                            pauseTimer.start();
                         }
-
-                        if(!boxIsPushed) strengthDecrease(1);
-                        isKeyPressed = true;
-                        north = true;
-                        potato.Y--;
-                        potato.deltaDistance = 0;
-
-                        pauseTimer.start();
                     }
 
                     else if(in == KeyCode.S) {
-
-                        boxIsPushed = false;
 
                         if(map[potato.Y+1][potato.X].isBlocked && map[potato.Y+1][potato.X].box==null) {
                             potato.direction = 'S';
                             return;
                         }
 
-                        if(map[potato.Y+1][potato.X].box != null) {
-                            boxIsPushed = true;
-                            map[potato.Y+1][potato.X].box.deltaDistance = 0;
-                        }
+                        boolean isBoxMoved = (map[potato.Y+1][potato.X].box!=null&&map[potato.Y+1][potato.X].box.moveSouth(map));
+                        if((!map[potato.Y+1][potato.X].isBlocked) || isBoxMoved) {
 
-                        if(!boxIsPushed) strengthDecrease(1);
-                        isKeyPressed = true;
-                        south = true;
-                        potato.Y++;
-                        potato.deltaDistance = 0;
+                            if(isBoxMoved) strengthDecrease(2);
+                            else strengthDecrease(1);
 
-                        pauseTimer.start();
+                            isKeyPressed = true;
+                            south = true;
+                            potato.Y++;
+                            potato.deltaDistance = 0;
+
+                            pauseTimer.start();
+                        }                            
                     }
 
                     else if(in == KeyCode.A) {
-
-                        boxIsPushed = false;
 
                         if(map[potato.Y][potato.X-1].isBlocked && map[potato.Y][potato.X-1].box==null) {
                             potato.direction = 'A';
                             return;
                         }
 
+                        boolean isBoxMoved = (map[potato.Y][potato.X-1].box!=null && map[potato.Y][potato.X-1].box.moveWest(map));
+                        if((!map[potato.Y][potato.X-1].isBlocked) || isBoxMoved) {
 
-                        if(map[potato.Y][potato.X-1].box != null) {
-                            boxIsPushed = true;
-                            map[potato.Y][potato.X-1].box.deltaDistance = 0;
+                            if(isBoxMoved) strengthDecrease(2);
+                            else strengthDecrease(1);
+
+                            isKeyPressed = true;
+                            west = true;
+                            potato.X--;
+                            potato.deltaDistance = 0;
+
+                            pauseTimer.start();
                         }
-
-                        if(!boxIsPushed) strengthDecrease(1);
-                        isKeyPressed = true;
-                        west = true;
-                        potato.X--;
-                        potato.deltaDistance = 0;
-
-                        pauseTimer.start();
                     }
 
                     else if(in == KeyCode.D) {
-
-                        boxIsPushed = false;
                         
-                        if(map[potato.Y][potato.X+1].isBlocked && map[potato.Y][potato.X+1].box==null) {
+                        if(map[potato.Y][potato.X+1].isBlocked&&map[potato.Y][potato.X+1].box==null) {
                             potato.direction = 'D';
                             return;
                         }
 
-                        if(map[potato.Y][potato.X+1].box != null) {
-                            boxIsPushed = true;
-                            map[potato.Y][potato.X+1].box.deltaDistance = 0;
+                        boolean isBoxMoved = (map[potato.Y][potato.X+1].box!=null && map[potato.Y][potato.X+1].box.moveEast(map));
+                        if((!map[potato.Y][potato.X+1].isBlocked) || isBoxMoved) {
+
+                            if(isBoxMoved) strengthDecrease(2);
+                            else strengthDecrease(1);
+
+                            isKeyPressed = true;
+                            east = true;
+                            potato.X++;
+                            potato.deltaDistance = 0;
+
+                            pauseTimer.start();
                         }
-
-                        if(!boxIsPushed) strengthDecrease(1);
-                        isKeyPressed = true;
-                        east = true;
-                        potato.X++;
-                        potato.deltaDistance = 0;
-
-                        pauseTimer.start();
                     }
                 }
             }
@@ -446,18 +338,48 @@ public class GameLevel {
     }
 
 
-    private void newGame() throws Exception {
-        if(isNewGame == false) {
-            isNewGame = true;
+    // private void openNewGame() throws Exception {
+    //     if(isNewGame == false) {
+    //         isNewGame = true;
 
-            Dungeon.levelStatus[level] = 1;
-            Dungeon.writeLevelInfo(false);
-            Dungeon.readLevelInfo();
+    //         Dungeon.levelStatus[level] = 1;
+    //         Dungeon.writeLevelInfo(false);
+    //         Dungeon.readLevelInfo();
 
-            completeLabel.setVisible(true);
+    //         completeLabel.setVisible(true);
 
-            labelTimer.start();
-        }
+    //         labelTimer.start();
+    //     }
+    // }
+
+    private void showLabel(boolean newGame) {
+
+        labelTimer = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                isKeyPressed = true;
+
+                if(previousTime == 0) previousTime=now;
+                if(now-previousTime >= 2.0e9) {
+                    if(newGame == true) {
+                        completeLabel.setVisible(false);
+                        GameLevel game = new GameLevel(level+1 ,Dungeon.levelHeight[level+1], Dungeon.levelWidth[level+1], Dungeon.levelStrength[level+1], Dungeon.mapInfo);
+                        Dungeon.stage.setScene(game.scene);
+                        labelTimer.stop();
+                        gameLoop.stop();
+                    }
+                    else {
+                        failLabel.setVisible(false);
+                        GameLevel game = new GameLevel(level ,Dungeon.levelHeight[level], Dungeon.levelWidth[level], Dungeon.levelStrength[level], Dungeon.mapInfo);
+                        Dungeon.stage.setScene(game.scene);
+                        labelTimer.stop();
+                        gameLoop.stop();
+                    }
+                }
+            }
+        };
+        labelTimer.start();
     }
 
     public void setEnd(int y, int x) {
@@ -466,6 +388,23 @@ public class GameLevel {
 
     private void strengthDecrease(int n) {
         strength -= n;
-        System.out.println(strength+" 林昱崴是大便");
+    }
+
+    private void potatoWalk() {
+
+        int dx = 0, dy = 0;
+
+        // determine potato is walking or not
+        if (north) dy -= 1;
+        if (south) dy += 1;
+        if (east)  dx += 1;
+        if (west)  dx -= 1;
+
+        // potato is stop -> wink 
+        if(dx == 0 && dy == 0) potato.wink();
+        else {
+            potato.moveX(dx);
+            potato.moveY(dy);
+        }
     }
 }

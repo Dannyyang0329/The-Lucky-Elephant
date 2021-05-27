@@ -32,6 +32,8 @@ public class Character extends Pane {
         boolean isGoingRight = (dx >= 0) ? true : false;
 
         for(int i=0 ; i<Math.abs(dx) && deltaDistance<DISTANCE; i++) {
+
+            // going east
             if(isGoingRight) {
                 direction = 'D';
                 this.animation.setCount(9);
@@ -39,6 +41,8 @@ public class Character extends Pane {
                 this.setTranslateX(this.getTranslateX() + 4);
                 deltaDistance += 4;
             }
+
+            // going west
             else{
                 direction = 'A';
                 this.animation.setCount(9);
@@ -53,6 +57,7 @@ public class Character extends Pane {
         boolean isGoingDown = (dy >= 0) ? true : false;
 
         for(int i=0 ; i<Math.abs(dy) && deltaDistance<DISTANCE; i++) {
+            // going south
             if(isGoingDown) 
             {
                 direction = 'S';
@@ -61,6 +66,8 @@ public class Character extends Pane {
                 this.setTranslateY(this.getTranslateY() + 4);
                 deltaDistance += 4;
             }
+
+            // going north
             else
             {
                 direction = 'W';
