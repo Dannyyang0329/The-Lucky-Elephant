@@ -26,9 +26,10 @@ public class GameLevel {
     Character potato;
     Chunk[][] map;
 
-    private int level;
+    private int level; 
     private int height;
     private int width;
+    private int strength=0;
 
     private int startPointX=0, startPointY=0;
     private boolean isNewGame = false;
@@ -46,7 +47,7 @@ public class GameLevel {
 
         public void handle(long now) {
             if(previousTime == 0) previousTime = now;
-            if(now-previousTime > 300000000) {
+            if(now-previousTime > 270000000) {
                 isKeyPressed = false;
                 north = false;  
                 east = false;
@@ -66,19 +67,20 @@ public class GameLevel {
             if(previousTime == 0) previousTime=now;
             if(now-previousTime >= 2.0e9) {
                 completeLabel.setVisible(false);
-                GameLevel game = new GameLevel(level+1 ,Dungeon.levelHeight[level+1], Dungeon.levelWidth[level+1], Dungeon.mapInfo);
+                GameLevel game = new GameLevel(level+1 ,Dungeon.levelHeight[level+1], Dungeon.levelWidth[level+1], Dungeon.levelStrength[level+1], Dungeon.mapInfo);
                 Dungeon.stage.setScene(game.scene);
                 labelTimer.stop();
             }
         }
     };
 
-    public GameLevel(int level, int h, int w, int[][][] m) {
+    public GameLevel(int level, int h, int w, int strength, int[][][] m) {
 
         this.level = level;
         height = h;
         width = w;
         numberMap = m;
+        this.strength = strength;
 
         scene = new Scene(root, 1152, 648, Color.BLACK);
 
@@ -113,7 +115,6 @@ public class GameLevel {
                     if(!boxIsPushed) {
                         potato.moveX(dx);
                         potato.moveY(dy);
-                        System.out.println(potato.Y+" "+potato.X);
                     }
                     else {
                         // push the box to north
@@ -121,7 +122,6 @@ public class GameLevel {
 
                             potato.moveX(dx);
                             potato.moveY(dy);
-                        System.out.println(potato.Y+" "+potato.X);
 
                             if(map[potato.Y][potato.X].box.deltaDistance == 64) {
                                 map[potato.Y-1][potato.X].box = map[potato.Y][potato.X].box;
@@ -131,6 +131,7 @@ public class GameLevel {
                                 map[potato.Y][potato.X].setBlocked(false);
                                 map[potato.Y-1][potato.X].setBlocked(true);
 
+                                strengthDecrease(2);
                                 return;
                             }
                         }
@@ -143,7 +144,6 @@ public class GameLevel {
 
                             potato.moveX(dx);
                             potato.moveY(dy);
-                        System.out.println(potato.Y+" "+potato.X);
 
                             if(map[potato.Y][potato.X].box.deltaDistance == 64) {
                                 map[potato.Y+1][potato.X].box = map[potato.Y][potato.X].box;
@@ -153,6 +153,7 @@ public class GameLevel {
                                 map[potato.Y][potato.X].setBlocked(false);
                                 map[potato.Y+1][potato.X].setBlocked(true);
 
+                                strengthDecrease(2);
                                 return;
                             }
                         }
@@ -165,7 +166,6 @@ public class GameLevel {
 
                             potato.moveX(dx);
                             potato.moveY(dy);
-                        System.out.println(potato.Y+" "+potato.X);
 
                             if(map[potato.Y][potato.X].box.deltaDistance == 64) {
                                 map[potato.Y][potato.X-1].box = map[potato.Y][potato.X].box;
@@ -175,6 +175,7 @@ public class GameLevel {
                                 map[potato.Y][potato.X].setBlocked(false);
                                 map[potato.Y][potato.X-1].setBlocked(true);
 
+                                strengthDecrease(2);
                                 return;
                             }
                         }
@@ -187,7 +188,6 @@ public class GameLevel {
 
                             potato.moveX(dx);
                             potato.moveY(dy);
-                        System.out.println(potato.Y+" "+potato.X);
 
                             if(map[potato.Y][potato.X].box.deltaDistance == 64) {
                                 map[potato.Y][potato.X+1].box = map[potato.Y][potato.X].box;
@@ -197,6 +197,7 @@ public class GameLevel {
                                 map[potato.Y][potato.X].setBlocked(false);
                                 map[potato.Y][potato.X+1].setBlocked(true);
 
+                                strengthDecrease(2);
                                 return;
                             }
                         }
@@ -260,14 +261,14 @@ public class GameLevel {
             for(int j=0 ; j<width ; j++) {
                 map[i][j] = new Chunk();
 
-                if(numberMap[level][i][j] == 9) map[i][j].setImageView(Dungeon.coin);
+                if(numberMap[level][i][j] == 9) map[i][j].setImageView(Dungeon.reel);
                 else if(numberMap[level][i][j] == 8) map[i][j].setImageView(Dungeon.thronIn);
                 else if(numberMap[level][i][j] == 7) map[i][j].setImageView(Dungeon.thronOut);
                 else map[i][j].setImageView(Dungeon.mapImage[numberMap[level][i][j]]);
 
                 map[i][j].imageView.setFitWidth(64);
                 map[i][j].imageView.setFitHeight(64);
-                map[i][j].imageView.setY(132+64*i);
+                map[i][j].imageView.setY(68+64*i);
                 map[i][j].imageView.setX(320+64*j);
 
                 root.getChildren().add(map[i][j].imageView);
@@ -310,7 +311,7 @@ public class GameLevel {
         potato = new Character(new ImageView(Dungeon.zeldaSpriteImage));
         potato.animation.play();
         potato.setLayoutX(320 + 64*startPointX);
-        potato.setLayoutY(124 + 64*startPointY);
+        potato.setLayoutY(60 + 64*startPointY);
         potato.setChunk(startPointY, startPointX);
         root.getChildren().add(potato);        
     }
@@ -342,6 +343,11 @@ public class GameLevel {
                 if(isKeyPressed == false) {
                     KeyCode in = e.getCode();
 
+                    if(in == KeyCode.R) {
+                        GameLevel game = new GameLevel(level ,Dungeon.levelHeight[level], Dungeon.levelWidth[level], Dungeon.levelStrength[level], Dungeon.mapInfo);
+                        Dungeon.stage.setScene(game.scene);
+                    }
+
                     if(in == KeyCode.W) {
 
                         boxIsPushed = false;
@@ -356,6 +362,7 @@ public class GameLevel {
                             map[potato.Y-1][potato.X].box.deltaDistance = 0;
                         }
 
+                        if(!boxIsPushed) strengthDecrease(1);
                         isKeyPressed = true;
                         north = true;
                         potato.Y--;
@@ -378,6 +385,7 @@ public class GameLevel {
                             map[potato.Y+1][potato.X].box.deltaDistance = 0;
                         }
 
+                        if(!boxIsPushed) strengthDecrease(1);
                         isKeyPressed = true;
                         south = true;
                         potato.Y++;
@@ -401,6 +409,7 @@ public class GameLevel {
                             map[potato.Y][potato.X-1].box.deltaDistance = 0;
                         }
 
+                        if(!boxIsPushed) strengthDecrease(1);
                         isKeyPressed = true;
                         west = true;
                         potato.X--;
@@ -423,6 +432,7 @@ public class GameLevel {
                             map[potato.Y][potato.X+1].box.deltaDistance = 0;
                         }
 
+                        if(!boxIsPushed) strengthDecrease(1);
                         isKeyPressed = true;
                         east = true;
                         potato.X++;
@@ -452,5 +462,10 @@ public class GameLevel {
 
     public void setEnd(int y, int x) {
         map[y][x].isEnd = true;
+    }
+
+    private void strengthDecrease(int n) {
+        strength -= n;
+        System.out.println(strength+" 林昱崴是大便");
     }
 }

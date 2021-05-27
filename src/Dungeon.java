@@ -30,7 +30,11 @@ public class Dungeon extends Application
     public static Image zeldaSpriteImage;
     public static Image levelComplete;
     public static Image button;
-    public static Image box;
+    public static Image box1;
+    public static Image box2;
+    public static Image box3;
+    public static Image box4;
+    public static Image reel;
     public static Image[] mapImage;
 
     // Images (.gif)
@@ -45,6 +49,7 @@ public class Dungeon extends Application
     public static int[][][] mapInfo;
     public static int[] levelWidth;
     public static int[] levelHeight;
+    public static int[] levelStrength;
 
     // Level's information (Completed or not)
     public static int levelStatus[] = new int[]{ 
@@ -85,7 +90,11 @@ public class Dungeon extends Application
         zeldaImage= new Image("Images\\zeldaImage.jpg");
         backgroundImage = new Image("Images\\game.jpg");
         zeldaSpriteImage = new Image("Images\\zeldaSprite.png");
-        box = new Image("Images\\box.png");
+        box1 = new Image("Images\\box1.png");
+        box2 = new Image("Images\\box2.png");
+        box3 = new Image("Images\\box3.png");
+        box4 = new Image("Images\\box4.png");
+        reel = new Image("Images\\reel.png");
 
         coin = new Image(this.getClass().getResource("Images\\coin.gif").toExternalForm());
         thronIn = new Image(this.getClass().getResource("Images\\thronIn.gif").toExternalForm());
@@ -115,10 +124,12 @@ public class Dungeon extends Application
         mapInfo = new int[25][15][15];
         levelWidth = new int[25];
         levelHeight = new int[25];
+        levelStrength = new int[25];
 
         int level = 0;
         int width = 0;
         int height = 0;
+        int strength = 0;
 
         boolean start = false;
         boolean canReadInfo = false;
@@ -138,9 +149,11 @@ public class Dungeon extends Application
                 level = Integer.parseInt(tmp[0]);
                 height =  Integer.parseInt(tmp[1]);
                 width = Integer.parseInt(tmp[2]);
+                strength = Integer.parseInt(tmp[3]);
 
                 levelHeight[level] = height;
                 levelWidth[level] = width;               
+                levelStrength[level] = strength;
 
                 canReadInfo = true;
                 continue;

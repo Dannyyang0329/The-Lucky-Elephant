@@ -10,7 +10,7 @@
             "request": "launch",
             "mainClass": "Dungeon",
             "vmArgs": "--module-path D:\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls,javafx.fxml,javafx.media",
-            "projectName": "Dungeon_2c63293c"
+            "projectName": "new_f3024b65"
         }
     ]
 }

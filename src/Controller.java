@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -9,6 +10,7 @@ import javafx.stage.Stage;
 
 public class Controller 
 {
+
     public void newGame(ActionEvent e) throws Exception {
         Dungeon.writeLevelInfo(true);
         Dungeon.readLevelInfo();

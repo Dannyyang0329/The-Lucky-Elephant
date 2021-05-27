@@ -34,22 +34,22 @@ public class LevelController {
 
     public void button1(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game1 = new GameLevel(1,6,8, Dungeon.mapInfo);
+        GameLevel game1 = new GameLevel(1,8,8,14, Dungeon.mapInfo);
         stage.setScene(game1.scene);
     }
     public void button2(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game2 = new GameLevel(2,6,8, Dungeon.mapInfo);
+        GameLevel game2 = new GameLevel(2,8,8,13, Dungeon.mapInfo);
         stage.setScene(game2.scene);
     }
     public void button3(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game3 = new GameLevel(3,6,8, Dungeon.mapInfo);
+        GameLevel game3 = new GameLevel(3,8,8,13, Dungeon.mapInfo);
         stage.setScene(game3.scene);
     }
     public void button4(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game4 = new GameLevel(4,6,8, Dungeon.mapInfo);
+        GameLevel game4 = new GameLevel(4,8,8,12, Dungeon.mapInfo);
         stage.setScene(game4.scene);
     }
 
