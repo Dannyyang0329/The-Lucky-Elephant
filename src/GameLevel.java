@@ -3,6 +3,7 @@ import java.io.IOException;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -12,7 +13,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 public class GameLevel {
@@ -20,8 +24,10 @@ public class GameLevel {
     private Group root = new Group();
     public Scene scene;
 
-    private Label completeLabel, failLabel;
+    private Label completeLabel, failLabel, stepLabel1, stepLabel2, levelLabel, spotLabel1, spotLabel2, skip;
     private Button backButton;
+    private ImageView spot;
+    private ImageView blackView;
 
     Character potato;
     Chunk[][] map;
@@ -34,15 +40,23 @@ public class GameLevel {
     private int startPointX=0, startPointY=0;
     private boolean isNewGame = false;
     private boolean isKeyPressed = false;
+    private boolean hasSpecialItem;
+    private boolean isSkipped = false;
     private static boolean north, south, west, east;
 
     private int[][][] numberMap; 
 
 
     private long previousTime = 0;
+    private long tmpTime = 0;
+    private long textTime = 0;
 
     private AnimationTimer gameLoop;
     private AnimationTimer labelTimer;
+    private AnimationTimer fadeInTimer;
+    private AnimationTimer fadeOutTimer;
+    private AnimationTimer textTimer;
+
     private AnimationTimer pauseTimer = new AnimationTimer() {
 
         @Override
@@ -67,38 +81,57 @@ public class GameLevel {
         this.width = width;
         this.numberMap = m;
         this.strength = streng;
+        hasSpecialItem = Elephant.levelSpecial[level];
 
         scene = new Scene(root, 1152, 648, Color.BLACK);
+        scene.getStylesheets().add(this.getClass().getResource("font.css").toExternalForm());
+
+        addKeyPressListener();
 
         setBackButton();
         transformMap();
         setMapProperties();
         setCharacter();
         setEndGameLabel();
+        setLabel();
+
+        setSpotImageView();
         
-        addKeyPressListener();
 
         // game loop setting
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
 
-                System.out.println(strength);
                 // potato walk or wink
                 potatoWalk();
-
-                // if potato is on the end point -> switch to next level
-                if(map[potato.Y][potato.X].isEnd && isNewGame==false) {
-                    isNewGame = true;
-                    completeLabel.setVisible(true);
-                    showLabel(true);
-                }
 
                 // if potato's strength is zero -> restart
                 if(strength < 0 && isNewGame==false) {
                     isNewGame = true;
                     failLabel.setVisible(true);
                     showLabel(false);
+                }
+
+                // if potato is on the end point -> switch to next level
+                if(map[potato.Y][potato.X].isEnd && hasSpecialItem && isNewGame==false) {
+                    isNewGame = true;
+                    completeLabel.setVisible(true);
+                    showLabel(true);
+
+                    if(level <= 36) Elephant.levelStatus[level+1] = 1;
+                    try {
+                        Elephant.writeLevelInfo(false);
+                        Elephant.readLevelInfo();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // if potato gets the special item
+                if(numberMap[level][potato.Y][potato.X]==5 && hasSpecialItem==false) {
+                    hasSpecialItem = true;
+                    map[potato.Y][potato.X].imageView.setImage(Elephant.mapImage[0]);
                 }
             }
         };
@@ -110,7 +143,7 @@ public class GameLevel {
 
     private void setBackButton() {
         // set back button
-        ImageView backArrow = new ImageView(Dungeon.back);
+        ImageView backArrow = new ImageView(Elephant.back);
         backArrow.setPreserveRatio(true);
         backArrow.setLayoutX(24);
         backArrow.setLayoutY(24);
@@ -127,12 +160,12 @@ public class GameLevel {
             gameLoop.stop();
 
             try {
-                Dungeon.readLevelInfo();
+                Elephant.readLevelInfo();
             } catch (Exception e) {
                 System.out.println("Loading LevelInfo failed.");
             }
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("level.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("episode.fxml"));
             Stage backStage = (Stage)((Node)event.getSource()).getScene().getWindow();
             Parent backRoot = null;
             try {
@@ -142,7 +175,7 @@ public class GameLevel {
             }
             backStage.setScene(new Scene(backRoot));
 
-            LevelController controller = loader.getController();
+            EpisodeController controller = loader.getController();
             controller.settingLock();
         });
         root.getChildren().add(backButton);
@@ -157,15 +190,13 @@ public class GameLevel {
             for(int j=0 ; j<width ; j++) {
                 map[i][j] = new Chunk();
 
-                if(numberMap[level][i][j] == 9) map[i][j].setImageView(Dungeon.reel);
-                else if(numberMap[level][i][j] == 8) map[i][j].setImageView(Dungeon.thronIn);
-                else if(numberMap[level][i][j] == 7) map[i][j].setImageView(Dungeon.thronOut);
-                else map[i][j].setImageView(Dungeon.mapImage[numberMap[level][i][j]]);
+                // if(numberMap[level][i][j] == 9) map[i][j].setImageView(Elephant.reel);
+                map[i][j].setImageView(Elephant.mapImage[numberMap[level][i][j]]);
 
                 map[i][j].imageView.setFitWidth(64);
                 map[i][j].imageView.setFitHeight(64);
-                map[i][j].imageView.setY(68+64*i);
-                map[i][j].imageView.setX(320+64*j);
+                map[i][j].imageView.setY((648-height*64)/2 + 64*i);
+                map[i][j].imageView.setX((1152-width*64)/2 + 64*j);
 
                 root.getChildren().add(map[i][j].imageView);
             }
@@ -177,17 +208,21 @@ public class GameLevel {
         for(int i=0 ; i<height ; i++) {
             for(int j=0 ; j<width ; j++) {
 
-                if(numberMap[level][i][j]==1 || numberMap[level][i][j]==2 || numberMap[level][i][j]==3 || numberMap[level][i][j]==5 ||
-                   numberMap[level][i][j]==7) 
-                {
+                // wall
+                if(numberMap[level][i][j]==1 || numberMap[level][i][j]==2 || numberMap[level][i][j]==3 || numberMap[level][i][j]==7) {
                     map[i][j].setBlocked(true);
                 }
 
-                //box
+                // box
                 if(numberMap[level][i][j] == 4) {
                     map[i][j].setBlocked(true);
                     map[i][j].makeBox(i, j);
                     root.getChildren().add(map[i][j].box.boxView);
+                }
+
+                // special item
+                if(numberMap[level][i][j] == 5) {
+                    map[i][j].setSpecial(true);
                 }
 
                 if(numberMap[level][i][j] == 9) {
@@ -204,7 +239,16 @@ public class GameLevel {
     }
 
     private void setCharacter() {
-        potato = new Character(new ImageView(Dungeon.zeldaSpriteImage));
+        switch(Elephant.levelCharacter[level]) {
+            case 1: potato = new Character(new ImageView(Elephant.salman)); break;
+            case 2: potato = new Character(new ImageView(Elephant.gura)); break;
+            case 3: potato = new Character(new ImageView(Elephant.stacy)); break;
+            case 4: potato = new Character(new ImageView(Elephant.teacher)); break;
+            case 5: potato = new Character(new ImageView(Elephant.worker)); break;
+            case 6: potato = new Character(new ImageView(Elephant.dreamedGura)); break;
+            case 7: potato = new Character(new ImageView(Elephant.dreamedTeacher)); break;
+        }
+
         potato.animation.play();
         potato.setLayoutX(320 + 64*startPointX);
         potato.setLayoutY(60 + 64*startPointY);
@@ -217,7 +261,7 @@ public class GameLevel {
         completeLabel.setPrefSize(550, 280);
         completeLabel.setLayoutX(301);
         completeLabel.setLayoutY(184);
-        completeLabel.setStyle("-fx-background-image:url(\"Images/levelComplete.png\")");
+        completeLabel.setStyle("-fx-background-image:url(\"resources/Images/levelComplete.png\")");
         completeLabel.setVisible(false);
         root.getChildren().add(completeLabel);
 
@@ -225,9 +269,120 @@ public class GameLevel {
         failLabel.setPrefSize(550, 280);
         failLabel.setLayoutX(301);
         failLabel.setLayoutY(184);
-        failLabel.setStyle("-fx-background-image:url(\"Images/levelFail.png\")");
+        failLabel.setStyle("-fx-background-image:url(\"resources/Images/levelFail.png\")");
         failLabel.setVisible(false);
         root.getChildren().add(failLabel);
+    }
+
+    private void setLabel() {
+        stepLabel1 = new Label();
+        stepLabel1.setText("             "+Integer.toString(strength));
+        stepLabel1.setAlignment(Pos.CENTER);
+        stepLabel1.setPrefSize(230, 80);
+        stepLabel1.setLayoutX(902);
+        stepLabel1.setLayoutY(548);
+        stepLabel1.setTextFill(Color.web("#1c5776"));
+        stepLabel1.setFont(new Font("Rockwell", 36));
+        stepLabel1.setStyle("-fx-background-color : #fbaa88;" + "-fx-background-radius:40;");
+        root.getChildren().add(stepLabel1);
+
+        stepLabel2 = new Label();
+        stepLabel2.setText("STEPS");
+        stepLabel2.setAlignment(Pos.CENTER);
+        stepLabel2.setPrefSize(120, 60);
+        stepLabel2.setLayoutX(925);
+        stepLabel2.setLayoutY(558);
+        stepLabel2.setTextFill(Color.web("#FBAA88"));
+        stepLabel2.setFont(new Font("Rockwell", 36));
+        stepLabel2.setStyle("-fx-background-color : #e9ddb6;" + "-fx-background-radius:30;");
+        root.getChildren().add(stepLabel2);
+
+        levelLabel = new Label();
+        levelLabel.setText("LEVEL "+level);
+        levelLabel.setAlignment(Pos.CENTER);
+        levelLabel.setPrefSize(220, 80);
+        levelLabel.setLayoutX(50);
+        levelLabel.setLayoutY(284);
+        levelLabel.setTextFill(Color.web("#003128"));
+        levelLabel.setFont(new Font("Rockwell", 42));
+        levelLabel.setStyle("-fx-background-color : #b6545e;" + "-fx-background-radius:30;");
+        root.getChildren().add(levelLabel);
+    }
+
+    private void setSpotImageView() {
+        
+        spot = new ImageView(Elephant.diary);
+        spot.setLayoutX(0);
+        spot.setLayoutX(0);
+        spot.setVisible(false);
+        root.getChildren().add(spot);
+
+        String tmpText1="", tmpText2="";
+        if(LevelText.text[level].length() > 125) {
+            tmpText1 = LevelText.text[level].substring(0, 125);
+            tmpText2 = LevelText.text[level].substring(125);
+        }
+        else tmpText1 = LevelText.text[level];
+
+        final String text1 = tmpText1;
+        final String text2 = tmpText2;
+
+        spotLabel1 = new Label();
+        spotLabel1.setId("spotLabel");
+        spotLabel1.setText("");
+        spotLabel1.setWrapText(true);
+        spotLabel1.setTextAlignment(TextAlignment.JUSTIFY);
+        spotLabel1.setMaxWidth(260);
+        spotLabel1.setRotate(-6);
+        spotLabel1.setLayoutX(280);
+        spotLabel1.setLayoutY(120);
+        spotLabel1.setVisible(false);
+        root.getChildren().add(spotLabel1);
+
+
+        spotLabel2 = new Label();
+        spotLabel2.setId("spotLabel");
+        spotLabel2.setText("");
+        spotLabel2.setWrapText(true);
+        spotLabel2.setTextAlignment(TextAlignment.JUSTIFY);
+        spotLabel2.setMaxWidth(260);
+        spotLabel2.setRotate(-6);
+        spotLabel2.setLayoutX(550);
+        spotLabel2.setLayoutY(95);
+        spotLabel2.setVisible(false);
+        root.getChildren().add(spotLabel2);
+
+        skip = new Label();
+        skip.setId("spotLabel");
+        skip.setText("Click anywhere to skip...");
+        skip.setLayoutX(620);
+        skip.setLayoutY(430);
+        skip.setRotate(-6);
+        skip.setVisible(false);
+        root.getChildren().add(skip);
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            @Override
+            public void handle(MouseEvent e) {
+                if(isSkipped == false) {
+                    textTimer.stop();
+                    isSkipped = true;
+
+                    spotLabel1.setText(text1);
+                    spotLabel2.setText(text2);
+
+                    return;
+                }
+                if(spot.isVisible() && isSkipped) {
+                    spot.setVisible(false);
+                    spotLabel1.setVisible(false);
+                    spotLabel2.setVisible(false);
+                    skip.setVisible(false);
+                    GameLevel game = new GameLevel(level+1 ,Elephant.levelHeight[level+1], Elephant.levelWidth[level+1], Elephant.levelStrength[level+1], Elephant.mapInfo);
+                    Elephant.stage.setScene(game.scene);
+                };
+            }
+        });
     }
 
     private void addKeyPressListener() {
@@ -241,8 +396,9 @@ public class GameLevel {
 
                     if(in == KeyCode.R) {
                         gameLoop.stop();
-                        GameLevel game = new GameLevel(level ,Dungeon.levelHeight[level], Dungeon.levelWidth[level], Dungeon.levelStrength[level], Dungeon.mapInfo);
-                        Dungeon.stage.setScene(game.scene);
+                        GameLevel game = new GameLevel(level ,Elephant.levelHeight[level], Elephant.levelWidth[level], Elephant.levelStrength[level], Elephant.mapInfo);
+                        game.spot.setVisible(false);
+                        Elephant.stage.setScene(game.scene);
                     }
 
                     if(in == KeyCode.W) {
@@ -338,21 +494,46 @@ public class GameLevel {
     }
 
 
-    // private void openNewGame() throws Exception {
-    //     if(isNewGame == false) {
-    //         isNewGame = true;
-
-    //         Dungeon.levelStatus[level] = 1;
-    //         Dungeon.writeLevelInfo(false);
-    //         Dungeon.readLevelInfo();
-
-    //         completeLabel.setVisible(true);
-
-    //         labelTimer.start();
-    //     }
-    // }
 
     private void showLabel(boolean newGame) {
+
+        blackView = new ImageView(Elephant.blackImage);
+        blackView.setLayoutX(0);
+        blackView.setLayoutY(0);
+        blackView.setOpacity(0);
+        root.getChildren().add(blackView);
+
+        fadeInTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if(tmpTime == 0) tmpTime = now;
+                if(now - tmpTime <= 1.0e9) {
+                    blackView.setOpacity((now-tmpTime)/1.0e9);
+                }
+                else {
+                    tmpTime = 0;
+                    fadeOutTimer.start();
+                    fadeInTimer.stop();
+                }
+            }
+        };
+
+        fadeOutTimer = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                if(tmpTime == 0) {
+                    showText();
+                    tmpTime = now; 
+                }
+
+                if(now - tmpTime <= 1.0e9) {
+                    blackView.setOpacity(1-(now-tmpTime)/1.0e9);
+                }
+                else fadeOutTimer.stop();
+            }
+            
+        };
 
         labelTimer = new AnimationTimer() {
 
@@ -361,18 +542,17 @@ public class GameLevel {
                 isKeyPressed = true;
 
                 if(previousTime == 0) previousTime=now;
-                if(now-previousTime >= 2.0e9) {
+                if(now-previousTime >= 1.5e9) {
                     if(newGame == true) {
-                        completeLabel.setVisible(false);
-                        GameLevel game = new GameLevel(level+1 ,Dungeon.levelHeight[level+1], Dungeon.levelWidth[level+1], Dungeon.levelStrength[level+1], Dungeon.mapInfo);
-                        Dungeon.stage.setScene(game.scene);
+                        fadeInTimer.start();
                         labelTimer.stop();
                         gameLoop.stop();
                     }
                     else {
                         failLabel.setVisible(false);
-                        GameLevel game = new GameLevel(level ,Dungeon.levelHeight[level], Dungeon.levelWidth[level], Dungeon.levelStrength[level], Dungeon.mapInfo);
-                        Dungeon.stage.setScene(game.scene);
+                        GameLevel game = new GameLevel(level ,Elephant.levelHeight[level], Elephant.levelWidth[level], Elephant.levelStrength[level], Elephant.mapInfo);
+                        game.spot.setVisible(false);
+                        Elephant.stage.setScene(game.scene);
                         labelTimer.stop();
                         gameLoop.stop();
                     }
@@ -388,6 +568,8 @@ public class GameLevel {
 
     private void strengthDecrease(int n) {
         strength -= n;
+        if(strength >= 0) 
+            stepLabel1.setText("             "+Integer.toString(strength));
     }
 
     private void potatoWalk() {
@@ -406,5 +588,42 @@ public class GameLevel {
             potato.moveX(dx);
             potato.moveY(dy);
         }
+    }
+
+    private void showText(){
+
+        spot.setVisible(true);
+        spotLabel1.setVisible(true);
+        spotLabel2.setVisible(true);
+        skip.setVisible(true);
+
+        textTimer = new AnimationTimer(){
+            int tmp = 1;
+            int cnt = 1;
+
+            @Override
+            public void handle(long now) {
+                if((tmp++)%4 != 0) return;
+
+                if(textTime == 0) textTime = now; 
+                if(now - textTime <= 8.3e9) {
+                    if(cnt > LevelText.text[level].length()) textTimer.stop();
+                    else if(cnt <= 125) 
+                        spotLabel1.setText(LevelText.text[level].substring(0, cnt++));                        
+                }
+                else {
+                    if(cnt > LevelText.text[level].length()) {
+                        isSkipped = true;
+                        textTimer.stop();
+                    }
+
+                    else {
+                        spotLabel2.setText(LevelText.text[level].substring(125, cnt++));                        
+                    }
+                }
+            }
+        };
+
+        textTimer.start();
     }
 }

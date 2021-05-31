@@ -1,4 +1,3 @@
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -6,12 +5,12 @@ import javafx.util.Duration;
 
 public class Character extends Pane {
     ImageView imageView;
-    int count = 9;
-    int column = 9;
+    int count = 3;
+    int column = 3;
     int offsetX = 0;
-    int offsetY = 416;
+    int offsetY = 0;
     int width = 64;
-    int height = 69;
+    int height = 64;
 
     final int DISTANCE = 64;
     double deltaDistance = 0;
@@ -24,7 +23,7 @@ public class Character extends Pane {
     public Character(ImageView imageView) {
         this.imageView = imageView;
         this.imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
-        animation = new SpriteAnimation(imageView, Duration.millis(600), count, column, offsetX, offsetY, width, height);
+        animation = new SpriteAnimation(imageView, Duration.millis(500), count, column, offsetX, offsetY, width, height);
         getChildren().addAll(imageView);
     }
 
@@ -36,8 +35,9 @@ public class Character extends Pane {
             // going east
             if(isGoingRight) {
                 direction = 'D';
-                this.animation.setCount(9);
-                this.animation.setOffsetY(485);
+                this.animation.setCount(3);
+                this.animation.setOffsetX(0);
+                this.animation.setOffsetY(128);
                 this.setTranslateX(this.getTranslateX() + 4);
                 deltaDistance += 4;
             }
@@ -45,8 +45,9 @@ public class Character extends Pane {
             // going west
             else{
                 direction = 'A';
-                this.animation.setCount(9);
-                this.animation.setOffsetY(346);
+                this.animation.setCount(3);
+                this.animation.setOffsetX(0);
+                this.animation.setOffsetY(64);
                 this.setTranslateX(this.getTranslateX() - 4);
                 deltaDistance += 4;
             }
@@ -61,8 +62,9 @@ public class Character extends Pane {
             if(isGoingDown) 
             {
                 direction = 'S';
-                this.animation.setCount(9);
-                this.animation.setOffsetY(277);
+                this.animation.setCount(3);
+                this.animation.setOffsetX(0);
+                this.animation.setOffsetY(0);
                 this.setTranslateY(this.getTranslateY() + 4);
                 deltaDistance += 4;
             }
@@ -71,8 +73,9 @@ public class Character extends Pane {
             else
             {
                 direction = 'W';
-                this.animation.setCount(9);
-                this.animation.setOffsetY(416); 
+                this.animation.setCount(3);
+                this.animation.setOffsetX(0);
+                this.animation.setOffsetY(192); 
                 this.setTranslateY(this.getTranslateY() - 4);
                 deltaDistance += 4;
             }
@@ -82,19 +85,23 @@ public class Character extends Pane {
     public void wink() {
         if(direction == 'W') {
             this.animation.setCount(1);
-            this.animation.setOffsetY(138);
+            this.animation.setOffsetX(64);
+            this.animation.setOffsetY(192);
         }
         else if(direction == 'A') {
-            this.animation.setCount(2);
-            this.animation.setOffsetY(69);
+            this.animation.setCount(1);
+            this.animation.setOffsetX(64);
+            this.animation.setOffsetY(64);
         }
         else if(direction == 'S') {
-            this.animation.setCount(2);
+            this.animation.setCount(1);
+            this.animation.setOffsetX(64);
             this.animation.setOffsetY(0);
         }
         else if(direction == 'D') {
-            this.animation.setCount(2);
-            this.animation.setOffsetY(208);
+            this.animation.setCount(1);
+            this.animation.setOffsetX(64);
+            this.animation.setOffsetY(128);
         }
     }
 

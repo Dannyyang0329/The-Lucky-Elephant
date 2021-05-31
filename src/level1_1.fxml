@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Level1_1Controller">
+   <children>
+      <ImageView fitHeight="648.0" fitWidth="1152.0" pickOnBounds="true">
+         <image>
+            <Image url="@resources/Images/levelBackgroundImage.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="391.0" layoutY="35.0" text="Select  Level" textFill="#321f1f">
+         <font>
+            <Font name="Rockwell Bold" size="60.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="55.0" fitWidth="80.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/Images/backArrowImage.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="1018.0" layoutY="305.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/Images/rightArrowImage.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="1018.0" layoutY="305.0" mnemonicParsing="false" onAction="#nextPage" opacity="0.0" prefHeight="120.0" prefWidth="120.0" />
+      <Button layoutX="24.0" layoutY="24.0" mnemonicParsing="false" onAction="#back" opacity="0.0" prefHeight="55.0" prefWidth="80.0" />
+      <Label alignment="CENTER" layoutX="151.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="1">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="151.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="6">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="326.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="2">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="326.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="501.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="3">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="501.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="8">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="676.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="4">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="676.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="9">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="851.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="5">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="851.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: DarkTurquoise; -fx-background-radius: 15;" text="10">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Button layoutX="151.0" layoutY="180.0" mnemonicParsing="false" onAction="#button1" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="326.0" layoutY="180.0" mnemonicParsing="false" onAction="#button2" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="501.0" layoutY="180.0" mnemonicParsing="false" onAction="#button3" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="676.0" layoutY="180.0" mnemonicParsing="false" onAction="#button4" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="851.0" layoutY="180.0" mnemonicParsing="false" onAction="#button5" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="151.0" layoutY="380.0" mnemonicParsing="false" onAction="#button6" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="326.0" layoutY="380.0" mnemonicParsing="false" onAction="#button7" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="501.0" layoutY="380.0" mnemonicParsing="false" onAction="#button8" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="676.0" layoutY="380.0" mnemonicParsing="false" onAction="#button9" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Button layoutX="851.0" layoutY="380.0" mnemonicParsing="false" onAction="#button10" opacity="0.0" prefHeight="150.0" prefWidth="150.0" />
+      <Label fx:id="red1" alignment="CENTER" layoutX="151.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="1" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red6" alignment="CENTER" layoutX="151.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="6" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red2" alignment="CENTER" layoutX="326.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="2" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red7" alignment="CENTER" layoutX="326.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="7" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red3" alignment="CENTER" layoutX="501.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="3" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red8" alignment="CENTER" layoutX="501.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="8" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red4" alignment="CENTER" layoutX="676.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="4" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red9" alignment="CENTER" layoutX="676.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="9" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red5" alignment="CENTER" layoutX="851.0" layoutY="180.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="5" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+      <Label fx:id="red10" alignment="CENTER" layoutX="851.0" layoutY="380.0" prefHeight="150.0" prefWidth="150.0" style="-fx-background-color: RED; -fx-background-radius: 15;" text="10" textFill="#ffe7e7">
+         <font>
+            <Font name="Rockwell" size="64.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

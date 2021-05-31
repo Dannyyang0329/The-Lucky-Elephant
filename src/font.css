@@ -1,0 +1,10 @@
+@font-face {
+    src: url("/resources/Font/SentyPea.ttf");
+}
+
+#spotLabel { 
+    -fx-font-smoothing-type: lcd;
+    -fx-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-family: "SentyPea"
+}

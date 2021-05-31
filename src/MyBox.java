@@ -22,10 +22,10 @@ public class MyBox extends Pane {
         translate = new TranslateTransition();
 
         int num = (int)(Math.random()*4)+1;
-        if(num == 1) boxView.setImage(Dungeon.box1);
-        if(num == 2) boxView.setImage(Dungeon.box2);
-        if(num == 3) boxView.setImage(Dungeon.box3);
-        if(num == 4) boxView.setImage(Dungeon.box4);
+        if(num == 1) boxView.setImage(Elephant.box1);
+        if(num == 2) boxView.setImage(Elephant.box2);
+        if(num == 3) boxView.setImage(Elephant.box3);
+        if(num == 4) boxView.setImage(Elephant.box4);
         boxView.setLayoutX(384+(x-1)*64);
         boxView.setLayoutY(132+(y-1)*64);
 
@@ -35,7 +35,7 @@ public class MyBox extends Pane {
 
 
     public boolean moveNorth(Chunk[][] map) {
-        if(!map[Y-1][X].isBlocked && !map[Y-1][X].isEnd) {
+        if(!map[Y-1][X].isBlocked && !map[Y-1][X].isEnd && !map[Y-1][X].isSpecial) {
             translate.setByX(0);
             translate.setByY(-64);
             translate.play();
@@ -53,7 +53,7 @@ public class MyBox extends Pane {
     }
 
     public boolean moveSouth(Chunk[][] map) {
-        if(!map[Y+1][X].isBlocked && !map[Y+1][X].isEnd) {
+        if(!map[Y+1][X].isBlocked && !map[Y+1][X].isEnd && !map[Y+1][X].isSpecial) {
             translate.setByX(0);
             translate.setByY(64);
             translate.play();
@@ -71,7 +71,7 @@ public class MyBox extends Pane {
     }
 
     public boolean moveWest(Chunk[][] map) {
-        if(!map[Y][X-1].isBlocked && !map[Y][X-1].isEnd) {
+        if(!map[Y][X-1].isBlocked && !map[Y][X-1].isEnd && !map[Y][X-1].isSpecial) {
             translate.setByX(-64);
             translate.setByY(0);
             translate.play();
@@ -89,7 +89,7 @@ public class MyBox extends Pane {
     }
 
     public boolean moveEast(Chunk[][] map) {
-        if(!map[Y][X+1].isBlocked && !map[Y][X+1].isEnd) {
+        if(!map[Y][X+1].isBlocked && !map[Y][X+1].isEnd && !map[Y][X+1].isSpecial) {
             translate.setByX(64);
             translate.setByY(0);
             translate.play();

@@ -6,9 +6,16 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Dungeon",
+            "name": "Launch FontList",
             "request": "launch",
-            "mainClass": "Dungeon",
+            "mainClass": "FontList",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "Launch Elephant",
+            "request": "launch",
+            "mainClass": "Elephant",
             "vmArgs": "--module-path D:\\javafx-sdk-11.0.2\\lib --add-modules javafx.controls,javafx.fxml,javafx.media",
             "projectName": "new_f3024b65"
         }

@@ -1,48 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="648.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="648.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BeginController">
    <children>
-      <ImageView fitHeight="648.0" fitWidth="1152.0" pickOnBounds="true">
+      <ImageView fitHeight="648.0" fitWidth="1152.0" opacity="0.8" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@Images/game.jpg" />
+            <Image url="@resources/Images/beginBackgroungImage.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="500.0" layoutX="326.0" layoutY="255.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/Images/textBackgroundImage_1.jpg" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="126.0" layoutY="20.0" prefHeight="200.0" prefWidth="900.0" text="Escape The Dugeon" textFill="#e44646">
+      <ImageView fitHeight="150.0" fitWidth="500.0" layoutX="326.0" layoutY="455.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/Images/textBackgroundImage_1.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="500.0" layoutX="326.0" layoutY="355.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/Images/textBackgroundImage_1.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="150.0" fitWidth="500.0" layoutX="326.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@resources/Images/textBackgroundImage_1.jpg" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="136.0" layoutY="60.0" prefHeight="150.0" prefWidth="880.0" text="The Lucky Elephant" textFill="#fed8b1">
          <font>
-            <Font name="Copperplate Gothic Bold" size="80.0" />
+            <Font name="Segoe Script Bold" size="78.0" />
+         </font>
+         <effect>
+            <Lighting diffuseConstant="0.0" specularConstant="1.35" specularExponent="13.0">
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant>
+                     <color>
+                        <Color red="0.9736841917037964" green="0.7905173897743225" blue="0.49585768580436707" />
+                     </color>
+                  </Light.Distant>
+               </light>
+            </Lighting>
+         </effect>
+      </Label>
+      <Button fx:id="newGameButton" layoutX="326.0" layoutY="255.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#newGame" opacity="0.75" prefHeight="60.0" prefWidth="500.0" text="New Game">
+         <font>
+            <Font name="Rockwell" size="32.0" />
+         </font>
+      </Button>
+      <Button fx:id="continueButton" layoutX="326.0" layoutY="354.0" mnemonicParsing="false" onAction="#continueGame" opacity="0.75" prefHeight="60.0" prefWidth="500.0" text="Continue">
+         <font>
+            <Font name="Rockwell" size="32.0" />
+         </font>
+      </Button>
+      <Button layoutX="326.0" layoutY="454.0" mnemonicParsing="false" opacity="0.75" prefHeight="60.0" prefWidth="500.0" text="Setting">
+         <font>
+            <Font name="Rockwell" size="32.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitButton" layoutX="326.0" layoutY="554.0" mnemonicParsing="false" onAction="#exit" opacity="0.75" prefHeight="60.0" prefWidth="500.0" text="Exit">
+         <font>
+            <Font name="Rockwell" size="32.0" />
+         </font>
+      </Button>
+      <Label layoutX="989.0" layoutY="603.0" text="Created by Potato">
+         <font>
+            <Font name="Agency FB" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="exitButton" layoutX="351.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #848482; -fx-background-radius: 30;" text="Exit">
-         <font>
-            <Font name="Imprint MT Shadow" size="26.0" />
-         </font></Button>
-      <Button fx:id="continueButton" layoutX="351.0" layoutY="344.0" mnemonicParsing="false" onAction="#continueGame" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #848482; -fx-background-radius: 30;" text="Continue">
-         <font>
-            <Font name="Imprint MT Shadow" size="26.0" />
-         </font></Button>
-      <Button fx:id="settingButton" layoutX="351.0" layoutY="444.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #848482; -fx-background-radius: 30;" text="Setting">
-         <font>
-            <Font name="Imprint MT Shadow" size="26.0" />
-         </font></Button>
-      <Button fx:id="newGameButton" layoutX="351.0" layoutY="244.0" mnemonicParsing="false" onAction="#newGame" prefHeight="60.0" prefWidth="450.0" style="-fx-background-color: #848482; -fx-background-radius: 30;" text="New Game">
-         <font>
-            <Font name="Imprint MT Shadow" size="26.0" />
-         </font></Button>
-      <Label layoutX="941.0" layoutY="612.0" text="Created  by potato" textFill="#975d5d">
-         <font>
-            <Font name="Castellar" size="16.0" />
-         </font>
-      </Label>
-      <Button layoutX="351.0" layoutY="244.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="450.0" visible="false" />
-      <Button layoutX="351.0" layoutY="344.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="450.0" visible="false" />
-      <Button layoutX="351.0" layoutY="444.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="450.0" visible="false" />
-      <Button layoutX="351.0" layoutY="544.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="450.0" visible="false" />
    </children>
 </AnchorPane>

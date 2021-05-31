@@ -11,6 +11,7 @@ public class Chunk extends Pane {
     boolean isDangered = false;
     boolean isEnd = false;
     boolean isStart = false;
+    boolean isSpecial = false;
 
 
     public void setImageView(Image image) {
@@ -35,6 +36,11 @@ public class Chunk extends Pane {
     public void setStart(boolean b) {
         if(b == true) isStart = true;
         else isStart = false;
+    }
+
+    public void setSpecial(boolean b) {
+        if(b == true) isSpecial = true;
+        else isSpecial = false;
     }
 
     public void makeBox(int y, int x) {
