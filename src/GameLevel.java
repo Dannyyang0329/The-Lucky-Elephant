@@ -111,7 +111,8 @@ public class GameLevel {
                 // potato walk or wink
                 potatoWalk();
 
-                if(map[potato.Y][potato.X].isDangered && isTrapped) {
+                if(map[potato.Y][potato.X].isDangered && !isTrapped) {
+                    isTrapped = true;
                     strengthDecrease(1);
                 }
 
@@ -491,7 +492,7 @@ public class GameLevel {
                             potato.Y--;
                             potato.deltaDistance = 0;
 
-
+                            if(!map[potato.Y][potato.X].isDangered) isTrapped = false;
                             pauseTimer.start();
                         }
 
@@ -531,6 +532,7 @@ public class GameLevel {
                             potato.Y++;
                             potato.deltaDistance = 0;
 
+                            if(!map[potato.Y][potato.X].isDangered) isTrapped = false;
                             pauseTimer.start();
                         }                            
                     }
@@ -568,6 +570,7 @@ public class GameLevel {
                             potato.X--;
                             potato.deltaDistance = 0;
 
+                            if(!map[potato.Y][potato.X].isDangered) isTrapped = false;
                             pauseTimer.start();
                         }
                     }
@@ -605,6 +608,7 @@ public class GameLevel {
                             potato.X++;
                             potato.deltaDistance = 0;
 
+                            if(!map[potato.Y][potato.X].isDangered) isTrapped = false;
                             pauseTimer.start();
                         }
                     }
