@@ -44,11 +44,12 @@ public class Elephant extends Application
     public static Image salman;
     public static Image stacy;
     public static Image blackImage;
+    public static Image thronInImage;
+    public static Image thronOutImage;
 
     public static Image[] mapImage;
 
     // Images (.gif)
-    public static Image coin;
     public static Image thronOut;
     public static Image thronIn;
 
@@ -111,8 +112,12 @@ public class Elephant extends Application
         salman = new Image("resources\\Images\\salman.png");
         stacy = new Image("resources\\Images\\stacy.png");
         blackImage = new Image("resources\\Images\\blackImage.jpg");
-
         diary = new Image("resources\\Images\\diary.jpg");
+        thronInImage = new Image("resources\\Images\\thronInImage.png");
+        thronOutImage = new Image("resources\\Images\\thronOutImage.png");
+
+        thronIn = new Image(getClass().getResource("resources\\Images\\thronIn.gif").toExternalForm());
+        thronOut = new Image(getClass().getResource("resources\\Images\\thronOut.gif").toExternalForm());
 
         mapImage = new Image[30];
 
@@ -135,12 +140,12 @@ public class Elephant extends Application
         FileReader fr = new FileReader("src\\resources\\Txt\\mapInfomation.txt");
         BufferedReader br = new BufferedReader(fr);
 
-        mapInfo = new int[25][20][20];
-        levelWidth = new int[36];
-        levelHeight = new int[36];
-        levelStrength = new int[36];
-        levelSpecial = new boolean[36];
-        levelCharacter = new int[36];
+        mapInfo = new int[37][20][20];
+        levelWidth = new int[37];
+        levelHeight = new int[37];
+        levelStrength = new int[37];
+        levelSpecial = new boolean[37];
+        levelCharacter = new int[37];
 
         int level = 0;
         int width = 0;
@@ -222,12 +227,23 @@ public class Elephant extends Application
         char[] info = new char[150];
         int tmp = fr.read(info);
         
-        for(int i=0, level=1; i<tmp ; i++) {
+        for(int i=0, level=1, episode=1; i<tmp ; i++) {
 
             if(Character.isDigit(info[i])) {
                 levelStatus[level++] = Character.getNumericValue(info[i]);
             }
-            else if(info[i] == '<') break;
+            else if(info[i] == '<') {
+                for(int j=i+1 ; j<tmp ; j++) {
+                    if(Character.isDigit(info[j])) {
+                        episdoeStatus[episode++] = Character.getNumericValue(info[j]);
+                    }
+                    else if(info[j] == '<') {
+                        fr.close();
+                        return;
+                    }
+
+                }
+            }
         }
 
         fr.close();
@@ -240,15 +256,21 @@ public class Elephant extends Application
         if(isNewGame == true) {
             for(int i=1 ; i<=36 ; i++) {
                 if(i == 1) fw.write(">>> 1, ");
-                else if(i == 36) fw.write("0<<<");
+                else if(i == 36) fw.write("0<\n");
                 else fw.write("0, ");
             }
+            fw.write(">>>1, 0, 0<");
         }
         else {
             for(int i=1 ; i<=36 ; i++) {
                 if(i == 1) fw.write((levelStatus[i] == 1) ? ">>> 1, " : ">>> 0, ");
-                else if(i == 36) fw.write((levelStatus[i] == 1) ? "1<<<" : "0<<<");
+                else if(i == 36) fw.write((levelStatus[i] == 1) ? "1<\n" : "0<\n");
                 else fw.write((levelStatus[i] == 1) ? "1, " : "0, ");
+            }
+            for(int i=1 ; i<=3 ; i++) {
+                if(i == 1) fw.write((episdoeStatus[i] == 1) ? ">>> 1, " : ">>> 0, ");
+                else if(i == 3) fw.write((episdoeStatus[3] == 1) ? "1<" : "0<");
+                else fw.write((episdoeStatus[i] == 1) ? "1, " : "0, ");
             }
         }
 

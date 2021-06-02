@@ -11,6 +11,9 @@ public class BeginController
 {
 
     public void newGame(ActionEvent e) throws Exception {
+        Elephant.episdoeStatus[2] = 0;
+        Elephant.episdoeStatus[3] = 0;
+
         Elephant.writeLevelInfo(true);
         Elephant.readLevelInfo();
 

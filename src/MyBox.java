@@ -12,9 +12,9 @@ public class MyBox extends Pane {
     final int DISTANCE = 64;
     int deltaDistance = 0;
    
-    TranslateTransition translate;;
+    TranslateTransition translate;
 
-    public MyBox(int y, int x) {
+    public MyBox(int y, int x, int height, int width) {
         Y = y;
         X = x;
 
@@ -26,8 +26,8 @@ public class MyBox extends Pane {
         if(num == 2) boxView.setImage(Elephant.box2);
         if(num == 3) boxView.setImage(Elephant.box3);
         if(num == 4) boxView.setImage(Elephant.box4);
-        boxView.setLayoutX(384+(x-1)*64);
-        boxView.setLayoutY(132+(y-1)*64);
+        boxView.setLayoutX((1152-width*64)/2 + X*64);
+        boxView.setLayoutY((648-height*64)/2 + Y*64);
 
         translate.setNode(boxView);
         translate.setDuration(Duration.millis(250));

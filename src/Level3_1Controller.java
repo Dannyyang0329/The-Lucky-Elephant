@@ -16,9 +16,13 @@ public class Level3_1Controller {
         
     // Back to episode screen
     public void back(ActionEvent e) throws IOException {
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("episode.fxml"));
-        stage.setScene(new Scene(root));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("episode.fxml"));
+        Stage backStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Parent root = loader.load();
+        backStage.setScene(new Scene(root));
+
+        EpisodeController controller = loader.getController();
+        controller.settingLock();
     }
 
     public void button1(ActionEvent e) throws IOException {

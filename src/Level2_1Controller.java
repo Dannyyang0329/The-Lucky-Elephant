@@ -16,19 +16,23 @@ public class Level2_1Controller {
         
     // Back to episode screen
     public void back(ActionEvent e) throws IOException {
-        Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("episode.fxml"));
-        stage.setScene(new Scene(root));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("episode.fxml"));
+        Stage backStage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        Parent root = loader.load();
+        backStage.setScene(new Scene(root));
+
+        EpisodeController controller = loader.getController();
+        controller.settingLock();
     }
 
     public void button1(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game1 = new GameLevel(1,8,8,12, Elephant.mapInfo);
+        GameLevel game1 = new GameLevel(13,10,12,99, Elephant.mapInfo);
         stage.setScene(game1.scene);
     }
     public void button2(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game2 = new GameLevel(2,8,8,12, Elephant.mapInfo);
+        GameLevel game2 = new GameLevel(14,8,8,12, Elephant.mapInfo);
         stage.setScene(game2.scene);
     }
     public void button3(ActionEvent e) throws IOException {
@@ -38,7 +42,7 @@ public class Level2_1Controller {
     }
     public void button4(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game4 = new GameLevel(4,8,8,12, Elephant.mapInfo);
+        GameLevel game4 = new GameLevel(16,10,12,99, Elephant.mapInfo);
         stage.setScene(game4.scene);
     }
     public void button5(ActionEvent e) throws IOException {
@@ -48,7 +52,7 @@ public class Level2_1Controller {
     }
     public void button6(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game6 = new GameLevel(6,8,8,13, Elephant.mapInfo);
+        GameLevel game6 = new GameLevel(1,8,8,13, Elephant.mapInfo);
         stage.setScene(game6.scene);
     }
     public void button7(ActionEvent e) throws IOException {
@@ -69,15 +73,14 @@ public class Level2_1Controller {
     
 
     public void settingLock() {
-        if(Elephant.levelStatus[1] == 1) red1.setVisible(false);
-        if(Elephant.levelStatus[2] == 1) red2.setVisible(false);
-        if(Elephant.levelStatus[3] == 1) red3.setVisible(false);
-        if(Elephant.levelStatus[4] == 1) red4.setVisible(false);
-        if(Elephant.levelStatus[5] == 1) red5.setVisible(false);
-        if(Elephant.levelStatus[6] == 1) red6.setVisible(false);
-        if(Elephant.levelStatus[7] == 1) red7.setVisible(false);
-        if(Elephant.levelStatus[8] == 1) red8.setVisible(false);
-        if(Elephant.levelStatus[9] == 1) red9.setVisible(false);
-        if(Elephant.levelStatus[10] == 1) red10.setVisible(false);
+        if(Elephant.levelStatus[13] == 1) red1.setVisible(false);
+        if(Elephant.levelStatus[14] == 1) red2.setVisible(false);
+        if(Elephant.levelStatus[15] == 1) red3.setVisible(false);
+        if(Elephant.levelStatus[16] == 1) red4.setVisible(false);
+        if(Elephant.levelStatus[17] == 1) red5.setVisible(false);
+        if(Elephant.levelStatus[18] == 1) red6.setVisible(false);
+        if(Elephant.levelStatus[19] == 1) red7.setVisible(false);
+        if(Elephant.levelStatus[20] == 1) red8.setVisible(false);
+        if(Elephant.levelStatus[21] == 1) red9.setVisible(false);
     }
 }

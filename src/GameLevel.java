@@ -42,6 +42,8 @@ public class GameLevel {
     private boolean isKeyPressed = false;
     private boolean hasSpecialItem;
     private boolean isSkipped = false;
+    private boolean isTwoPage = false;
+    private boolean isTwoPageSkip = false;
     private static boolean north, south, west, east;
 
     private int[][][] numberMap; 
@@ -50,12 +52,14 @@ public class GameLevel {
     private long previousTime = 0;
     private long tmpTime = 0;
     private long textTime = 0;
+    private long textTime2 = 0;
 
     private AnimationTimer gameLoop;
     private AnimationTimer labelTimer;
     private AnimationTimer fadeInTimer;
     private AnimationTimer fadeOutTimer;
     private AnimationTimer textTimer;
+    private AnimationTimer textTimer2;
 
     private AnimationTimer pauseTimer = new AnimationTimer() {
 
@@ -107,19 +111,21 @@ public class GameLevel {
                 potatoWalk();
 
                 // if potato's strength is zero -> restart
-                if(strength < 0 && isNewGame==false) {
+                if((strength < 0 || map[potato.Y][potato.X].isDangered) && isNewGame==false) {
                     isNewGame = true;
-                    failLabel.setVisible(true);
+                    // failLabel.setVisible(true);
                     showLabel(false);
                 }
 
                 // if potato is on the end point -> switch to next level
                 if(map[potato.Y][potato.X].isEnd && hasSpecialItem && isNewGame==false) {
                     isNewGame = true;
-                    completeLabel.setVisible(true);
+                    // completeLabel.setVisible(true);
                     showLabel(true);
 
                     if(level <= 36) Elephant.levelStatus[level+1] = 1;
+                    if(level == 12) Elephant.episdoeStatus[2] = 1;
+                    if(level == 21) Elephant.episdoeStatus[3] = 1;
                     try {
                         Elephant.writeLevelInfo(false);
                         Elephant.readLevelInfo();
@@ -209,20 +215,26 @@ public class GameLevel {
             for(int j=0 ; j<width ; j++) {
 
                 // wall
-                if(numberMap[level][i][j]==1 || numberMap[level][i][j]==2 || numberMap[level][i][j]==3 || numberMap[level][i][j]==7) {
+                if(numberMap[level][i][j]==1 || numberMap[level][i][j]==7) {
                     map[i][j].setBlocked(true);
                 }
 
                 // box
                 if(numberMap[level][i][j] == 4) {
                     map[i][j].setBlocked(true);
-                    map[i][j].makeBox(i, j);
+                    map[i][j].makeBox(i, j, height, width);
                     root.getChildren().add(map[i][j].box.boxView);
                 }
 
                 // special item
                 if(numberMap[level][i][j] == 5) {
                     map[i][j].setSpecial(true);
+                }
+
+                // trap
+                if(numberMap[level][i][j] == 8) {
+                    map[i][j].makeTrap(i, j, height, width, false);
+                    root.getChildren().add(map[i][j].trap.trapView);
                 }
 
                 if(numberMap[level][i][j] == 9) {
@@ -250,8 +262,8 @@ public class GameLevel {
         }
 
         potato.animation.play();
-        potato.setLayoutX(320 + 64*startPointX);
-        potato.setLayoutY(60 + 64*startPointY);
+        potato.setLayoutX((1152-width*64)/2 + 64*startPointX);
+        potato.setLayoutY((648-height*64)/2 + 64*startPointY);
         potato.setChunk(startPointY, startPointX);
         root.getChildren().add(potato);        
     }
@@ -318,9 +330,13 @@ public class GameLevel {
         root.getChildren().add(spot);
 
         String tmpText1="", tmpText2="";
-        if(LevelText.text[level].length() > 125) {
-            tmpText1 = LevelText.text[level].substring(0, 125);
-            tmpText2 = LevelText.text[level].substring(125);
+        if(LevelText.text[level].length() > 120) {
+            tmpText1 = LevelText.text[level].substring(0, 120);
+            if(LevelText.text[level].length() >= 220)
+                tmpText2 = LevelText.text[level].substring(120,220);
+
+            else 
+                tmpText2 = LevelText.text[level].substring(120);
         }
         else tmpText1 = LevelText.text[level];
 
@@ -364,20 +380,58 @@ public class GameLevel {
 
             @Override
             public void handle(MouseEvent e) {
+
+                if(spot.isVisible() == false) return;
+
                 if(isSkipped == false) {
                     textTimer.stop();
-                    isSkipped = true;
+                    textTimer2.stop();
 
-                    spotLabel1.setText(text1);
-                    spotLabel2.setText(text2);
+                    if(LevelText.text[level].length() > 220) {
+                        if(isTwoPage == false) {
+                            spotLabel1.setText(text1);
+                            spotLabel2.setText(text2);
 
-                    return;
+                            isTwoPage = true;
+                            return;
+                        }
+                        else {
+                            if(isTwoPageSkip == false) {
+                                spotLabel1.setText("");
+                                spotLabel2.setText("");
+
+                                isTwoPageSkip = true;
+                                textTimer2.start();
+                            }
+                            else {
+                                if(LevelText.text[level].length() >= 340) {
+                                    spotLabel1.setText(LevelText.text[level].substring(220, 340));
+                                    spotLabel2.setText(LevelText.text[level].substring(340));
+                                }
+                                else spotLabel1.setText(LevelText.text[level].substring(220));
+
+                                isSkipped = true;
+                                return;
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        isSkipped = true;
+
+                        spotLabel1.setText(text1);
+                        spotLabel2.setText(text2);
+
+                        return;
+                    }
                 }
                 if(spot.isVisible() && isSkipped) {
                     spot.setVisible(false);
                     spotLabel1.setVisible(false);
                     spotLabel2.setVisible(false);
                     skip.setVisible(false);
+                    System.out.println(level+1+" "+Elephant.levelHeight[level+1]+" "+Elephant.levelWidth[level+1]+" "+Elephant.levelStrength[level+1]+" "+Elephant.mapInfo);
                     GameLevel game = new GameLevel(level+1 ,Elephant.levelHeight[level+1], Elephant.levelWidth[level+1], Elephant.levelStrength[level+1], Elephant.mapInfo);
                     Elephant.stage.setScene(game.scene);
                 };
@@ -408,6 +462,16 @@ public class GameLevel {
                             return;
                         }
 
+                        for(int i=0 ; i<height ; i++) {
+                            for(int j=0 ; j<width ; j++) {
+                                if(map[i][j].trap != null) {
+                                    map[i][j].trap.changeStatus();
+                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                    else map[i][j].isDangered = false;
+                                }
+                            }
+                        }
+
                         boolean isBoxMoved = (map[potato.Y-1][potato.X].box!=null && map[potato.Y-1][potato.X].box.moveNorth(map));
                         if((!map[potato.Y-1][potato.X].isBlocked) || isBoxMoved) {
 
@@ -428,6 +492,16 @@ public class GameLevel {
                         if(map[potato.Y+1][potato.X].isBlocked && map[potato.Y+1][potato.X].box==null) {
                             potato.direction = 'S';
                             return;
+                        }
+
+                        for(int i=0 ; i<height ; i++) {
+                            for(int j=0 ; j<width ; j++) {
+                                if(map[i][j].trap != null) {
+                                    map[i][j].trap.changeStatus();
+                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                    else map[i][j].isDangered = false;
+                                }
+                            }
                         }
 
                         boolean isBoxMoved = (map[potato.Y+1][potato.X].box!=null&&map[potato.Y+1][potato.X].box.moveSouth(map));
@@ -452,6 +526,16 @@ public class GameLevel {
                             return;
                         }
 
+                        for(int i=0 ; i<height ; i++) {
+                            for(int j=0 ; j<width ; j++) {
+                                if(map[i][j].trap != null) {
+                                    map[i][j].trap.changeStatus();
+                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                    else map[i][j].isDangered = false;
+                                }
+                            }
+                        }
+
                         boolean isBoxMoved = (map[potato.Y][potato.X-1].box!=null && map[potato.Y][potato.X-1].box.moveWest(map));
                         if((!map[potato.Y][potato.X-1].isBlocked) || isBoxMoved) {
 
@@ -472,6 +556,16 @@ public class GameLevel {
                         if(map[potato.Y][potato.X+1].isBlocked&&map[potato.Y][potato.X+1].box==null) {
                             potato.direction = 'D';
                             return;
+                        }
+
+                        for(int i=0 ; i<height ; i++) {
+                            for(int j=0 ; j<width ; j++) {
+                                if(map[i][j].trap != null) {
+                                    map[i][j].trap.changeStatus();
+                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                    else map[i][j].isDangered = false;
+                                }
+                            }
                         }
 
                         boolean isBoxMoved = (map[potato.Y][potato.X+1].box!=null && map[potato.Y][potato.X+1].box.moveEast(map));
@@ -542,7 +636,12 @@ public class GameLevel {
                 isKeyPressed = true;
 
                 if(previousTime == 0) previousTime=now;
-                if(now-previousTime >= 1.5e9) {
+                if(now-previousTime >= 0.5e9 && now-previousTime < 2.5e9) {
+                    if(newGame == true) completeLabel.setVisible(true);
+                    else failLabel.setVisible(true);
+                }
+
+                if(now-previousTime >= 2.5e9) {
                     if(newGame == true) {
                         fadeInTimer.start();
                         labelTimer.stop();
@@ -550,9 +649,11 @@ public class GameLevel {
                     }
                     else {
                         failLabel.setVisible(false);
+
                         GameLevel game = new GameLevel(level ,Elephant.levelHeight[level], Elephant.levelWidth[level], Elephant.levelStrength[level], Elephant.mapInfo);
                         game.spot.setVisible(false);
                         Elephant.stage.setScene(game.scene);
+
                         labelTimer.stop();
                         gameLoop.stop();
                     }
@@ -592,14 +693,15 @@ public class GameLevel {
 
     private void showText(){
 
+
         spot.setVisible(true);
         spotLabel1.setVisible(true);
         spotLabel2.setVisible(true);
         skip.setVisible(true);
 
         textTimer = new AnimationTimer(){
-            int tmp = 1;
             int cnt = 1;
+            int tmp = 1;
 
             @Override
             public void handle(long now) {
@@ -607,23 +709,57 @@ public class GameLevel {
 
                 if(textTime == 0) textTime = now; 
                 if(now - textTime <= 8.3e9) {
-                    if(cnt > LevelText.text[level].length()) textTimer.stop();
-                    else if(cnt <= 125) 
+                    if(cnt > LevelText.text[level].length()) {
+                        isSkipped = true;
+                        return;
+                    }
+                    else if(cnt <= 120) 
                         spotLabel1.setText(LevelText.text[level].substring(0, cnt++));                        
                 }
                 else {
-                    if(cnt > LevelText.text[level].length()) {
-                        isSkipped = true;
+                    if(cnt > 220 || cnt>LevelText.text[level].length()) {
+                        if(LevelText.text[level].length() < cnt) isSkipped = true;
+                        isTwoPage = true;
                         textTimer.stop();
                     }
 
                     else {
-                        spotLabel2.setText(LevelText.text[level].substring(125, cnt++));                        
+                        spotLabel2.setText(LevelText.text[level].substring(120, cnt++));                        
                     }
                 }
             }
         };
-
         textTimer.start();
+
+        textTimer2 = new AnimationTimer(){
+        
+            int cnt = 221;
+            int tmp = 1;
+
+            @Override
+            public void handle(long now) {
+                if((tmp++)%4 != 0) return;
+
+                if(textTime2 == 0) textTime2 = now; 
+                if(now - textTime2 <= 8.3e9) {
+                    if(cnt > LevelText.text[level].length()) {
+                        isSkipped = true;
+                        return;
+                    }
+                    else if(cnt <= 340) 
+                        spotLabel1.setText(LevelText.text[level].substring(220, cnt++));                        
+                }
+                else {
+                    if(cnt > LevelText.text[level].length()) {
+                        isSkipped = true;
+                        textTimer2.stop();
+                    }
+
+                    else {
+                        spotLabel2.setText(LevelText.text[level].substring(340, cnt++));                        
+                    }
+                }
+            }
+        };
     }
 }
