@@ -33,7 +33,7 @@ public class Level1_2Controller {
 
     public void button12(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game12 = new GameLevel(12,8,8,12, Elephant.mapInfo);
+        GameLevel game12 = new GameLevel(12,9,11,21, Elephant.mapInfo);
         stage.setScene(game12.scene);
     }
 

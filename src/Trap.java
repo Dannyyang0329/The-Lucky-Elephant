@@ -14,6 +14,7 @@ public class Trap {
     AnimationTimer thronTimer;
 
     public Trap(int y, int x, int height, int width, boolean isTrap) {
+        isTrapOn = isTrap;
         trapView = new ImageView();
 
         if(isTrap) trapView.setImage(Elephant.thronOutImage);

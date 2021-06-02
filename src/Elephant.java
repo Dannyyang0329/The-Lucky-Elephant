@@ -34,7 +34,6 @@ public class Elephant extends Application
     public static Image box2;
     public static Image box3;
     public static Image box4;
-    public static Image reel;
     public static Image diary;
     public static Image dreamedGura;
     public static Image gura;
@@ -43,10 +42,30 @@ public class Elephant extends Application
     public static Image worker;
     public static Image salman;
     public static Image stacy;
+    public static Image box;
+    public static Image fireHyrant;
+    public static Image wall;
     public static Image blackImage;
     public static Image thronInImage;
     public static Image thronOutImage;
+    public static Image pavement;
+    public static Image special1;
+    public static Image special2;
+    public static Image special7;
+    public static Image special9;
+    public static Image special11;
 
+
+    public static Image end1;
+    public static Image end2;
+    public static Image end3;
+    public static Image end4;
+    public static Image end5;
+    public static Image end6;
+    public static Image end8;
+    public static Image end11;
+    public static Image end12;
+    public static Image end13;
     public static Image[] mapImage;
 
     // Images (.gif)
@@ -111,11 +130,29 @@ public class Elephant extends Application
         worker = new Image("resources\\Images\\worker.png");
         salman = new Image("resources\\Images\\salman.png");
         stacy = new Image("resources\\Images\\stacy.png");
+        box = new Image("resources\\Images\\box.png");
         blackImage = new Image("resources\\Images\\blackImage.jpg");
+        fireHyrant = new Image("resources\\Images\\fireHydrant.png");
         diary = new Image("resources\\Images\\diary.jpg");
+        wall = new Image("resources\\Images\\wall.jpg");
+        pavement = new Image("resources\\Images\\pavement.png");
         thronInImage = new Image("resources\\Images\\thronInImage.png");
         thronOutImage = new Image("resources\\Images\\thronOutImage.png");
+        special1 = new Image("resources\\Images\\special1.png");
+        special2 = new Image("resources\\Images\\special2.png");
+        special7 = new Image("resources\\Images\\special7.png");
+        special9 = new Image("resources\\Images\\special9.png");
+        special11 = new Image("resources\\Images\\special11.png");
 
+        end1 = new Image("resources\\Images\\end1.png");
+        end2 = new Image("resources\\Images\\end2.png");
+        end3 = new Image("resources\\Images\\end3.png");
+        end4 = new Image("resources\\Images\\end4.png");
+        end5 = new Image("resources\\Images\\end5.png");
+        end6 = new Image("resources\\Images\\end6.png");
+        end8 = new Image("resources\\Images\\end8.png");
+        end12 = new Image("resources\\Images\\end12.png");
+        end13 = new Image("resources\\Images\\end13.png");
         thronIn = new Image(getClass().getResource("resources\\Images\\thronIn.gif").toExternalForm());
         thronOut = new Image(getClass().getResource("resources\\Images\\thronOut.gif").toExternalForm());
 

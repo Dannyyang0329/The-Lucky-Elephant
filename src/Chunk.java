@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 public class Chunk extends Pane {
     
     ImageView imageView = new ImageView();
+    ImageView subView = new ImageView();
     MyBox box = null;
     Trap trap = null;
 
@@ -51,4 +52,5 @@ public class Chunk extends Pane {
     public void makeTrap(int y, int x, int height, int width, boolean isTrap) {
         trap = new Trap(y, x, height, width, isTrap);
     }
+
 }

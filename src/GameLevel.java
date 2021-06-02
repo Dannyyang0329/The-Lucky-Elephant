@@ -202,7 +202,6 @@ public class GameLevel {
             for(int j=0 ; j<width ; j++) {
                 map[i][j] = new Chunk();
 
-                // if(numberMap[level][i][j] == 9) map[i][j].setImageView(Elephant.reel);
                 map[i][j].setImageView(Elephant.mapImage[numberMap[level][i][j]]);
 
                 map[i][j].imageView.setFitWidth(64);
@@ -220,34 +219,87 @@ public class GameLevel {
         for(int i=0 ; i<height ; i++) {
             for(int j=0 ; j<width ; j++) {
 
+                if(numberMap[level][i][j] == 0) {
+                    if(level>12) map[i][j].setImageView(Elephant.pavement);
+                }
+
                 // wall
-                if(numberMap[level][i][j]==1 || numberMap[level][i][j]==7) {
+                if(numberMap[level][i][j]==1 ) {
                     map[i][j].setBlocked(true);
+                    if(level>12) map[i][j].setImageView(Elephant.wall);
                 }
 
                 // box
                 if(numberMap[level][i][j] == 4) {
                     map[i][j].setBlocked(true);
                     map[i][j].makeBox(i, j, height, width);
+                    if(level>12) map[i][j].setImageView(Elephant.pavement);
+                    if(level > 12) map[i][j].box.boxView.setImage(Elephant.box);
                     root.getChildren().add(map[i][j].box.boxView);
                 }
 
                 // special item
                 if(numberMap[level][i][j] == 5) {
                     map[i][j].setSpecial(true);
+                    map[i][j].subView = new ImageView();
+                    map[i][j].subView.setY((648-height*64)/2 + 64*i);
+                    map[i][j].subView.setX((1152-width*64)/2 + 64*j);
+                    root.getChildren().add(map[i][j].subView);
+
+                    if(level == 1) map[i][j].setImageView(Elephant.special1);
+                    if(level == 7) map[i][j].setImageView(Elephant.special7);
+                    if(level == 9) map[i][j].setImageView(Elephant.special9);
+                    if(level == 10) map[i][j].setImageView(Elephant.special7);
+                    if(level == 11) map[i][j].setImageView(Elephant.special11);
                 }
 
                 // trap
-                if(numberMap[level][i][j] == 8) {
+                if(numberMap[level][i][j] == 2) {
                     map[i][j].makeTrap(i, j, height, width, false);
                     root.getChildren().add(map[i][j].trap.trapView);
                 }
+                if(numberMap[level][i][j] == 3) {
+                    map[i][j].makeTrap(i, j, height, width, true);
+                    root.getChildren().add(map[i][j].trap.trapView);
+                }
 
+                if(numberMap[level][i][j] == 7) {
+                    map[i][j].setBlocked(true);
+                    if(level > 12) map[i][j].imageView.setImage(Elephant.fireHyrant);
+
+                    map[i][j].subView = new ImageView();
+                    map[i][j].subView.setY((648-height*64)/2 + 64*i);
+                    map[i][j].subView.setX((1152-width*64)/2 + 64*j);
+                    root.getChildren().add(map[i][j].subView);
+
+                    // map[i][j].setImageView(Elephant.blackImage);
+                }
+
+                // end
                 if(numberMap[level][i][j] == 9) {
+                    map[i][j].subView = new ImageView();
+                    map[i][j].subView.setY((648-height*64)/2 + 64*i);
+                    map[i][j].subView.setX((1152-width*64)/2 + 64*j);
+                    root.getChildren().add(map[i][j].subView);
+
+                    if(level == 1) map[i][j].setImageView(Elephant.end1);
+                    if(level == 2) map[i][j].setImageView(Elephant.end2);
+                    if(level == 3) map[i][j].setImageView(Elephant.end3);
+                    if(level == 4) map[i][j].setImageView(Elephant.end4);
+                    if(level == 5) map[i][j].setImageView(Elephant.end5);
+                    if(level == 6) map[i][j].setImageView(Elephant.end6);
+                    if(level == 7) map[i][j].setImageView(Elephant.end4);
+                    if(level == 8) map[i][j].setImageView(Elephant.end8);
+                    if(level == 9) map[i][j].setImageView(Elephant.end8);
+                    if(level == 10) map[i][j].setImageView(Elephant.end4);
+                    if(level == 11) map[i][j].setImageView(Elephant.end4);
+                    if(level == 12) map[i][j].setImageView(Elephant.end12);
+                    if(level == 13) map[i][j].setImageView(Elephant.end13);
                     map[i][j].setEnd(true);
                 }
 
                 if(numberMap[level][i][j] == 10) {
+                    if(level>12) map[i][j].setImageView(Elephant.pavement);
                     map[i][j].setStart(true);
                     startPointY = i;
                     startPointX = j;
