@@ -44,6 +44,7 @@ public class GameLevel {
     private boolean isSkipped = false;
     private boolean isTwoPage = false;
     private boolean isTwoPageSkip = false;
+    private boolean isTrapped = false;
     private static boolean north, south, west, east;
 
     private int[][][] numberMap; 
@@ -110,8 +111,12 @@ public class GameLevel {
                 // potato walk or wink
                 potatoWalk();
 
+                if(map[potato.Y][potato.X].isDangered && isTrapped) {
+                    strengthDecrease(1);
+                }
+
                 // if potato's strength is zero -> restart
-                if((strength < 0 || map[potato.Y][potato.X].isDangered) && isNewGame==false) {
+                if(strength < 0 && isNewGame==false) {
                     isNewGame = true;
                     // failLabel.setVisible(true);
                     showLabel(false);
@@ -431,7 +436,6 @@ public class GameLevel {
                     spotLabel1.setVisible(false);
                     spotLabel2.setVisible(false);
                     skip.setVisible(false);
-                    System.out.println(level+1+" "+Elephant.levelHeight[level+1]+" "+Elephant.levelWidth[level+1]+" "+Elephant.levelStrength[level+1]+" "+Elephant.mapInfo);
                     GameLevel game = new GameLevel(level+1 ,Elephant.levelHeight[level+1], Elephant.levelWidth[level+1], Elephant.levelStrength[level+1], Elephant.mapInfo);
                     Elephant.stage.setScene(game.scene);
                 };
@@ -462,29 +466,35 @@ public class GameLevel {
                             return;
                         }
 
-                        for(int i=0 ; i<height ; i++) {
-                            for(int j=0 ; j<width ; j++) {
-                                if(map[i][j].trap != null) {
-                                    map[i][j].trap.changeStatus();
-                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
-                                    else map[i][j].isDangered = false;
+                        boolean isBoxMoved = (map[potato.Y-1][potato.X].box!=null && map[potato.Y-1][potato.X].box.moveNorth(map));
+
+                        if(isBoxMoved || !map[potato.Y-1][potato.X].isBlocked && !isBoxMoved) {
+                            for(int i=0 ; i<height ; i++) {
+                                for(int j=0 ; j<width ; j++) {
+                                    if(map[i][j].trap != null) {
+                                        map[i][j].trap.changeStatus();
+                                        if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                        else map[i][j].isDangered = false;
+                                    }
                                 }
                             }
                         }
+                        if(isBoxMoved) {
+                            strengthDecrease(1);
+                        }
+                        if(!map[potato.Y-1][potato.X].isBlocked && !isBoxMoved) {
 
-                        boolean isBoxMoved = (map[potato.Y-1][potato.X].box!=null && map[potato.Y-1][potato.X].box.moveNorth(map));
-                        if((!map[potato.Y-1][potato.X].isBlocked) || isBoxMoved) {
-
-                            if(isBoxMoved) strengthDecrease(2);
-                            else strengthDecrease(1);
+                            strengthDecrease(1);
 
                             isKeyPressed = true;
                             north = true;
                             potato.Y--;
                             potato.deltaDistance = 0;
 
+
                             pauseTimer.start();
                         }
+
                     }
 
                     else if(in == KeyCode.S) {
@@ -494,21 +504,27 @@ public class GameLevel {
                             return;
                         }
 
-                        for(int i=0 ; i<height ; i++) {
-                            for(int j=0 ; j<width ; j++) {
-                                if(map[i][j].trap != null) {
-                                    map[i][j].trap.changeStatus();
-                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
-                                    else map[i][j].isDangered = false;
+                        boolean isBoxMoved = (map[potato.Y+1][potato.X].box!=null&&map[potato.Y+1][potato.X].box.moveSouth(map));
+
+                        if(isBoxMoved || !map[potato.Y+1][potato.X].isBlocked) {
+                            for(int i=0 ; i<height ; i++) {
+                                for(int j=0 ; j<width ; j++) {
+                                    if(map[i][j].trap != null) {
+                                        map[i][j].trap.changeStatus();
+                                        if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                        else map[i][j].isDangered = false;
+                                    }
                                 }
                             }
                         }
 
-                        boolean isBoxMoved = (map[potato.Y+1][potato.X].box!=null&&map[potato.Y+1][potato.X].box.moveSouth(map));
-                        if((!map[potato.Y+1][potato.X].isBlocked) || isBoxMoved) {
+                        if(isBoxMoved) {
+                            strengthDecrease(1);
+                            return;
+                        }
+                        if(!map[potato.Y+1][potato.X].isBlocked) {
 
-                            if(isBoxMoved) strengthDecrease(2);
-                            else strengthDecrease(1);
+                            strengthDecrease(1);
 
                             isKeyPressed = true;
                             south = true;
@@ -526,21 +542,26 @@ public class GameLevel {
                             return;
                         }
 
-                        for(int i=0 ; i<height ; i++) {
-                            for(int j=0 ; j<width ; j++) {
-                                if(map[i][j].trap != null) {
-                                    map[i][j].trap.changeStatus();
-                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
-                                    else map[i][j].isDangered = false;
+                        boolean isBoxMoved = (map[potato.Y][potato.X-1].box!=null && map[potato.Y][potato.X-1].box.moveWest(map));
+                        if(isBoxMoved || !map[potato.Y][potato.X-1].isBlocked) {
+                            for(int i=0 ; i<height ; i++) {
+                                for(int j=0 ; j<width ; j++) {
+                                    if(map[i][j].trap != null) {
+                                        map[i][j].trap.changeStatus();
+                                        if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                        else map[i][j].isDangered = false;
+                                    }
                                 }
                             }
                         }
 
-                        boolean isBoxMoved = (map[potato.Y][potato.X-1].box!=null && map[potato.Y][potato.X-1].box.moveWest(map));
-                        if((!map[potato.Y][potato.X-1].isBlocked) || isBoxMoved) {
+                        if(isBoxMoved) {
+                            strengthDecrease(1);
+                            return;
+                        }
+                        if(!map[potato.Y][potato.X-1].isBlocked) {
 
-                            if(isBoxMoved) strengthDecrease(2);
-                            else strengthDecrease(1);
+                            strengthDecrease(1);
 
                             isKeyPressed = true;
                             west = true;
@@ -558,21 +579,26 @@ public class GameLevel {
                             return;
                         }
 
-                        for(int i=0 ; i<height ; i++) {
-                            for(int j=0 ; j<width ; j++) {
-                                if(map[i][j].trap != null) {
-                                    map[i][j].trap.changeStatus();
-                                    if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
-                                    else map[i][j].isDangered = false;
+                        boolean isBoxMoved = (map[potato.Y][potato.X+1].box!=null && map[potato.Y][potato.X+1].box.moveEast(map));
+                        if(isBoxMoved || !map[potato.Y][potato.X+1].isBlocked) {
+                            for(int i=0 ; i<height ; i++) {
+                                for(int j=0 ; j<width ; j++) {
+                                    if(map[i][j].trap != null) {
+                                        map[i][j].trap.changeStatus();
+                                        if(map[i][j].trap.isTrapOn) map[i][j].isDangered = true;
+                                        else map[i][j].isDangered = false;
+                                    }
                                 }
                             }
                         }
 
-                        boolean isBoxMoved = (map[potato.Y][potato.X+1].box!=null && map[potato.Y][potato.X+1].box.moveEast(map));
-                        if((!map[potato.Y][potato.X+1].isBlocked) || isBoxMoved) {
+                        if(isBoxMoved) {
+                            strengthDecrease(1);
+                            return;
+                        }
+                        if(!map[potato.Y][potato.X+1].isBlocked) {
 
-                            if(isBoxMoved) strengthDecrease(2);
-                            else strengthDecrease(1);
+                            strengthDecrease(1);
 
                             isKeyPressed = true;
                             east = true;
