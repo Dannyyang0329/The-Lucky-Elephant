@@ -54,6 +54,7 @@ public class GameLevel {
     private long tmpTime = 0;
     private long textTime = 0;
     private long textTime2 = 0;
+    private long bloodTime = 0;
 
     private AnimationTimer gameLoop;
     private AnimationTimer labelTimer;
@@ -61,6 +62,7 @@ public class GameLevel {
     private AnimationTimer fadeOutTimer;
     private AnimationTimer textTimer;
     private AnimationTimer textTimer2;
+    private AnimationTimer bloodTimer;
 
     private AnimationTimer pauseTimer = new AnimationTimer() {
 
@@ -141,9 +143,66 @@ public class GameLevel {
                 }
 
                 // if potato gets the special item
-                if(numberMap[level][potato.Y][potato.X]==5 && hasSpecialItem==false) {
+                if(map[potato.Y][potato.X].isSpecial && hasSpecialItem==false) {
+                    if(!(level == 35 && potato.Y==2) || (level==35&&!map[2][2].isSpecial)) map[potato.Y][potato.X].isSpecial = false;
+                    if(!(level == 35 && potato.Y==2 && potato.X==2)) map[potato.Y][potato.X].imageView.setVisible(false);
+                    
+
+                    if(level == 35) {
+                        if(potato.Y==2 && potato.X==2 && !map[5][6].isSpecial) {
+
+                            map[2][2].isSpecial = false;
+
+                            isKeyPressed = true;
+
+                            ImageView blood = new ImageView(Elephant.blood);
+                            blood.setLayoutY(196);
+                            blood.setLayoutX(448);
+                            root.getChildren().add(blood);
+
+                            map[2][2].imageView.setVisible(false);
+                            map[2][3].imageView.setVisible(true);
+
+
+                            bloodTimer = new AnimationTimer(){
+
+                                @Override
+                                public void handle(long now) {
+                                    System.out.println(isKeyPressed);
+                                    if(bloodTime == 0) bloodTime = now;
+                                    if(now - bloodTime >= 3e9) {
+                                        System.out.println("false");
+                                        blood.setVisible(false);
+                                        map[2][3].setImageView(Elephant.elephant);
+                                        bloodTimer.stop();
+                                    }
+                                }
+                                
+                            };
+
+                            bloodTimer.start();
+                        }
+                    }
+
+                    for(int i=0 ; i<height ; i++) {
+                        for(int j=0 ; j<width ; j++) {
+                            if(map[i][j].isSpecial) {
+                                hasSpecialItem = false;
+                                return;
+                            }
+                        }
+                    }
+
                     hasSpecialItem = true;
-                    map[potato.Y][potato.X].imageView.setImage(Elephant.mapImage[0]);
+
+
+                    if(level == 26) {
+                        root.getChildren().remove(map[3][10].imageView);
+                        root.getChildren().add(map[3][10].imageView);
+                        map[3][10].setImageView(Elephant.elephant);
+                        map[3][10].setEnd(true);
+                    }
+
                 }
             }
         };
@@ -228,6 +287,28 @@ public class GameLevel {
         if(level == 19) decorationView.setImage(Elephant.map2_7);
         if(level == 20) decorationView.setImage(Elephant.map2_8);
         if(level == 21) decorationView.setImage(Elephant.map2_9);
+        if(level == 22) decorationView.setImage(Elephant.map3_1);
+        if(level == 23) decorationView.setImage(Elephant.map3_2);
+        if(level == 24) decorationView.setImage(Elephant.map3_3);
+        if(level == 25) decorationView.setImage(Elephant.map3_4);
+        if(level == 26) decorationView.setImage(Elephant.map3_5);
+        if(level == 27) decorationView.setImage(Elephant.map3_6);
+        if(level == 28) decorationView.setImage(Elephant.map3_7);
+        if(level == 29) decorationView.setImage(Elephant.map3_8);
+        if(level == 30) decorationView.setImage(Elephant.map3_9);
+        if(level == 31) decorationView.setImage(Elephant.map3_10);
+        if(level == 32) decorationView.setImage(Elephant.map3_11);
+        if(level == 33) decorationView.setImage(Elephant.map3_12);
+        if(level == 34) decorationView.setImage(Elephant.map3_13);
+        if(level == 35) {
+            decorationView.setImage(Elephant.map3_14);
+            map[5][6].setImageView(Elephant.beer);
+            map[2][2].setImageView(Elephant.flyingElephant);
+            map[2][3].setImageView(Elephant.flyingElephant);
+            map[2][3].imageView.setVisible(false);
+        }
+
+        if(level == 36) decorationView.setImage(Elephant.map3_15);
 
         for(int i=0 ; i<height ; i++) {
             for(int j=0 ; j<width ; j++) {
@@ -247,7 +328,7 @@ public class GameLevel {
                     map[i][j].setBlocked(true);
                     map[i][j].makeBox(i, j, height, width);
                     if(level>12) map[i][j].setImageView(Elephant.pavement);
-                    if(level>12 && level!=18) map[i][j].box.boxView.setImage(Elephant.box);
+                    if(level>12 && level!=18 && level!=28) map[i][j].box.boxView.setImage(Elephant.box);
                     if(level == 16) map[i][j].box.boxView.setImage(Elephant.stone);
                     
                     root.getChildren().add(map[i][j].box.boxView);
@@ -256,16 +337,19 @@ public class GameLevel {
                 // special item
                 if(numberMap[level][i][j] == 5) {
                     map[i][j].setSpecial(true);
-                    map[i][j].subView = new ImageView();
-                    map[i][j].subView.setY((648-height*64)/2 + 64*i);
-                    map[i][j].subView.setX((1152-width*64)/2 + 64*j);
-                    root.getChildren().add(map[i][j].subView);
+                    // map[i][j].subView = new ImageView();
+                    // map[i][j].subView.setY((648-height*64)/2 + 64*i);
+                    // map[i][j].subView.setX((1152-width*64)/2 + 64*j);
+                    // root.getChildren().add(map[i][j].subView);
 
+                    root.getChildren().remove(map[i][j].imageView);
+                    root.getChildren().add(map[i][j].imageView);
                     if(level == 1) map[i][j].setImageView(Elephant.special1);
                     if(level == 7) map[i][j].setImageView(Elephant.special7);
                     if(level == 9) map[i][j].setImageView(Elephant.special9);
                     if(level == 10) map[i][j].setImageView(Elephant.special7);
                     if(level == 11) map[i][j].setImageView(Elephant.special11);
+                    if(level == 26) map[i][j].setImageView(Elephant.glassPieces);
                 }
 
                 // trap
@@ -687,6 +771,8 @@ public class GameLevel {
 
 
     private void showLabel(boolean newGame) {
+
+        if(level == 26) map[3][10].imageView.setVisible(false);
 
         blackView = new ImageView(Elephant.blackImage);
         blackView.setLayoutX(0);

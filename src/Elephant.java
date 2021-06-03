@@ -46,6 +46,9 @@ public class Elephant extends Application
     public static Image stone;
     public static Image fireHyrant;
     public static Image wall;
+    public static Image elephant;
+    public static Image beer;
+    public static Image flyingElephant;
     public static Image map2_2;
     public static Image map2_3;
     public static Image map2_4;
@@ -54,6 +57,22 @@ public class Elephant extends Application
     public static Image map2_7;
     public static Image map2_8;
     public static Image map2_9;
+    public static Image map3_1;
+    public static Image map3_2;
+    public static Image map3_3;
+    public static Image map3_4;
+    public static Image map3_5;
+    public static Image map3_6;
+    public static Image map3_7;
+    public static Image map3_8;
+    public static Image map3_9;
+    public static Image map3_10;
+    public static Image map3_11;
+    public static Image map3_12;
+    public static Image map3_13;
+    public static Image map3_14;
+    public static Image map3_15;
+    public static Image glassPieces;
     public static Image blackImage;
     public static Image thronInImage;
     public static Image thronOutImage;
@@ -80,6 +99,7 @@ public class Elephant extends Application
     // Images (.gif)
     public static Image thronOut;
     public static Image thronIn;
+    public static Image blood;
 
     // Musics in the game.
     public static MediaPlayer beginPlayer;
@@ -141,6 +161,10 @@ public class Elephant extends Application
         stacy = new Image("resources\\Images\\stacy.png");
         box = new Image("resources\\Images\\box.png");
         stone = new Image("resources\\Images\\stone.png");
+        beer = new Image("resources\\Images\\beer.png");
+        glassPieces = new Image("resources\\Images\\glassPieces.png");
+        elephant = new Image("resources\\Images\\elephant.png");                    
+        flyingElephant = new Image("resources\\Images\\flyingElephant.png");
         map2_2 = new Image("resources\\Images\\map2_2.png");
         map2_3 = new Image("resources\\Images\\map2_3.png");
         map2_4 = new Image("resources\\Images\\map2_4.png");
@@ -149,6 +173,21 @@ public class Elephant extends Application
         map2_7 = new Image("resources\\Images\\map2_7.png");
         map2_8 = new Image("resources\\Images\\map2_8.png");
         map2_9 = new Image("resources\\Images\\map2_9.png");
+        map3_1 = new Image("resources\\Images\\map3_1.png");
+        map3_2 = new Image("resources\\Images\\map3_2.png");
+        map3_3 = new Image("resources\\Images\\map3_3.png");
+        map3_4 = new Image("resources\\Images\\map3_4.png");
+        map3_5 = new Image("resources\\Images\\map3_5.png");
+        map3_6 = new Image("resources\\Images\\map3_6.png");
+        map3_7 = new Image("resources\\Images\\map3_7.png");
+        map3_8 = new Image("resources\\Images\\map3_8.png");
+        map3_9 = new Image("resources\\Images\\map3_9.png");
+        map3_10 = new Image("resources\\Images\\map3_10.png");
+        map3_11 = new Image("resources\\Images\\map3_11.png");
+        map3_12 = new Image("resources\\Images\\map3_12.png");
+        map3_13 = new Image("resources\\Images\\map3_13.png");
+        map3_14 = new Image("resources\\Images\\map3_14.png");
+        map3_15 = new Image("resources\\Images\\map3_1.png");
         blackImage = new Image("resources\\Images\\blackImage.jpg");
         fireHyrant = new Image("resources\\Images\\fireHydrant.png");
         diary = new Image("resources\\Images\\diary.jpg");
@@ -173,6 +212,7 @@ public class Elephant extends Application
         end13 = new Image("resources\\Images\\end13.png");
         thronIn = new Image(getClass().getResource("resources\\Images\\thronIn.gif").toExternalForm());
         thronOut = new Image(getClass().getResource("resources\\Images\\thronOut.gif").toExternalForm());
+        blood = new Image(getClass().getResource("resources\\Images\\blood.gif").toExternalForm());
 
         mapImage = new Image[30];
 
