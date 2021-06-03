@@ -215,6 +215,19 @@ public class GameLevel {
     }
 
     public void setMapProperties() {
+        ImageView  decorationView = new ImageView();
+
+        decorationView.setY((648-height*64)/2);
+        decorationView.setX((1152-width*64)/2);
+        root.getChildren().add(decorationView);
+        if(level == 14) decorationView.setImage(Elephant.map2_2);
+        if(level == 15) decorationView.setImage(Elephant.map2_3);
+        if(level == 16) decorationView.setImage(Elephant.map2_4);
+        if(level == 17) decorationView.setImage(Elephant.map2_5);
+        if(level == 18) decorationView.setImage(Elephant.map2_6);
+        if(level == 19) decorationView.setImage(Elephant.map2_7);
+        if(level == 20) decorationView.setImage(Elephant.map2_8);
+        if(level == 21) decorationView.setImage(Elephant.map2_9);
 
         for(int i=0 ; i<height ; i++) {
             for(int j=0 ; j<width ; j++) {
@@ -234,7 +247,9 @@ public class GameLevel {
                     map[i][j].setBlocked(true);
                     map[i][j].makeBox(i, j, height, width);
                     if(level>12) map[i][j].setImageView(Elephant.pavement);
-                    if(level > 12) map[i][j].box.boxView.setImage(Elephant.box);
+                    if(level>12 && level!=18) map[i][j].box.boxView.setImage(Elephant.box);
+                    if(level == 16) map[i][j].box.boxView.setImage(Elephant.stone);
+                    
                     root.getChildren().add(map[i][j].box.boxView);
                 }
 

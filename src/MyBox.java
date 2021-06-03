@@ -35,7 +35,7 @@ public class MyBox extends Pane {
 
 
     public boolean moveNorth(Chunk[][] map) {
-        if(!map[Y-1][X].isBlocked && !map[Y-1][X].isEnd && !map[Y-1][X].isSpecial) {
+        if(!map[Y-1][X].isBlocked && !map[Y-1][X].isEnd && !map[Y-1][X].isSpecial && map[Y-1][X].trap==null) {
             translate.setByX(0);
             translate.setByY(-64);
             translate.play();
@@ -53,7 +53,7 @@ public class MyBox extends Pane {
     }
 
     public boolean moveSouth(Chunk[][] map) {
-        if(!map[Y+1][X].isBlocked && !map[Y+1][X].isEnd && !map[Y+1][X].isSpecial) {
+        if(!map[Y+1][X].isBlocked && !map[Y+1][X].isEnd && !map[Y+1][X].isSpecial && map[Y+1][X].trap==null) {
             translate.setByX(0);
             translate.setByY(64);
             translate.play();
@@ -71,7 +71,7 @@ public class MyBox extends Pane {
     }
 
     public boolean moveWest(Chunk[][] map) {
-        if(!map[Y][X-1].isBlocked && !map[Y][X-1].isEnd && !map[Y][X-1].isSpecial) {
+        if(!map[Y][X-1].isBlocked && !map[Y][X-1].isEnd && !map[Y][X-1].isSpecial && map[Y][X-1].trap==null) {
             translate.setByX(-64);
             translate.setByY(0);
             translate.play();
@@ -89,7 +89,7 @@ public class MyBox extends Pane {
     }
 
     public boolean moveEast(Chunk[][] map) {
-        if(!map[Y][X+1].isBlocked && !map[Y][X+1].isEnd && !map[Y][X+1].isSpecial) {
+        if(!map[Y][X+1].isBlocked && !map[Y][X+1].isEnd && !map[Y][X+1].isSpecial && map[Y][X+1].trap==null) {
             translate.setByX(64);
             translate.setByY(0);
             translate.play();
