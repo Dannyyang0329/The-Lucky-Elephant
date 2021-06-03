@@ -49,6 +49,7 @@ public class Elephant extends Application
     public static Image elephant;
     public static Image beer;
     public static Image flyingElephant;
+    public static Image map1_1;
     public static Image map2_2;
     public static Image map2_3;
     public static Image map2_4;
@@ -165,6 +166,7 @@ public class Elephant extends Application
         glassPieces = new Image("resources\\Images\\glassPieces.png");
         elephant = new Image("resources\\Images\\elephant.png");                    
         flyingElephant = new Image("resources\\Images\\flyingElephant.png");
+        map1_1 = new Image("resources\\Images\\map1_1.png");
         map2_2 = new Image("resources\\Images\\map2_2.png");
         map2_3 = new Image("resources\\Images\\map2_3.png");
         map2_4 = new Image("resources\\Images\\map2_4.png");
@@ -187,7 +189,7 @@ public class Elephant extends Application
         map3_12 = new Image("resources\\Images\\map3_12.png");
         map3_13 = new Image("resources\\Images\\map3_13.png");
         map3_14 = new Image("resources\\Images\\map3_14.png");
-        map3_15 = new Image("resources\\Images\\map3_1.png");
+        map3_15 = new Image("resources\\Images\\map3_15.png");
         blackImage = new Image("resources\\Images\\blackImage.jpg");
         fireHyrant = new Image("resources\\Images\\fireHydrant.png");
         diary = new Image("resources\\Images\\diary.jpg");

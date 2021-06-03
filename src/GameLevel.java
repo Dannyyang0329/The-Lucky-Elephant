@@ -153,8 +153,6 @@ public class GameLevel {
 
                             map[2][2].isSpecial = false;
 
-                            isKeyPressed = true;
-
                             ImageView blood = new ImageView(Elephant.blood);
                             blood.setLayoutY(196);
                             blood.setLayoutX(448);
@@ -168,10 +166,10 @@ public class GameLevel {
 
                                 @Override
                                 public void handle(long now) {
-                                    System.out.println(isKeyPressed);
                                     if(bloodTime == 0) bloodTime = now;
-                                    if(now - bloodTime >= 3e9) {
-                                        System.out.println("false");
+                                    if(now - bloodTime < 1.5e9) isKeyPressed = true;
+                                    if(now - bloodTime >= 1.5e9) {
+                                        isKeyPressed = false;
                                         blood.setVisible(false);
                                         map[2][3].setImageView(Elephant.elephant);
                                         bloodTimer.stop();
@@ -279,6 +277,10 @@ public class GameLevel {
         decorationView.setY((648-height*64)/2);
         decorationView.setX((1152-width*64)/2);
         root.getChildren().add(decorationView);
+        if(level == 1) {
+            decorationView.setImage(Elephant.map1_1);
+            map[4][5].imageView.setImage(Elephant.special1);
+        }
         if(level == 14) decorationView.setImage(Elephant.map2_2);
         if(level == 15) decorationView.setImage(Elephant.map2_3);
         if(level == 16) decorationView.setImage(Elephant.map2_4);
@@ -327,7 +329,7 @@ public class GameLevel {
                 if(numberMap[level][i][j] == 4) {
                     map[i][j].setBlocked(true);
                     map[i][j].makeBox(i, j, height, width);
-                    if(level>12) map[i][j].setImageView(Elephant.pavement);
+                    if(level == 1) map[i][j].box.boxView.setImage(Elephant.box);
                     if(level>12 && level!=18 && level!=28) map[i][j].box.boxView.setImage(Elephant.box);
                     if(level == 16) map[i][j].box.boxView.setImage(Elephant.stone);
                     
@@ -584,11 +586,12 @@ public class GameLevel {
                     }
                 }
                 if(spot.isVisible() && isSkipped) {
+                    GameLevel game = null;
                     spot.setVisible(false);
                     spotLabel1.setVisible(false);
                     spotLabel2.setVisible(false);
                     skip.setVisible(false);
-                    GameLevel game = new GameLevel(level+1 ,Elephant.levelHeight[level+1], Elephant.levelWidth[level+1], Elephant.levelStrength[level+1], Elephant.mapInfo);
+                    if(level+1 <= 36) game = new GameLevel(level+1 ,Elephant.levelHeight[level+1], Elephant.levelWidth[level+1], Elephant.levelStrength[level+1], Elephant.mapInfo);
                     Elephant.stage.setScene(game.scene);
                 };
             }
