@@ -27,31 +27,31 @@ public class Level3_2Controller {
 
     public void button11(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game11 = new GameLevel(32,7,10,99, Elephant.mapInfo);
+        GameLevel game11 = new GameLevel(32);
         stage.setScene(game11.scene);
     }
 
     public void button12(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game12 = new GameLevel(33,10,15,99, Elephant.mapInfo);
+        GameLevel game12 = new GameLevel(33);
         stage.setScene(game12.scene);
     }
 
     public void button13(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game12 = new GameLevel(34,9,11,99, Elephant.mapInfo);
+        GameLevel game12 = new GameLevel(34);
         stage.setScene(game12.scene);
     }
 
     public void button14(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game12 = new GameLevel(35,8,10,99, Elephant.mapInfo);
+        GameLevel game12 = new GameLevel(35);
         stage.setScene(game12.scene);
     }
 
     public void button15(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game12 = new GameLevel(36,10,15,99, Elephant.mapInfo);
+        GameLevel game12 = new GameLevel(36);
         stage.setScene(game12.scene);
     }
 

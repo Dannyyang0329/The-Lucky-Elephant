@@ -27,52 +27,52 @@ public class Level1_1Controller {
 
     public void button1(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game1 = new GameLevel(1,8,8,12, Elephant.mapInfo);
+        GameLevel game1 = new GameLevel(1);
         stage.setScene(game1.scene);
     }
     public void button2(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game2 = new GameLevel(2,8,8,12, Elephant.mapInfo);
+        GameLevel game2 = new GameLevel(2);
         stage.setScene(game2.scene);
     }
     public void button3(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game3 = new GameLevel(3,8,8,13, Elephant.mapInfo);
+        GameLevel game3 = new GameLevel(3);
         stage.setScene(game3.scene);
     }
     public void button4(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game4 = new GameLevel(4,8,8,12, Elephant.mapInfo);
+        GameLevel game4 = new GameLevel(4);
         stage.setScene(game4.scene);
     }
     public void button5(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game5 = new GameLevel(5,8,8,13, Elephant.mapInfo);
+        GameLevel game5 = new GameLevel(5);
         stage.setScene(game5.scene);
     }
     public void button6(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game6 = new GameLevel(6,8,8,13, Elephant.mapInfo);
+        GameLevel game6 = new GameLevel(6);
         stage.setScene(game6.scene);
     }
     public void button7(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game7 = new GameLevel(7,8,8,24, Elephant.mapInfo);
+        GameLevel game7 = new GameLevel(7);
         stage.setScene(game7.scene);
     }
     public void button8(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game8 = new GameLevel(8,8,8,15, Elephant.mapInfo);
+        GameLevel game8 = new GameLevel(8);
         stage.setScene(game8.scene);
     }
     public void button9(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game9 = new GameLevel(9,8,8,21, Elephant.mapInfo);
+        GameLevel game9 = new GameLevel(9);
         stage.setScene(game9.scene);
     }
     public void button10(ActionEvent e) throws IOException {
         Stage stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        GameLevel game10 = new GameLevel(10,8,8,17, Elephant.mapInfo);
+        GameLevel game10 = new GameLevel(10);
         stage.setScene(game10.scene);
     }
     

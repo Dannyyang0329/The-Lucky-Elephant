@@ -22,19 +22,32 @@ public class Elephant extends Application
     private Scene scene;
     private Parent root;
 
+
     // Images in the game.
-    public static Image back;
     public static Image iconImage;
-    public static Image zeldaImage;
-    public static Image backgroundImage;
-    public static Image zeldaSpriteImage;
-    public static Image levelComplete;
-    public static Image button;
+    public static Image diary;
+    public static Image back;
+    public static Image blackImage;
+
     public static Image box1;
     public static Image box2;
     public static Image box3;
     public static Image box4;
-    public static Image diary;
+    public static Image soundPlayer;
+    public static Image box;
+    public static Image stone;
+    public static Image beer;
+    public static Image bookshelf;
+    public static Image glassPieces;
+    public static Image elephant;
+    public static Image flyingElephant;
+    public static Image plant;
+    public static Image redbull;
+
+    public static Image reel;
+    public static Image stacyImage;
+    public static Image rice;
+    
     public static Image dreamedGura;
     public static Image gura;
     public static Image dreamedTeacher;
@@ -42,14 +55,20 @@ public class Elephant extends Application
     public static Image worker;
     public static Image salman;
     public static Image stacy;
-    public static Image box;
-    public static Image stone;
-    public static Image fireHyrant;
-    public static Image wall;
-    public static Image elephant;
-    public static Image beer;
-    public static Image flyingElephant;
+
     public static Image map1_1;
+    public static Image map1_2;
+    public static Image map1_3;
+    public static Image map1_4;
+    public static Image map1_5;
+    public static Image map1_6;
+    public static Image map1_7;
+    public static Image map1_8;
+    public static Image map1_9;
+    public static Image map1_10;
+    public static Image map1_11;
+    public static Image map1_12;
+    public static Image map2_1;
     public static Image map2_2;
     public static Image map2_3;
     public static Image map2_4;
@@ -73,37 +92,21 @@ public class Elephant extends Application
     public static Image map3_13;
     public static Image map3_14;
     public static Image map3_15;
-    public static Image glassPieces;
-    public static Image blackImage;
+
     public static Image thronInImage;
     public static Image thronOutImage;
-    public static Image pavement;
-    public static Image special1;
-    public static Image special2;
-    public static Image special7;
-    public static Image special9;
-    public static Image special11;
-
-
-    public static Image end1;
-    public static Image end2;
-    public static Image end3;
-    public static Image end4;
-    public static Image end5;
-    public static Image end6;
-    public static Image end8;
-    public static Image end11;
-    public static Image end12;
-    public static Image end13;
-    public static Image[] mapImage;
 
     // Images (.gif)
     public static Image thronOut;
     public static Image thronIn;
     public static Image blood;
 
+
+    
     // Musics in the game.
     public static MediaPlayer beginPlayer;
+
+
 
     //  Map's Infomation 
     public static int[][][] mapInfo;
@@ -112,6 +115,8 @@ public class Elephant extends Application
     public static int[] levelStrength;
     public static boolean[] levelSpecial;
     public static int[] levelCharacter;
+
+
 
     // Level's information (Completed or not)
     public static int episdoeStatus[] = new int[]{-1, 1, 0, 0};
@@ -122,37 +127,63 @@ public class Elephant extends Application
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
+
+
     // Main function
     public static void main(String[] args) throws Exception {
-        launch(args);
+        launch();
     }
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception  {
-
-        root = FXMLLoader.load(getClass().getResource("begin.fxml"));
 
         loadImages();
         loadMusics();
         loadMap();
         readLevelInfo();
         
-        initializeStage();
-
+        root = FXMLLoader.load(getClass().getResource("begin.fxml"));
+        stage = new Stage();
+        stage.setTitle("The Lucky Elephant");
+        stage.getIcons().add(iconImage);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setWidth(1152);
+        stage.setHeight(648);
         scene = new Scene(root, 1152, 648);
         stage.setScene(scene);
         stage.show();
     }
 
+
+    
     private void loadImages() {
 
-        levelComplete = new Image("resources\\Images\\levelComplete.png");
-        back = new Image("resources\\Images\\back.png");
         iconImage = new Image("resources\\Images\\iconImage.png");
+        back = new Image("resources\\Images\\back.png");
+        blackImage = new Image("resources\\Images\\blackImage.jpg");
+        diary = new Image("resources\\Images\\diary.jpg");
+
         box1 = new Image("resources\\Images\\box1.png");
         box2 = new Image("resources\\Images\\box2.png");
         box3 = new Image("resources\\Images\\box3.png");
         box4 = new Image("resources\\Images\\box4.png");
+        soundPlayer = new Image("resources\\Images\\soundPlayer.png");
+        box = new Image("resources\\Images\\box.png");
+        stone = new Image("resources\\Images\\stone.png");
+        beer = new Image("resources\\Images\\beer.png");
+        bookshelf = new Image("resources\\Images\\bookshelf.png");
+        glassPieces = new Image("resources\\Images\\glassPieces.png");
+        elephant = new Image("resources\\Images\\elephant.png");                    
+        flyingElephant = new Image("resources\\Images\\flyingElephant.png");
+        redbull = new Image("resources\\Images\\redbull.png");
+        plant = new Image("resources\\Images\\plant.png");
+
+        reel = new Image("resources\\Images\\reel.png");
+        stacyImage = new Image("resources\\Images\\stacyImage.png");
+        rice = new Image("resources\\Images\\rice.png");
+
         dreamedGura = new Image("resources\\Images\\dreamedGura.png");
         gura = new Image("resources\\Images\\gura.png");
         dreamedTeacher = new Image("resources\\Images\\dreamedTeacher.png");
@@ -160,13 +191,20 @@ public class Elephant extends Application
         worker = new Image("resources\\Images\\worker.png");
         salman = new Image("resources\\Images\\salman.png");
         stacy = new Image("resources\\Images\\stacy.png");
-        box = new Image("resources\\Images\\box.png");
-        stone = new Image("resources\\Images\\stone.png");
-        beer = new Image("resources\\Images\\beer.png");
-        glassPieces = new Image("resources\\Images\\glassPieces.png");
-        elephant = new Image("resources\\Images\\elephant.png");                    
-        flyingElephant = new Image("resources\\Images\\flyingElephant.png");
+
         map1_1 = new Image("resources\\Images\\map1_1.png");
+        map1_2 = new Image("resources\\Images\\map1_2.png");
+        map1_3 = new Image("resources\\Images\\map1_3.png");
+        map1_4 = new Image("resources\\Images\\map1_4.png");
+        map1_5 = new Image("resources\\Images\\map1_5.png");
+        map1_6 = new Image("resources\\Images\\map1_6.png");
+        map1_7 = new Image("resources\\Images\\map1_7.png");
+        map1_8 = new Image("resources\\Images\\map1_8.png");
+        map1_9 = new Image("resources\\Images\\map1_9.png");
+        map1_10 = new Image("resources\\Images\\map1_10.png");
+        map1_11 = new Image("resources\\Images\\map1_11.png");
+        map1_12 = new Image("resources\\Images\\map1_12.png");
+        map2_1 = new Image("resources\\Images\\map2_1.png");
         map2_2 = new Image("resources\\Images\\map2_2.png");
         map2_3 = new Image("resources\\Images\\map2_3.png");
         map2_4 = new Image("resources\\Images\\map2_4.png");
@@ -190,40 +228,16 @@ public class Elephant extends Application
         map3_13 = new Image("resources\\Images\\map3_13.png");
         map3_14 = new Image("resources\\Images\\map3_14.png");
         map3_15 = new Image("resources\\Images\\map3_15.png");
-        blackImage = new Image("resources\\Images\\blackImage.jpg");
-        fireHyrant = new Image("resources\\Images\\fireHydrant.png");
-        diary = new Image("resources\\Images\\diary.jpg");
-        wall = new Image("resources\\Images\\wall.jpg");
-        pavement = new Image("resources\\Images\\pavement.png");
+
         thronInImage = new Image("resources\\Images\\thronInImage.png");
         thronOutImage = new Image("resources\\Images\\thronOutImage.png");
-        special1 = new Image("resources\\Images\\special1.png");
-        special2 = new Image("resources\\Images\\special2.png");
-        special7 = new Image("resources\\Images\\special7.png");
-        special9 = new Image("resources\\Images\\special9.png");
-        special11 = new Image("resources\\Images\\special11.png");
-
-        end1 = new Image("resources\\Images\\end1.png");
-        end2 = new Image("resources\\Images\\end2.png");
-        end3 = new Image("resources\\Images\\end3.png");
-        end4 = new Image("resources\\Images\\end4.png");
-        end5 = new Image("resources\\Images\\end5.png");
-        end6 = new Image("resources\\Images\\end6.png");
-        end8 = new Image("resources\\Images\\end8.png");
-        end12 = new Image("resources\\Images\\end12.png");
-        end13 = new Image("resources\\Images\\end13.png");
         thronIn = new Image(getClass().getResource("resources\\Images\\thronIn.gif").toExternalForm());
         thronOut = new Image(getClass().getResource("resources\\Images\\thronOut.gif").toExternalForm());
         blood = new Image(getClass().getResource("resources\\Images\\blood.gif").toExternalForm());
-
-        mapImage = new Image[30];
-
-        for(int i=0 ; i<=10 ; i++) {
-            String num = Integer.toString(i);
-            mapImage[i] = new Image("resources\\Images\\"+num+".png");
-        }
     }
 
+
+    
     private void loadMusics() {
         Media beginMusic = new Media(new File("src\\resources\\Songs\\beginMusic.mp3").toURI().toString());
         beginPlayer = new MediaPlayer(beginMusic);
@@ -231,6 +245,8 @@ public class Elephant extends Application
         beginPlayer.play();
     }
 
+
+    
     private void loadMap() throws IOException {
 
         // mapInfo[level][height][width]
@@ -263,7 +279,7 @@ public class Elephant extends Application
                 continue;
             }
             
-            // Read the level, height and width
+            // Read the level, height and width, strength, specialItem and character
             if(start && !canReadInfo) {
                 String[] tmp = str.split(" ");
                 level = Integer.parseInt(tmp[0]);
@@ -304,18 +320,6 @@ public class Elephant extends Application
         br.close();
         fr.close();
     }
-
-    private void initializeStage() {
-
-        // initialize the stage
-        stage = new Stage();
-        stage.setTitle("The Lucky Elephant");
-        stage.getIcons().add(iconImage);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setWidth(1152);
-        stage.setHeight(648);
-    }
-
 
 
     public static void readLevelInfo() throws Exception {
