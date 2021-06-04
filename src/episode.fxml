@@ -59,17 +59,17 @@
             <Font name="Rockwell" size="72.0" />
          </font>
       </Button>
-      <Label fx:id="label_1" alignment="CENTER" layoutX="150.0" layoutY="254.0" prefHeight="240.0" prefWidth="240.0" style="-fx-background-radius: 15; -fx-background-color: Crimson;" text="1" textFill="#b58585">
+      <Label fx:id="label_1" alignment="CENTER" layoutX="150.0" layoutY="254.0" prefHeight="240.0" prefWidth="240.0" style="-fx-background-radius: 15; -fx-background-color: Crimson;" text="1" textFill="WHITE">
          <font>
             <Font name="Rockwell" size="84.0" />
          </font>
       </Label>
-      <Label fx:id="label_2" alignment="CENTER" layoutX="456.0" layoutY="254.0" prefHeight="240.0" prefWidth="240.0" style="-fx-background-radius: 15; -fx-background-color: Crimson;" text="2" textFill="#b58585">
+      <Label fx:id="label_2" alignment="CENTER" layoutX="456.0" layoutY="254.0" prefHeight="240.0" prefWidth="240.0" style="-fx-background-radius: 15; -fx-background-color: Crimson;" text="2" textFill="WHITE">
          <font>
             <Font name="Rockwell" size="84.0" />
          </font>
       </Label>
-      <Label fx:id="label_3" alignment="CENTER" layoutX="762.0" layoutY="254.0" prefHeight="240.0" prefWidth="240.0" style="-fx-background-radius: 15; -fx-background-color: Crimson;" text="3" textFill="#b58585">
+      <Label fx:id="label_3" alignment="CENTER" layoutX="762.0" layoutY="254.0" prefHeight="240.0" prefWidth="240.0" style="-fx-background-radius: 15; -fx-background-color: Crimson;" text="3" textFill="WHITE">
          <font>
             <Font name="Rockwell" size="84.0" />
          </font>

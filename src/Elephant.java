@@ -105,6 +105,10 @@ public class Elephant extends Application
     
     // Musics in the game.
     public static MediaPlayer beginPlayer;
+    public static MediaPlayer episodePlayer1;
+    public static MediaPlayer episodePlayer2;
+    public static MediaPlayer episodePlayer3;
+    public static MediaPlayer endPlayer;
 
 
 
@@ -119,7 +123,7 @@ public class Elephant extends Application
 
 
     // Level's information (Completed or not)
-    public static int episdoeStatus[] = new int[]{-1, 1, 0, 0};
+    public static int episodeStatus[] = new int[]{-1, 1, 0, 0};
     public static int levelStatus[] = new int[]{ 
        -1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -243,6 +247,22 @@ public class Elephant extends Application
         beginPlayer = new MediaPlayer(beginMusic);
         beginPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         beginPlayer.play();
+
+        Media episodeMusic1 = new Media(new File("src\\resources\\Songs\\episode1.mp3").toURI().toString());
+        episodePlayer1 = new MediaPlayer(episodeMusic1);
+        episodePlayer1.setCycleCount(MediaPlayer.INDEFINITE);
+
+        Media episodeMusic2 = new Media(new File("src\\resources\\Songs\\episode2.mp3").toURI().toString());
+        episodePlayer2 = new MediaPlayer(episodeMusic2);
+        episodePlayer2.setCycleCount(MediaPlayer.INDEFINITE);
+
+        Media episodeMusic3 = new Media(new File("src\\resources\\Songs\\episode3.mp3").toURI().toString());
+        episodePlayer3 = new MediaPlayer(episodeMusic3);
+        episodePlayer3.setCycleCount(MediaPlayer.INDEFINITE);
+
+        Media endMusic = new Media(new File("src\\resources\\Songs\\endMusic.mp3").toURI().toString());
+        endPlayer = new MediaPlayer(endMusic);
+        endPlayer.setCycleCount(MediaPlayer.INDEFINITE);
     }
 
 
@@ -336,13 +356,12 @@ public class Elephant extends Application
             else if(info[i] == '<') {
                 for(int j=i+1 ; j<tmp ; j++) {
                     if(Character.isDigit(info[j])) {
-                        episdoeStatus[episode++] = Character.getNumericValue(info[j]);
+                        episodeStatus[episode++] = Character.getNumericValue(info[j]);
                     }
                     else if(info[j] == '<') {
                         fr.close();
                         return;
                     }
-
                 }
             }
         }
@@ -369,9 +388,9 @@ public class Elephant extends Application
                 else fw.write((levelStatus[i] == 1) ? "1, " : "0, ");
             }
             for(int i=1 ; i<=3 ; i++) {
-                if(i == 1) fw.write((episdoeStatus[i] == 1) ? ">>> 1, " : ">>> 0, ");
-                else if(i == 3) fw.write((episdoeStatus[3] == 1) ? "1<" : "0<");
-                else fw.write((episdoeStatus[i] == 1) ? "1, " : "0, ");
+                if(i == 1) fw.write((episodeStatus[i] == 1) ? ">>> 1, " : ">>> 0, ");
+                else if(i == 3) fw.write((episodeStatus[3] == 1) ? "1<" : "0<");
+                else fw.write((episodeStatus[i] == 1) ? "1, " : "0, ");
             }
         }
 

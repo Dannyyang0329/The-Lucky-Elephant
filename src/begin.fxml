@@ -71,7 +71,7 @@
             <Font name="Rockwell" size="32.0" />
          </font>
       </Button>
-      <Button layoutX="326.0" layoutY="454.0" mnemonicParsing="false" opacity="0.75" prefHeight="60.0" prefWidth="500.0" text="Setting">
+      <Button layoutX="326.0" layoutY="454.0" mnemonicParsing="false" onAction="#credit" opacity="0.75" prefHeight="60.0" prefWidth="500.0" text="Credit">
          <font>
             <Font name="Rockwell" size="32.0" />
          </font>
@@ -86,5 +86,10 @@
             <Font name="Agency FB" size="25.0" />
          </font>
       </Label>
+      <ImageView fx:id="elephantView" fitHeight="500.0" fitWidth="500.0" layoutX="326.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@resources/Images/elephantLabelFrame.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

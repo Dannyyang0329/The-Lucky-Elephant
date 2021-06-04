@@ -4,26 +4,22 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class Character extends Pane {
+
     ImageView imageView;
-    int count = 3;
-    int column = 3;
-    int offsetX = 0;
-    int offsetY = 0;
-    int width = 64;
-    int height = 64;
+    SpriteAnimation animation;
+
+    int X=0;
+    int Y=0;
 
     final int DISTANCE = 64;
     double deltaDistance = 0;
     char direction = 'S';
-    int X=0;
-    int Y=0;
     
-    SpriteAnimation animation;
 
     public Character(ImageView imageView) {
         this.imageView = imageView;
-        this.imageView.setViewport(new Rectangle2D(offsetX, offsetY, width, height));
-        animation = new SpriteAnimation(imageView, Duration.millis(500), count, column, offsetX, offsetY, width, height);
+        this.imageView.setViewport(new Rectangle2D(0, 0, 64, 64));
+        animation = new SpriteAnimation(imageView, Duration.millis(500), 3, 3, 0, 0, 64, 64);
         getChildren().addAll(imageView);
     }
 
@@ -58,6 +54,7 @@ public class Character extends Pane {
         boolean isGoingDown = (dy >= 0) ? true : false;
 
         for(int i=0 ; i<Math.abs(dy) && deltaDistance<DISTANCE; i++) {
+
             // going south
             if(isGoingDown) 
             {
@@ -109,5 +106,4 @@ public class Character extends Pane {
         this.X = x;
         this.Y = y;
     }
-
 }

@@ -21,6 +21,9 @@ import javafx.stage.Stage;
 
 public class GameLevel {
 
+    Character potato;
+    Chunk[][] map;
+    
     private Group root = new Group();
     public Scene scene;
 
@@ -29,13 +32,11 @@ public class GameLevel {
     private ImageView spot;
     private ImageView blackView;
 
-    Character potato;
-    Chunk[][] map;
-
     private int level; 
     private int height;
     private int width;
-    private int strength=0;
+    private int strength;
+    private int[][][] numberMap; 
 
     private int startPointX=0, startPointY=0;
     private boolean isNewGame = false;
@@ -45,14 +46,11 @@ public class GameLevel {
     private boolean isTwoPage = false;
     private boolean isTwoPageSkip = false;
     private boolean isTrapped = false;
-    private static boolean north, south, west, east;
-
-    private int[][][] numberMap; 
-
+    private boolean north, south, west, east;
 
     private long previousTime = 0;
     private long tmpTime = 0;
-    private long textTime = 0;
+    private long textTime1 = 0;
     private long textTime2 = 0;
     private long bloodTime = 0;
 
@@ -63,7 +61,6 @@ public class GameLevel {
     private AnimationTimer textTimer;
     private AnimationTimer textTimer2;
     private AnimationTimer bloodTimer;
-
     private AnimationTimer pauseTimer = new AnimationTimer() {
 
         @Override
@@ -80,6 +77,8 @@ public class GameLevel {
             }
         }
     };
+
+
 
     public GameLevel(int level) {
 
@@ -105,6 +104,24 @@ public class GameLevel {
         setSpotImageView();
         
 
+        if(level <= 12) {
+            Elephant.beginPlayer.stop();
+            Elephant.episodePlayer1.play();
+            Elephant.episodePlayer2.stop();
+            Elephant.episodePlayer3.stop();
+        }
+        else if(level <= 21) {
+            Elephant.beginPlayer.stop();
+            Elephant.episodePlayer1.stop();
+            Elephant.episodePlayer2.play();
+            Elephant.episodePlayer3.stop();
+        }
+        else {
+            Elephant.beginPlayer.stop();
+            Elephant.episodePlayer1.stop();
+            Elephant.episodePlayer2.stop();
+            Elephant.episodePlayer3.play();
+        }
         // game loop setting
         gameLoop = new AnimationTimer() {
             @Override
@@ -131,9 +148,9 @@ public class GameLevel {
                     // completeLabel.setVisible(true);
                     showLabel(true);
 
-                    if(level <= 36) Elephant.levelStatus[level+1] = 1;
-                    if(level == 12) Elephant.episdoeStatus[2] = 1;
-                    if(level == 21) Elephant.episdoeStatus[3] = 1;
+                    if(level < 36) Elephant.levelStatus[level+1] = 1;
+                    if(level == 12) Elephant.episodeStatus[2] = 1;
+                    if(level == 21) Elephant.episodeStatus[3] = 1;
                     try {
                         Elephant.writeLevelInfo(false);
                         Elephant.readLevelInfo();
@@ -171,7 +188,7 @@ public class GameLevel {
                                     if(now - bloodTime >= 1.5e9) {
                                         isKeyPressed = false;
                                         blood.setVisible(false);
-                                        map[2][3].setImageView(Elephant.elephant);
+                                        map[2][3].imageView.setImage(Elephant.elephant);
                                         bloodTimer.stop();
                                     }
                                 }
@@ -197,8 +214,8 @@ public class GameLevel {
                     if(level == 26) {
                         root.getChildren().remove(map[3][10].imageView);
                         root.getChildren().add(map[3][10].imageView);
-                        map[3][10].setImageView(Elephant.elephant);
-                        map[3][10].setEnd(true);
+                        map[3][10].imageView.setImage(Elephant.elephant);
+                        map[3][10].isEnd = true;
                     }
 
                 }
@@ -226,6 +243,12 @@ public class GameLevel {
         backButton.setPrefSize(80, 55);
         backButton.setOpacity(0);
         backButton.setOnAction( (event) -> {
+
+            Elephant.beginPlayer.play();
+            Elephant.episodePlayer1.stop();
+            Elephant.episodePlayer2.stop();
+            Elephant.episodePlayer3.stop();
+
             gameLoop.stop();
 
             try {
@@ -263,13 +286,15 @@ public class GameLevel {
                 map[i][j].imageView.setFitHeight(64);
                 map[i][j].imageView.setY((648-height*64)/2 + 64*i);
                 map[i][j].imageView.setX((1152-width*64)/2 + 64*j);
-
             }
         }
     }
 
+
     public void setMapProperties() {
+
         ImageView  decorationView = new ImageView();
+
         decorationView.setY((648-height*64)/2);
         decorationView.setX((1152-width*64)/2);
         root.getChildren().add(decorationView);
@@ -290,7 +315,7 @@ public class GameLevel {
         if(level == 8) decorationView.setImage(Elephant.map1_8);
         if(level == 9) {
             decorationView.setImage(Elephant.map1_9);
-            map[1][2].imageView.setImage(Elephant.rice);
+            map[2][1].imageView.setImage(Elephant.rice);
         }
         if(level == 10) {
             decorationView.setImage(Elephant.map1_10);
@@ -333,9 +358,9 @@ public class GameLevel {
         if(level == 34) decorationView.setImage(Elephant.map3_13);
         if(level == 35) {
             decorationView.setImage(Elephant.map3_14);
-            map[5][6].setImageView(Elephant.beer);
-            map[2][2].setImageView(Elephant.flyingElephant);
-            map[2][3].setImageView(Elephant.flyingElephant);
+            map[5][6].imageView.setImage(Elephant.beer);
+            map[2][2].imageView.setImage(Elephant.flyingElephant);
+            map[2][3].imageView.setImage(Elephant.flyingElephant);
             map[2][3].imageView.setVisible(false);
         }
         if(level == 36) decorationView.setImage(Elephant.map3_15);
@@ -345,15 +370,24 @@ public class GameLevel {
             for(int j=0 ; j<width ; j++) {
 
                 root.getChildren().add(map[i][j].imageView);
-                // wall
-                if(numberMap[level][i][j]==1 ) {
-                    map[i][j].setBlocked(true);
+
+                // wall 
+                if(numberMap[level][i][j] == 1) map[i][j].isBlocked = true;
+
+                // trap
+                if(numberMap[level][i][j] == 2) {
+                    map[i][j].makeTrap(i, j, height, width, false);
+                    root.getChildren().add(map[i][j].trap.trapView);
+                }
+                if(numberMap[level][i][j] == 3) {
+                    map[i][j].makeTrap(i, j, height, width, true);
+                    root.getChildren().add(map[i][j].trap.trapView);
                 }
 
                 // box
                 if(numberMap[level][i][j] == 4) {
 
-                    map[i][j].setBlocked(true);
+                    map[i][j].isBlocked = true;
                     map[i][j].makeBox(i, j, height, width);
                     if(level == 1) map[i][j].box.boxView.setImage(Elephant.box);
                     if(level == 2) map[i][j].box.boxView.setImage(Elephant.box);
@@ -374,49 +408,21 @@ public class GameLevel {
                 }
 
                 // special item
-                if(numberMap[level][i][j] == 5) {
-                    map[i][j].setSpecial(true);
-                }
+                if(numberMap[level][i][j] == 5) map[i][j].isSpecial = true;
 
-                // trap
-                if(numberMap[level][i][j] == 2) {
-                    map[i][j].makeTrap(i, j, height, width, false);
-                    root.getChildren().add(map[i][j].trap.trapView);
-                }
-                if(numberMap[level][i][j] == 3) {
-                    map[i][j].makeTrap(i, j, height, width, true);
-                    root.getChildren().add(map[i][j].trap.trapView);
-                }
-
-                if(numberMap[level][i][j] == 7) {
-                    map[i][j].setBlocked(true);
-
-                    map[i][j].subView = new ImageView();
-                    map[i][j].subView.setY((648-height*64)/2 + 64*i);
-                    map[i][j].subView.setX((1152-width*64)/2 + 64*j);
-                    root.getChildren().add(map[i][j].subView);
-
-                    // map[i][j].setImageView(Elephant.blackImage);
-                }
 
                 // end
-                if(numberMap[level][i][j] == 9) {
-                    map[i][j].subView = new ImageView();
-                    map[i][j].subView.setY((648-height*64)/2 + 64*i);
-                    map[i][j].subView.setX((1152-width*64)/2 + 64*j);
-                    root.getChildren().add(map[i][j].subView);
-
-                    map[i][j].setEnd(true);
-                }
+                if(numberMap[level][i][j] == 9) map[i][j].isEnd = true;
 
                 if(numberMap[level][i][j] == 10) {
-                    map[i][j].setStart(true);
+                    map[i][j].isStart = true;
                     startPointY = i;
                     startPointX = j;
                 }
             }
         }
     }
+
 
     private void setCharacter() {
         switch(Elephant.levelCharacter[level]) {
@@ -436,6 +442,7 @@ public class GameLevel {
         root.getChildren().add(potato);        
     }
 
+
     private void setEndGameLabel() {
         completeLabel = new Label();
         completeLabel.setPrefSize(550, 280);
@@ -453,6 +460,7 @@ public class GameLevel {
         failLabel.setVisible(false);
         root.getChildren().add(failLabel);
     }
+
 
     private void setLabel() {
         stepLabel1 = new Label();
@@ -477,17 +485,18 @@ public class GameLevel {
         stepLabel2.setStyle("-fx-background-color : #e9ddb6;" + "-fx-background-radius:30;");
         root.getChildren().add(stepLabel2);
 
-        levelLabel = new Label();
-        levelLabel.setText("LEVEL "+level);
-        levelLabel.setAlignment(Pos.CENTER);
-        levelLabel.setPrefSize(220, 80);
-        levelLabel.setLayoutX(50);
-        levelLabel.setLayoutY(284);
-        levelLabel.setTextFill(Color.web("#003128"));
-        levelLabel.setFont(new Font("Rockwell", 42));
-        levelLabel.setStyle("-fx-background-color : #b6545e;" + "-fx-background-radius:30;");
-        root.getChildren().add(levelLabel);
+        // levelLabel = new Label();
+        // levelLabel.setText("LEVEL "+level);
+        // levelLabel.setAlignment(Pos.CENTER);
+        // levelLabel.setPrefSize(220, 80);
+        // levelLabel.setLayoutX(50);
+        // levelLabel.setLayoutY(284);
+        // levelLabel.setTextFill(Color.web("#003128"));
+        // levelLabel.setFont(new Font("Rockwell", 42));
+        // levelLabel.setStyle("-fx-background-color : #b6545e;" + "-fx-background-radius:30;");
+        // root.getChildren().add(levelLabel);
     }
+
 
     private void setSpotImageView() {
         
@@ -601,11 +610,32 @@ public class GameLevel {
                     spotLabel2.setVisible(false);
                     skip.setVisible(false);
                     if(level+1 <= 36) game = new GameLevel(level+1);
+                    else {
+                        Parent newRoot = null;
+
+                        Elephant.beginPlayer.stop();
+                        Elephant.episodePlayer1.stop();
+                        Elephant.episodePlayer2.stop();
+                        Elephant.episodePlayer3.stop();
+                        Elephant.endPlayer.play();
+
+                        try
+                        {
+                            newRoot = FXMLLoader.load(getClass().getResource("clear.fxml"));                
+                        }
+                        catch (Exception event) {
+                            System.out.println("Loading clear.fxml failed");
+                        }
+
+                        Elephant.stage.setScene(new Scene(newRoot));
+                        return;
+                    }
                     Elephant.stage.setScene(game.scene);
                 };
             }
         });
     }
+
 
     private void addKeyPressListener() {
 
@@ -888,7 +918,6 @@ public class GameLevel {
 
     private void showText(){
 
-
         spot.setVisible(true);
         spotLabel1.setVisible(true);
         spotLabel2.setVisible(true);
@@ -902,8 +931,8 @@ public class GameLevel {
             public void handle(long now) {
                 if((tmp++)%4 != 0) return;
 
-                if(textTime == 0) textTime = now; 
-                if(now - textTime <= 8.3e9) {
+                if(textTime1 == 0) textTime1 = now; 
+                if(now - textTime1 <= 8.3e9) {
                     if(cnt > LevelText.text[level].length()) {
                         isSkipped = true;
                         return;

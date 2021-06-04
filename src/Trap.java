@@ -4,14 +4,12 @@ import javafx.scene.image.ImageView;
 
 public class Trap {
     
-    // ImageView saveTrap = new ImageView(Elephant.thronIn);
-    // ImageView dangerTrap = new ImageView(Elephant.thronOut);
     ImageView trapView ;
 
     boolean isTrapOn = false;
-    long previousTime = 0;
 
     AnimationTimer thronTimer;
+    long previousTime = 0;
 
     public Trap(int y, int x, int height, int width, boolean isTrap) {
         isTrapOn = isTrap;
@@ -25,6 +23,7 @@ public class Trap {
     }
 
     public void changeStatus() {
+        
         Image out = new Image(getClass().getResource("resources\\Images\\thronOut.gif").toExternalForm());
         Image in = new Image(getClass().getResource("resources\\Images\\thronIn.gif").toExternalForm());
 
@@ -33,8 +32,6 @@ public class Trap {
         if(isTrapOn == false) isTrapOn=true;
         else isTrapOn=false;
         
-        // if(isTrapOn) trapView.setImage(Elephant.thronOut);
-        // else trapView.setImage(Elephant.thronIn);
         if(isTrapOn) trapView.setImage(out);
         else trapView.setImage(in);
 
@@ -51,6 +48,7 @@ public class Trap {
                 }
             }
         };
+
         thronTimer.start();
     }
 }

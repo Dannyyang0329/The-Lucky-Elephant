@@ -52,8 +52,8 @@ public class EpisodeController {
     }
 
     public void settingLock() {
-        if(Elephant.episdoeStatus[1] == 1) label_1.setVisible(false);
-        if(Elephant.episdoeStatus[2] == 1) label_2.setVisible(false);
-        if(Elephant.episdoeStatus[3] == 1) label_3.setVisible(false);
+        if(Elephant.episodeStatus[1] == 1) label_1.setVisible(false);
+        if(Elephant.episodeStatus[2] == 1) label_2.setVisible(false);
+        if(Elephant.episodeStatus[3] == 1) label_3.setVisible(false);
     }
 }
