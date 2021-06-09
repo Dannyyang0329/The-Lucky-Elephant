@@ -1,14 +1,11 @@
-## Getting Started
+## The Lucky Elephant
+This is a easy game with a gorgeous story.
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Link
 
-## Folder Structure
+This is the link : [The Lucky Elephant](https://drive.google.com/drive/folders/16ydCu7nIMuJJ-cOKIy8wIrU2DoRYv6yZ?usp=sharing).
 
-The workspace contains two folders by default, where:
+You should download the package which named `TheLuckyElephant.zip` and unzip it. (The file is not available for Mac.)
+This is a game that you can use `W`, `A`, `S`, `D` to control the character. If you want to restart the game you can press `r` to restart.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-## Dependency Management
-
-The `JAVA DEPENDENCIES` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-pack/blob/master/release-notes/v0.9.0.md#work-with-jar-files-directly).
+Hope you hava a nice play !!!
